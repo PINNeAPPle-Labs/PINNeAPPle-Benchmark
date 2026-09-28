@@ -1,0 +1,9 @@
+# Raw/downloaded datasets: re-fetch with each experiment's own download script (see its README).
+*/data/
+# Smoke-test artifacts: not part of the reported results.
+*/results_smoke/
+# Model checkpoints: not needed to rebuild a paper (make_paper.py reads results.json + small .npz examples only).
+*.pt
+__pycache__/
+*.pyc
+.DS_Store

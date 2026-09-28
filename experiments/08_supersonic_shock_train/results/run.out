@@ -1,0 +1,12 @@
+[sweep_pb=2.0] shape=(480, 40) x_sonic=nan (last-10 range None) x_s(first attempt)=2.487 (last-5 range 0.0) 3670s
+[sweep_pb=2.5] shape=(480, 40) x_sonic=8.162 (last-10 range 2.8500000000000014) x_s(first attempt)=2.487 (last-5 range 0.02499999999999991) 34786s
+[sweep_pb=3.0] shape=(480, 40) x_sonic=3.513 (last-10 range 0.25) x_s(first attempt)=1.962 (last-5 range 0.09999999999999987) 1899s
+[sweep_pb=3.25] shape=(480, 40) x_sonic=1.887 (last-10 range 0.07499999999999996) x_s(first attempt)=1.712 (last-5 range 0.025000000000000133) 7468s
+[sweep_pb=3.5] shape=(480, 40) x_sonic=1.262 (last-10 range 0.050000000000000044) x_s(first attempt)=1.238 (last-5 range 0.050000000000000044) 13336s
+[sweep_pb=3.75] shape=(480, 40) x_sonic=0.938 (last-10 range 0.050000000000000044) x_s(first attempt)=0.912 (last-5 range 0.07499999999999996) 15320s
+[sweep_pb=4.0] shape=(480, 40) x_sonic=0.487 (last-10 range 0.14999999999999997) x_s(first attempt)=0.463 (last-5 range 0.15000000000000002) 1187s
+[sweep_pb=4.25] shape=(480, 40) x_sonic=0.013 (last-10 range 0.125) x_s(first attempt)=0.013 (last-5 range 0.1) 1147s
+[grid_pb=3.0] shape=(240, 20) x_sonic=6.975 (last-10 range 0.10000000000000053) x_s(first attempt)=5.475 (last-5 range 0.10000000000000053) 494s
+[grid_pb=3.0] shape=(360, 30) x_sonic=4.550 (last-10 range 0.20000000000000018) x_s(first attempt)=2.950 (last-5 range 0.10000000000000009) 732s
+[grid_pb=3.0] shape=(540, 45) x_sonic=3.300 (last-10 range 0.3555555555555552) x_s(first attempt)=1.744 (last-5 range 0.1333333333333333) 878s
+[3d_pb=3.0] shape=(360, 30, 30) x_sonic=0.750 (last-10 range 0.06666666666666665) x_s(first attempt)=0.717 (last-5 range 0.06666666666666665) 10001s

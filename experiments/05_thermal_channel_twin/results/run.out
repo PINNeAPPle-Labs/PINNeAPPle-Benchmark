@@ -1,0 +1,204 @@
+  [POD-MLP] ep 10: val rollout relL2 0.3614
+  [POD-MLP] ep 20: val rollout relL2 0.4922
+  [POD-MLP] ep 30: val rollout relL2 0.5067
+  [POD-MLP] ep 40: val rollout relL2 0.3684
+  [POD-MLP] ep 50: val rollout relL2 0.3919
+  [POD-MLP] ep 60: val rollout relL2 0.3672
+  [POD-MLP] ep 70: val rollout relL2 0.3761
+  [POD-MLP] ep 80: val rollout relL2 0.3725
+  [POD-MLP] ep 90: val rollout relL2 0.3526
+  [POD-MLP] ep 100: val rollout relL2 0.3618
+  [POD-MLP] ep 110: val rollout relL2 0.3520
+  [POD-MLP] ep 120: val rollout relL2 0.3641
+  [POD-MLP] ep 130: val rollout relL2 0.3540
+  [POD-MLP] ep 140: val rollout relL2 0.3564
+  [POD-MLP] ep 150: val rollout relL2 0.3596
+  [POD-MLP] ep 160: val rollout relL2 0.3609
+  [POD-MLP] ep 170: val rollout relL2 0.3603
+  [POD-MLP] ep 180: val rollout relL2 0.3593
+  [POD-MLP] ep 190: val rollout relL2 0.3608
+  [POD-MLP] ep 200: val rollout relL2 0.3606
+  [CAE] ep 1: train 5.5623e-01  val rollout relL2 0.7317 (55s)
+  [CAE] ep 2: train 5.1891e-01  val rollout relL2 0.7144 (96s)
+  [CAE] ep 3: train 4.5338e-01  val rollout relL2 0.6031 (158s)
+  [CAE] ep 4: train 3.5445e-01  val rollout relL2 0.5894 (190s)
+  [CAE] ep 5: train 3.2780e-01  val rollout relL2 0.5264 (237s)
+  [CAE] ep 6: train 3.0816e-01  val rollout relL2 0.4737 (279s)
+  [CAE] ep 7: train 3.0369e-01  val rollout relL2 0.4598 (315s)
+  [CAE] ep 8: train 3.0658e-01  val rollout relL2 0.4625 (347s)
+  [CAE] ep 9: train 2.8966e-01  val rollout relL2 0.4578 (380s)
+  [CAE] ep 10: train 2.9433e-01  val rollout relL2 0.4486 (409s)
+  [CAE] ep 11: train 2.7335e-01  val rollout relL2 0.4080 (437s)
+  [CAE] ep 12: train 2.6631e-01  val rollout relL2 0.4163 (480s)
+  [CAE] ep 13: train 3.1498e-01  val rollout relL2 0.4061 (514s)
+  [CAE] ep 14: train 2.5347e-01  val rollout relL2 0.4130 (546s)
+  [CAE] ep 15: train 2.6062e-01  val rollout relL2 0.4356 (574s)
+  [CAE] ep 16: train 2.9724e-01  val rollout relL2 0.3772 (604s)
+  [CAE] ep 17: train 2.9197e-01  val rollout relL2 0.3894 (632s)
+  [CAE] ep 18: train 2.3385e-01  val rollout relL2 0.3636 (665s)
+  [CAE] ep 19: train 2.4469e-01  val rollout relL2 0.3666 (696s)
+  [CAE] ep 20: train 2.3101e-01  val rollout relL2 0.3664 (730s)
+  [FNO] ep 1: train 7.1432e-01  val rollout relL2 2743.9128 (163s)
+  [FNO] ep 2: train 4.4859e-01  val rollout relL2 0.9159 (348s)
+  [FNO] ep 3: train 2.4366e-01  val rollout relL2 0.5739 (555s)
+  [FNO] ep 4: train 2.0089e-01  val rollout relL2 0.7317 (795s)
+  [FNO] ep 5: train 1.7508e-01  val rollout relL2 0.6093 (1016s)
+  [FNO] ep 6: train 1.6821e-01  val rollout relL2 0.5849 (1264s)
+  [FNO] ep 7: train 1.4057e-01  val rollout relL2 0.5437 (1532s)
+  [FNO] ep 8: train 1.5016e-01  val rollout relL2 0.5105 (1807s)
+  [FNO] ep 9: train 1.2459e-01  val rollout relL2 0.4268 (2080s)
+  [FNO] ep 10: train 1.4570e-01  val rollout relL2 0.4557 (8396s)
+  [FNO] ep 11: train 1.1996e-01  val rollout relL2 0.4279 (14630s)
+  [FNO] ep 12: train 1.1576e-01  val rollout relL2 0.4062 (14833s)
+  [FNO] ep 13: train 1.4492e-01  val rollout relL2 0.3982 (15082s)
+  [FNO] ep 14: train 1.0462e-01  val rollout relL2 0.3629 (15311s)
+  [FNO] ep 15: train 1.1550e-01  val rollout relL2 0.3602 (15529s)
+  [FNO] ep 16: train 1.3199e-01  val rollout relL2 0.3702 (15730s)
+  [FNO] ep 17: train 1.2850e-01  val rollout relL2 0.3592 (34780s)
+  [FNO] ep 18: train 9.4752e-02  val rollout relL2 0.3447 (34910s)
+  [FNO] ep 19: train 1.0905e-01  val rollout relL2 0.3434 (35030s)
+  [FNO] ep 20: train 9.2661e-02  val rollout relL2 0.3420 (35159s)
+  [PI-FNO lam=0.1] ep 1: train 7.3242e-01  val rollout relL2 167.9147 (126s)
+  [PI-FNO lam=0.1] ep 2: train 4.7897e-01  val rollout relL2 6.3207 (219s)
+  [PI-FNO lam=0.1] ep 3: train 2.6912e-01  val rollout relL2 1.0318 (314s)
+  [PI-FNO lam=0.1] ep 4: train 2.0370e-01  val rollout relL2 1.2441 (413s)
+  [PI-FNO lam=0.1] ep 5: train 1.7451e-01  val rollout relL2 0.9158 (508s)
+  [PI-FNO lam=0.1] ep 6: train 1.7313e-01  val rollout relL2 0.5294 (604s)
+  [PI-FNO lam=0.1] ep 7: train 1.4952e-01  val rollout relL2 0.5072 (699s)
+  [PI-FNO lam=0.1] ep 8: train 1.5694e-01  val rollout relL2 0.5290 (783s)
+  [PI-FNO lam=0.1] ep 9: train 1.2893e-01  val rollout relL2 0.4193 (866s)
+  [PI-FNO lam=0.1] ep 10: train 1.5205e-01  val rollout relL2 0.4575 (946s)
+  [PI-FNO lam=0.1] ep 11: train 1.2345e-01  val rollout relL2 0.4145 (1032s)
+  [PI-FNO lam=0.1] ep 12: train 1.2175e-01  val rollout relL2 0.3908 (1121s)
+  [PI-FNO lam=0.1] ep 13: train 1.4837e-01  val rollout relL2 0.4145 (1210s)
+  [PI-FNO lam=0.1] ep 14: train 1.0719e-01  val rollout relL2 0.3666 (1306s)
+  [PI-FNO lam=0.1] ep 15: train 1.1650e-01  val rollout relL2 0.3554 (1402s)
+  [PI-FNO lam=0.1] ep 16: train 1.3305e-01  val rollout relL2 0.3643 (1499s)
+  [PI-FNO lam=0.1] ep 17: train 1.2890e-01  val rollout relL2 0.3558 (1603s)
+  [PI-FNO lam=0.1] ep 18: train 9.4798e-02  val rollout relL2 0.3493 (1708s)
+  [PI-FNO lam=0.1] ep 19: train 1.0855e-01  val rollout relL2 0.3420 (1807s)
+  [PI-FNO lam=0.1] ep 20: train 9.2617e-02  val rollout relL2 0.3406 (1909s)
+  [PI-FNO lam=1.0] ep 1: train 8.4252e-01  val rollout relL2 9.1453 (97s)
+  [PI-FNO lam=1.0] ep 2: train 6.3655e-01  val rollout relL2 57.5848 (190s)
+  [PI-FNO lam=1.0] ep 3: train 4.5141e-01  val rollout relL2 4.8145 (281s)
+  [PI-FNO lam=1.0] ep 4: train 3.9295e-01  val rollout relL2 1.7863 (372s)
+  [PI-FNO lam=1.0] ep 5: train 2.6182e-01  val rollout relL2 3.4406 (465s)
+  [PI-FNO lam=1.0] ep 6: train 2.1469e-01  val rollout relL2 2.4661 (558s)
+  [PI-FNO lam=1.0] ep 7: train 1.8332e-01  val rollout relL2 3.0055 (652s)
+  [PI-FNO lam=1.0] ep 8: train 1.8054e-01  val rollout relL2 1.5839 (742s)
+  [PI-FNO lam=1.0] ep 9: train 1.5014e-01  val rollout relL2 1.1906 (834s)
+  [PI-FNO lam=1.0] ep 10: train 1.7570e-01  val rollout relL2 1.1547 (926s)
+  [PI-FNO lam=1.0] ep 11: train 1.3868e-01  val rollout relL2 2.0572 (1025s)
+  [PI-FNO lam=1.0] ep 12: train 1.4065e-01  val rollout relL2 1.2788 (1124s)
+  [PI-FNO lam=1.0] ep 13: train 1.6267e-01  val rollout relL2 1.6820 (1221s)
+  [PI-FNO lam=1.0] ep 14: train 1.1587e-01  val rollout relL2 3.8711 (1320s)
+  [PI-FNO lam=1.0] ep 15: train 1.2623e-01  val rollout relL2 1.1497 (1417s)
+  [PI-FNO lam=1.0] ep 16: train 1.4481e-01  val rollout relL2 1.0511 (1515s)
+  [PI-FNO lam=1.0] ep 17: train 1.3862e-01  val rollout relL2 0.9737 (1615s)
+  [PI-FNO lam=1.0] ep 18: train 1.0319e-01  val rollout relL2 1.0769 (1722s)
+  [PI-FNO lam=1.0] ep 19: train 1.1629e-01  val rollout relL2 0.9331 (2715s)
+  [PI-FNO lam=1.0] ep 20: train 1.0024e-01  val rollout relL2 0.9175 (2836s)
+  [DeepONet] ep 1: val rollout relL2 23286190080.0000 (1988s)
+  [DeepONet] ep 2: val rollout relL2 16248164352.0000 (2989s)
+  [DeepONet] ep 3: val rollout relL2 22256.4180 (4951s)
+  [DeepONet] ep 4: val rollout relL2 3464743936.0000 (4988s)
+  [DeepONet] ep 5: val rollout relL2 1.7331 (5024s)
+  [DeepONet] ep 6: val rollout relL2 31904462.0000 (5061s)
+  [DeepONet] ep 7: val rollout relL2 3.9813 (5095s)
+  [DeepONet] ep 8: val rollout relL2 147508640.0000 (6044s)
+  [DeepONet] ep 9: val rollout relL2 0.9878 (6072s)
+  [DeepONet] ep 10: val rollout relL2 inf (6189s)
+  [DeepONet] ep 11: val rollout relL2 902769.6250 (6224s)
+  [DeepONet] ep 12: val rollout relL2 inf (6249s)
+  [DeepONet] ep 13: val rollout relL2 62541849952256.0000 (7181s)
+  [DeepONet] ep 14: val rollout relL2 inf (8229s)
+/Users/yanbarros/Documents/GitHub/pinneapple-labs/PINNeAPPle-Climate/experiments/05_thermal_channel_twin/src/run_twin.py:154: RuntimeWarning: overflow encountered in divide
+  a = torch.tensor(pod.encode(x[None]) / sc, device=DEV, dtype=torch.float32)
+  [DeepONet] ep 15: val rollout relL2 nan (8255s)
+  [DeepONet] ep 16: val rollout relL2 inf (8281s)
+  [DeepONet] ep 17: val rollout relL2 304427.1250 (8307s)
+  [DeepONet] ep 18: val rollout relL2 nan (8333s)
+  [DeepONet] ep 19: val rollout relL2 inf (8360s)
+  [DeepONet] ep 20: val rollout relL2 19728609312768.0000 (8386s)
+  [DeepONet] ep 21: val rollout relL2 inf (8410s)
+  [DeepONet] ep 22: val rollout relL2 2580217856.0000 (8436s)
+  [DeepONet] ep 23: val rollout relL2 inf (8463s)
+  [DeepONet] ep 24: val rollout relL2 62583688.0000 (8489s)
+  [DeepONet] ep 25: val rollout relL2 485246747279360.0000 (8515s)
+  [DeepONet] ep 26: val rollout relL2 93550.3125 (9471s)
+  [DeepONet] ep 27: val rollout relL2 67723485184.0000 (9494s)
+  [DeepONet] ep 28: val rollout relL2 inf (10289s)
+  [DeepONet] ep 29: val rollout relL2 inf (10320s)
+  [DeepONet] ep 30: val rollout relL2 inf (10761s)
+  [DeepONet] ep 31: val rollout relL2 inf (10794s)
+  [DeepONet] ep 32: val rollout relL2 inf (11867s)
+  [DeepONet] ep 33: val rollout relL2 inf (11894s)
+  [DeepONet] ep 34: val rollout relL2 inf (12827s)
+  [DeepONet] ep 35: val rollout relL2 inf (13456s)
+  [DeepONet] ep 36: val rollout relL2 inf (13492s)
+  [DeepONet] ep 37: val rollout relL2 inf (13518s)
+  [DeepONet] ep 38: val rollout relL2 inf (14576s)
+  [DeepONet] ep 39: val rollout relL2 inf (15541s)
+  [DeepONet] ep 40: val rollout relL2 inf (15566s)
+/Users/yanbarros/Documents/GitHub/pinneapple-labs/PINNeAPPle-Climate/experiments/05_thermal_channel_twin/src/run_twin.py:181: RuntimeWarning: overflow encountered in square
+  q_err = {k: float(np.sqrt(((qp[k] - qt[k]) ** 2).mean())) for k in qp}
+  POD + DMDc (linear latent) [test_same_family] relL2 u 160770075310245374711725226358649752619277282276371433119180842299118968274681856.000 v 10972257021398663599149205732391739128404086668093788098898840427829167860851146752.000 p 3498540822650357602705540138853087074926974404349127983801528738452062560497696768.000 T 291284718824976350635123336172602102927838558949121483890875447564775456684113920.000 | Tout inf Tmax 64658049531919196470498661679605910959236421261830516924870764414242052156424192.0000 | energy res 3190796794216353505578163173051409949849180098475204671807159954233813614107341099904986720540740694635297428263486018000647969121040328659296017446971430141952.000
+  POD + DMDc (linear latent) [test_unseen_sinusoid] relL2 u 223424872775598454909525979893442423730670812760498858737427738883875057495441408.000 v 8044792503121672029358579879334649035078019792660367147193503266336065532748365824.000 p 2350940653508929311111980262706609522627052903294295576416967374892590214437404672.000 T 442829642388070034496870475968363586209204456251393576022983551805076882686214144.000 | Tout inf Tmax 36755077833325795823592171005956774736958181039461920585207631166997800954101760.0000 | energy res 5383446308940071305689754371808742871385430539371716765892746298982636267793727423870714132000439156585562683038558507878813148394779585420803263007988805271552.000
+  POD + DMDc (linear latent) [test_unseen_edge_steps] relL2 u 221652525981776847234189856457929507504111110085578825301647750695339199987449856.000 v 10410309246879982537938438691372548619870603799503023971746353387170699133356867584.000 p 5649060052609297796929816696616517231310392052106882875981652991452314192576512000.000 T 363410149356565084850523379467845918657900582581843404677661134631824542524243968.000 | Tout inf Tmax 134033453922816365477884502720395016529510907030120449954317952524554861182713856.0000 | energy res 14014551744287147142688784059054675628225677006064975289105884382108686121108136418057019304681362008403301828025729104768230884194753186493460789155674384760832.000
+  POD + MLP latent dynamics [test_same_family] relL2 u 0.014 v 0.140 p 0.987 T 0.044 | Tout 0.0018 Tmax 0.0068 | energy res 0.060
+  POD + MLP latent dynamics [test_unseen_sinusoid] relL2 u 0.036 v 0.249 p 0.560 T 0.093 | Tout 0.0037 Tmax 0.0139 | energy res 0.163
+  POD + MLP latent dynamics [test_unseen_edge_steps] relL2 u 0.021 v 0.219 p 1.502 T 0.086 | Tout 0.0054 Tmax 0.0155 | energy res 0.108
+  Conv autoencoder + latent MLP [test_same_family] relL2 u 0.034 v 0.443 p 0.603 T 0.093 | Tout 0.0048 Tmax 0.0107 | energy res 0.113
+  Conv autoencoder + latent MLP [test_unseen_sinusoid] relL2 u 0.053 v 0.588 p 0.824 T 0.141 | Tout 0.0039 Tmax 0.0153 | energy res 0.414
+  Conv autoencoder + latent MLP [test_unseen_edge_steps] relL2 u 0.129 v 0.583 p 0.609 T 0.383 | Tout 0.0240 Tmax 0.0844 | energy res 0.392
+  FNO (PINNeAPPle FNO2d) [test_same_family] relL2 u 0.057 v 0.244 p 1.000 T 0.136 | Tout 0.0165 Tmax 0.0135 | energy res 0.260
+  FNO (PINNeAPPle FNO2d) [test_unseen_sinusoid] relL2 u 0.177 v 0.390 p 0.562 T 0.393 | Tout 0.0065 Tmax 0.0321 | energy res 0.150
+  FNO (PINNeAPPle FNO2d) [test_unseen_edge_steps] relL2 u 0.154 v 0.392 p 0.751 T 0.314 | Tout 0.0350 Tmax 0.0637 | energy res 0.640
+  Physics-informed FNO [test_same_family] relL2 u 0.043 v 0.251 p 1.005 T 0.117 | Tout 0.0046 Tmax 0.0154 | energy res 0.043
+  Physics-informed FNO [test_unseen_sinusoid] relL2 u 0.154 v 0.399 p 0.575 T 0.336 | Tout 0.0054 Tmax 0.0247 | energy res 0.126
+  Physics-informed FNO [test_unseen_edge_steps] relL2 u 0.134 v 0.398 p 0.769 T 0.259 | Tout 0.0101 Tmax 0.0650 | energy res 0.119
+  DeepONet (PINNeAPPle) [test_same_family] relL2 u 0.328 v 1.034 p 1.963 T 0.840 | Tout 0.0297 Tmax 0.2387 | energy res 1.538
+  DeepONet (PINNeAPPle) [test_unseen_sinusoid] relL2 u 0.354 v 1.000 p 1.285 T 0.831 | Tout 0.0251 Tmax 0.2097 | energy res 2.604
+  DeepONet (PINNeAPPle) [test_unseen_edge_steps] relL2 u 0.559 v 1.057 p 4.394 T 0.922 | Tout 0.0527 Tmax 0.3052 | energy res 4.470
+== layer 3
+  L3 run 56 gain 1.0: OL 0.038  EnKF 0.032  EnKF+gain 0.048 (gain est 1.003)  gappy 0.825
+  L3 run 56 gain 1.3: OL 0.200  EnKF 0.179  EnKF+gain 0.065 (gain est 1.263)  gappy 0.847
+  L3 run 57 gain 1.0: OL 0.029  EnKF 0.033  EnKF+gain 0.086 (gain est 0.970)  gappy 0.841
+  L3 run 57 gain 1.3: OL 0.215  EnKF 0.206  EnKF+gain 0.176 (gain est 1.255)  gappy 0.858
+  L3 run 58 gain 1.0: OL 0.047  EnKF 0.036  EnKF+gain 0.080 (gain est 0.779)  gappy 0.863
+  L3 run 58 gain 1.3: OL 0.210  EnKF 0.190  EnKF+gain 0.079 (gain est 1.061)  gappy 0.876
+  L3 run 59 gain 1.0: OL 0.042  EnKF 0.049  EnKF+gain 0.213 (gain est 0.964)  gappy 0.847
+  L3 run 59 gain 1.3: OL 0.214  EnKF 0.188  EnKF+gain 0.240 (gain est 1.063)  gappy 0.860
+  L3 run 68 gain 1.0: OL 0.074  EnKF 0.079  EnKF+gain 0.205 (gain est 0.687)  gappy 0.819
+  L3 run 68 gain 1.3: OL 0.237  EnKF 0.213  EnKF+gain 0.216 (gain est 1.015)  gappy 0.832
+  L3 run 69 gain 1.0: OL 0.126  EnKF 0.164  EnKF+gain 0.537 (gain est 0.764)  gappy 0.862
+  L3 run 69 gain 1.3: OL 0.253  EnKF 0.292  EnKF+gain 0.404 (gain est 1.217)  gappy 0.864
+== layer 4
+  L4: surrogate tracking 0.0331  CFD tracking 0.0340  gap 0.0010  q=[0.44 0.48 0.49 0.49 0.48 0.48 0.48 0.38 0.1  0.07]
+/Users/yanbarros/Documents/GitHub/pinneapple-labs/PINNeAPPle-Climate/experiments/05_thermal_channel_twin/src/run_twin.py:468: UserWarning: richardson_extrapolate: f_coarse-f_medium and f_medium-f_fine have opposite signs (oscillatory, non-monotonic convergence) -- the observed order and GCI are still computed using |.| per Roache (1994)/Celik et al. (2008), but the underlying asymptotic-convergence assumption they rely on may not hold here.
+  conv = richardson_extrapolate(*gc["values"], r=2.0)
+/Users/yanbarros/Documents/GitHub/pinneapple-labs/PINNeAPPle/pinneapple_data/physics_case.py:259: RuntimeWarning: overflow encountered in square
+  rmse = float(np.sqrt(np.mean(diff**2)))
+/Users/yanbarros/Documents/GitHub/pinneapple-labs/PINNeAPPle/pinneapple_data/physics_case.py:266: RuntimeWarning: overflow encountered in square
+  col_rmse = float(np.sqrt(np.mean(diff[:, j] ** 2)))
+PhysicsConfidenceScore report:
+  overall_score: 0.9254  (coverage=0.40, i.e. 2/5 possible checks)
+  [numerical_convergence] score=1 -- observed_order=1.337, GCI_fine=0.01458, GCI_coarse=0.03748, asymptotic_ratio=1.018, asymptotic_tolerance=0.1, is_asymptotic=True
+  [benchmark_agreement] score=0.8508 -- benchmark=heated_channel_Tout_unseen_sinusoid, relative_l2_error=0.1492, rmse=0.004167, n_compared_points=800
+PhysicsConfidenceScore report:
+  overall_score: 0.9286  (coverage=0.40, i.e. 2/5 possible checks)
+  [numerical_convergence] score=1 -- observed_order=1.337, GCI_fine=0.01458, GCI_coarse=0.03748, asymptotic_ratio=1.018, asymptotic_tolerance=0.1, is_asymptotic=True
+  [benchmark_agreement] score=0.8572 -- benchmark=heated_channel_Tout_unseen_sinusoid, relative_l2_error=0.1428, rmse=0.003989, n_compared_points=800
+PhysicsConfidenceScore report:
+  overall_score: 0.8695  (coverage=0.40, i.e. 2/5 possible checks)
+  [numerical_convergence] score=1 -- observed_order=1.337, GCI_fine=0.01458, GCI_coarse=0.03748, asymptotic_ratio=1.018, asymptotic_tolerance=0.1, is_asymptotic=True
+  [benchmark_agreement] score=0.7389 -- benchmark=heated_channel_Tout_unseen_sinusoid, relative_l2_error=0.2611, rmse=0.00729, n_compared_points=800
+PhysicsConfidenceScore report:
+  overall_score: 0.8959  (coverage=0.40, i.e. 2/5 possible checks)
+  [numerical_convergence] score=1 -- observed_order=1.337, GCI_fine=0.01458, GCI_coarse=0.03748, asymptotic_ratio=1.018, asymptotic_tolerance=0.1, is_asymptotic=True
+  [benchmark_agreement] score=0.7918 -- benchmark=heated_channel_Tout_unseen_sinusoid, relative_l2_error=0.2082, rmse=0.005815, n_compared_points=800
+PhysicsConfidenceScore report:
+  overall_score: 0.5456  (coverage=0.40, i.e. 2/5 possible checks)
+  [numerical_convergence] score=1 -- observed_order=1.337, GCI_fine=0.01458, GCI_coarse=0.03748, asymptotic_ratio=1.018, asymptotic_tolerance=0.1, is_asymptotic=True
+  [benchmark_agreement] score=0.09122 -- benchmark=heated_channel_Tout_unseen_sinusoid, relative_l2_error=0.9088, rmse=0.02538, n_compared_points=800
+done 79715.44764590263
