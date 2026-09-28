@@ -1,0 +1,51 @@
+poiseuille {'grid': [64, 16], 'u_profile_max_err': 0.004767383363536576, 'dpdx_mid': 0.1180479420285369, 'dpdx_exact': 0.12, 'max_divergence': 2.5923571057250744e-07}
+poiseuille {'grid': [128, 32], 'u_profile_max_err': 0.001327566045702805, 'dpdx_mid': 0.11857361106605535, 'dpdx_exact': 0.12, 'max_divergence': 1.1532186011735806e-07}
+poiseuille {'grid': [256, 64], 'u_profile_max_err': 0.0003490267340118189, 'dpdx_mid': 0.11870584881786757, 'dpdx_exact': 0.12, 'max_divergence': 4.412026452226322e-08}
+nusselt {'grid': [128, 16], 'Nu_mean': 5.391949434810426, 'Nu_std': 0.0031454891336603627, 'Nu_reference': 5.385, 'rel_err': 0.001290517142140457, 'energy_in': 0.8169014084507042, 'energy_out': 0.8168633800901145, 'energy_imbalance_rel': 4.6551958652967395e-05}
+nusselt {'grid': [256, 32], 'Nu_mean': 5.388258632218387, 'Nu_std': 0.0029770363510532223, 'Nu_reference': 5.385, 'rel_err': 0.0006051313311770112, 'energy_in': 0.8169014084507042, 'energy_out': 0.8169013866184536, 'energy_imbalance_rel': 2.6725686169873268e-08}
+grid 64 16 {'T_out': 0.0439248177608554, 'T_max': 0.5272504313339904, 'dp': 2.0351867597349687, 'heat_in': 0.051496478873239444, 'heat_out': 0.04024543763719065, 'energy': 0.5033803437989962}
+grid 128 32 {'T_out': 0.04200356376210349, 'T_max': 0.5105839588912251, 'dp': 2.066307143281179, 'heat_in': 0.04951584507042254, 'heat_out': 0.03846512076678022, 'energy': 0.48675370953290553}
+grid 256 64 {'T_out': 0.04276431595207134, 'T_max': 0.5140251441604439, 'dp': 2.0790942359151057, 'heat_in': 0.050506161971830985, 'heat_out': 0.039165919148692885, 'energy': 0.49754360454765434}
+/Users/yanbarros/Documents/GitHub/pinneapple-labs/PINNeAPPle-Climate/experiments/05_thermal_channel_twin/src/gen_data.py:82: UserWarning: richardson_extrapolate: f_coarse-f_medium and f_medium-f_fine have opposite signs (oscillatory, non-monotonic convergence) -- the observed order and GCI are still computed using |.| per Roache (1994)/Celik et al. (2008), but the underlying asymptotic-convergence assumption they rely on may not hold here.
+  r = richardson_extrapolate(vals[0][k], vals[1][k], vals[2][k], r=2.0)
+{
+ "T_out": {
+  "values": [
+   0.0439248177608554,
+   0.04200356376210349,
+   0.04276431595207134
+  ],
+  "observed_order": 1.3365497757081453,
+  "gci_fine": 0.014577031230172455,
+  "gci_coarse": 0.03748055797233332,
+  "asymptotic_ratio": 1.018111610583248,
+  "is_asymptotic": true,
+  "extrapolated": 0.043263017367407584
+ },
+ "T_max": {
+  "values": [
+   0.5272504313339904,
+   0.5105839588912251,
+   0.5140251441604439
+  ],
+  "observed_order": 2.2759713094963674,
+  "gci_fine": 0.0021773921289501216,
+  "gci_coarse": 0.010616698380560946,
+  "asymptotic_ratio": 1.0067397050167646,
+  "is_asymptotic": true,
+  "extrapolated": 0.5149205316028258
+ },
+ "dp": {
+  "values": [
+   2.0351867597349687,
+   2.066307143281179,
+   2.0790942359151057
+  ],
+  "observed_order": 1.2831715611676318,
+  "gci_fine": 0.005362150898545232,
+  "gci_coarse": 0.013130808217889693,
+  "asymptotic_ratio": 1.0061883794359927,
+  "is_asymptotic": true,
+  "extrapolated": 2.088012969535324
+ }
+}

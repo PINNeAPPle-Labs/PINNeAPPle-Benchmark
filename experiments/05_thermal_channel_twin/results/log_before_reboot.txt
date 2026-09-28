@@ -1,0 +1,48 @@
+  [POD-MLP] ep 10: val rollout relL2 0.3614
+  [POD-MLP] ep 20: val rollout relL2 0.4922
+  [POD-MLP] ep 30: val rollout relL2 0.5067
+  [POD-MLP] ep 40: val rollout relL2 0.3684
+  [POD-MLP] ep 50: val rollout relL2 0.3919
+  [POD-MLP] ep 60: val rollout relL2 0.3672
+  [POD-MLP] ep 70: val rollout relL2 0.3761
+  [POD-MLP] ep 80: val rollout relL2 0.3725
+  [POD-MLP] ep 90: val rollout relL2 0.3526
+  [POD-MLP] ep 100: val rollout relL2 0.3618
+  [POD-MLP] ep 110: val rollout relL2 0.3520
+  [POD-MLP] ep 120: val rollout relL2 0.3641
+  [POD-MLP] ep 130: val rollout relL2 0.3540
+  [POD-MLP] ep 140: val rollout relL2 0.3564
+  [POD-MLP] ep 150: val rollout relL2 0.3596
+  [POD-MLP] ep 160: val rollout relL2 0.3609
+  [POD-MLP] ep 170: val rollout relL2 0.3603
+  [POD-MLP] ep 180: val rollout relL2 0.3593
+  [POD-MLP] ep 190: val rollout relL2 0.3608
+  [POD-MLP] ep 200: val rollout relL2 0.3606
+  [CAE] ep 1: train 5.5623e-01  val rollout relL2 0.7317 (28s)
+  [CAE] ep 2: train 5.1891e-01  val rollout relL2 0.7144 (56s)
+  [CAE] ep 3: train 4.5338e-01  val rollout relL2 0.6031 (84s)
+  [CAE] ep 4: train 3.5445e-01  val rollout relL2 0.5894 (111s)
+  [CAE] ep 5: train 3.2780e-01  val rollout relL2 0.5264 (138s)
+  [CAE] ep 6: train 3.0816e-01  val rollout relL2 0.4737 (169s)
+  [CAE] ep 7: train 3.0369e-01  val rollout relL2 0.4598 (203s)
+  [CAE] ep 8: train 3.0658e-01  val rollout relL2 0.4625 (241s)
+  [CAE] ep 9: train 2.8966e-01  val rollout relL2 0.4578 (278s)
+  [CAE] ep 10: train 2.9433e-01  val rollout relL2 0.4486 (311s)
+  [CAE] ep 11: train 2.7335e-01  val rollout relL2 0.4080 (346s)
+  [CAE] ep 12: train 2.6631e-01  val rollout relL2 0.4163 (380s)
+  [CAE] ep 13: train 3.1498e-01  val rollout relL2 0.4061 (410s)
+  [CAE] ep 14: train 2.5347e-01  val rollout relL2 0.4130 (444s)
+  [CAE] ep 15: train 2.6062e-01  val rollout relL2 0.4356 (477s)
+  [CAE] ep 16: train 2.9724e-01  val rollout relL2 0.3772 (508s)
+  [CAE] ep 17: train 2.9197e-01  val rollout relL2 0.3894 (537s)
+  [CAE] ep 18: train 2.3385e-01  val rollout relL2 0.3636 (565s)
+  [CAE] ep 19: train 2.4469e-01  val rollout relL2 0.3666 (594s)
+  [CAE] ep 20: train 2.3101e-01  val rollout relL2 0.3664 (623s)
+  [FNO] ep 1: train 7.1432e-01  val rollout relL2 2743.9128 (126s)
+  [FNO] ep 2: train 4.4859e-01  val rollout relL2 0.9159 (253s)
+  [FNO] ep 3: train 2.4366e-01  val rollout relL2 0.5739 (400s)
+  [FNO] ep 4: train 2.0089e-01  val rollout relL2 0.7317 (564s)
+  [FNO] ep 5: train 1.7508e-01  val rollout relL2 0.6093 (729s)
+  [FNO] ep 6: train 1.6821e-01  val rollout relL2 0.5849 (3255s)
+  [FNO] ep 7: train 1.4057e-01  val rollout relL2 0.5437 (4202s)
+  [FNO] ep 8: train 1.5016e-01  val rollout relL2 0.5105 (4420s)
