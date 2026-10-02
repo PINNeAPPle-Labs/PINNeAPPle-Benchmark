@@ -1,0 +1,1161 @@
+== Physics ODE identification
+/Users/yanbarros/Documents/GitHub/pinneapple-labs/PINNeAPPle-Climate/experiments/02_physics_digital_twin/src/twin_core.py:189: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:823.)
+  a, b0, b1, q = [float(x) for x in params()]
+  ThermalParams(a=0.0010960401268675923, b0=0.309190571308136, b1=0.01813926361501217, q=0.27357372641563416) {'C_J_m2K': 140000.0, 'alpha': 0.04262378271151748, 'k0_W_m2K': 12.024077773094177, 'k1_W_m2K_per_ms': 0.7054158072504733, 'Q_int_W_m2': 10.638978249496883}
+  year 2015: ThermalParams(a=0.0018053860403597355, b0=0.43524980545043945, b1=0.024398375302553177, q=0.3895372152328491)
+  year 2016: ThermalParams(a=0.0016466642264276743, b0=0.5757127404212952, b1=0.00509656174108386, q=0.4005994200706482)
+  year 2017: ThermalParams(a=0.0007657367386855185, b0=0.23568405210971832, b1=0.02746325545012951, q=0.31981635093688965)
+  year 2018: ThermalParams(a=0.0008356008911505342, b0=0.3074883818626404, b1=0.012800169177353382, q=0.3082755506038666)
+  year 2019: ThermalParams(a=0.0009513244149275124, b0=0.28202807903289795, b1=0.01323525607585907, q=0.21268896758556366)
+  year 2020: ThermalParams(a=0.000944092171266675, b0=0.384442538022995, b1=2.971454193811951e-07, q=0.2159920036792755)
+  year 2021: ThermalParams(a=0.0011245268397033215, b0=0.2698131203651428, b1=0.01781333051621914, q=0.23412001132965088)
+== EKI cross-check
+  [EKI  t=  10/25]  misfit=4.8090e+03  spread=1.1039e-02
+  [EKI  t=  20/25]  misfit=4.8082e+03  spread=8.3778e-03
+  EKI: {'mean': {'a': 0.0011306358188609797, 'b0': 0.28947622559418906, 'b1': 0.019505455268921175, 'q': 0.2460574366799706}, 'std': {'a': 3.402337415627601e-06, 'b0': 0.002297842945346982, 'b1': 0.00031755815644192724, 'q': 0.002090137260588382}, 'n_windows': 400, 'ensemble': 40, 'iterations': 25}
+== Baselines
+/opt/homebrew/lib/python3.14/site-packages/sklearn/linear_model/_ridge.py:227: LinAlgWarning: An ill-conditioned matrix detected: slice 0 has rcond = 8.41074552226928e-08.
+  return linalg.solve(A, Xy, assume_a="pos", overwrite_a=True).T
+  Linear (Ridge) alpha=0.1: val RMSE=0.3629
+  Linear (Ridge) alpha=10.0: val RMSE=0.3629
+  Linear (Ridge) alpha=1000.0: val RMSE=0.3638
+  Random Forest max_depth=12,min_leaf=5: val RMSE=0.3416
+  Random Forest max_depth=20,min_leaf=5: val RMSE=0.3251
+  Random Forest max_depth=None,min_leaf=20: val RMSE=0.3441
+  Gradient Boosting lr=0.05,leaves=31: val RMSE=0.2932
+  Gradient Boosting lr=0.1,leaves=63: val RMSE=0.2927
+  MLP hidden=(128, 128),alpha=0.0001: val RMSE=0.2985
+  MLP hidden=(256, 256, 128),alpha=0.001: val RMSE=0.3202
+== PINN lambda sweep
+  PINN lam=0.0 seed=0 ep=1: train_data=3.5036 phys=0.0000 val_rmse=1.9633 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=2: train_data=3.4634 phys=0.0000 val_rmse=1.9644 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=3: train_data=3.4489 phys=0.0000 val_rmse=1.9656 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=4: train_data=3.4214 phys=0.0000 val_rmse=1.9730 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=5: train_data=3.3538 phys=0.0000 val_rmse=1.9874 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=6: train_data=3.2319 phys=0.0000 val_rmse=2.0050 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=7: train_data=3.0765 phys=0.0000 val_rmse=2.0351 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=8: train_data=2.9343 phys=0.0000 val_rmse=2.0644 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=9: train_data=2.8178 phys=0.0000 val_rmse=2.0929 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=10: train_data=2.7181 phys=0.0000 val_rmse=2.1193 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=11: train_data=2.6322 phys=0.0000 val_rmse=2.1363 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=12: train_data=2.5550 phys=0.0000 val_rmse=2.1548 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=13: train_data=2.4892 phys=0.0000 val_rmse=2.1678 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=14: train_data=2.4294 phys=0.0000 val_rmse=2.1848 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=15: train_data=2.3772 phys=0.0000 val_rmse=2.1975 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=16: train_data=2.3302 phys=0.0000 val_rmse=2.2097 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=17: train_data=2.2883 phys=0.0000 val_rmse=2.2211 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=18: train_data=2.2531 phys=0.0000 val_rmse=2.2294 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=19: train_data=2.2220 phys=0.0000 val_rmse=2.2357 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=20: train_data=2.1962 phys=0.0000 val_rmse=2.2418 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=21: train_data=2.1768 phys=0.0000 val_rmse=2.2453 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=22: train_data=2.1615 phys=0.0000 val_rmse=2.2476 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=23: train_data=2.1509 phys=0.0000 val_rmse=2.2491 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=24: train_data=2.1442 phys=0.0000 val_rmse=2.2495 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=25: train_data=2.1411 phys=0.0000 val_rmse=2.2496 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.1 seed=0 ep=1: train_data=3.5033 phys=5.2488 val_rmse=1.9630 params=[0.00048, 0.48083, 0.04808, 0.03913]
+  PINN lam=0.1 seed=0 ep=2: train_data=3.4636 phys=4.4627 val_rmse=1.9644 params=[0.00041, 0.41706, 0.04168, 0.14698]
+  PINN lam=0.1 seed=0 ep=3: train_data=3.4485 phys=3.4753 val_rmse=1.9657 params=[0.00034, 0.35273, 0.0352, 0.16716]
+  PINN lam=0.1 seed=0 ep=4: train_data=3.4187 phys=2.8144 val_rmse=1.9696 params=[0.00029, 0.30802, 0.03071, 0.11083]
+  PINN lam=0.1 seed=0 ep=5: train_data=3.3571 phys=2.4623 val_rmse=1.9794 params=[0.00025, 0.2748, 0.02738, 0.04769]
+  PINN lam=0.1 seed=0 ep=6: train_data=3.2423 phys=2.3625 val_rmse=1.9992 params=[0.00023, 0.25019, 0.02491, -0.0125]
+  PINN lam=0.1 seed=0 ep=7: train_data=3.1013 phys=2.3600 val_rmse=2.0130 params=[0.00021, 0.23188, 0.02307, -0.0514]
+  PINN lam=0.1 seed=0 ep=8: train_data=2.9748 phys=2.3676 val_rmse=2.0408 params=[0.0002, 0.21738, 0.02162, -0.07782]
+  PINN lam=0.1 seed=0 ep=9: train_data=2.8619 phys=2.4379 val_rmse=2.0512 params=[0.00019, 0.20561, 0.02044, -0.10383]
+  PINN lam=0.1 seed=0 ep=10: train_data=2.7694 phys=2.4924 val_rmse=2.0691 params=[0.00018, 0.19583, 0.01947, -0.12382]
+  PINN lam=0.1 seed=0 ep=11: train_data=2.6866 phys=2.5378 val_rmse=2.0799 params=[0.00017, 0.18756, 0.01864, -0.14023]
+  PINN lam=0.1 seed=0 ep=12: train_data=2.6169 phys=2.5702 val_rmse=2.0935 params=[0.00016, 0.18053, 0.01794, -0.15316]
+  PINN lam=0.1 seed=0 ep=13: train_data=2.5541 phys=2.6288 val_rmse=2.1017 params=[0.00016, 0.1745, 0.01734, -0.16287]
+  PINN lam=0.1 seed=0 ep=14: train_data=2.4986 phys=2.6673 val_rmse=2.1114 params=[0.00015, 0.16941, 0.01683, -0.17252]
+  PINN lam=0.1 seed=0 ep=15: train_data=2.4485 phys=2.6933 val_rmse=2.1212 params=[0.00015, 0.16513, 0.0164, -0.18036]
+  PINN lam=0.1 seed=0 ep=16: train_data=2.4022 phys=2.7348 val_rmse=2.1274 params=[0.00015, 0.16153, 0.01604, -0.18651]
+  PINN lam=0.1 seed=0 ep=17: train_data=2.3643 phys=2.7836 val_rmse=2.1337 params=[0.00015, 0.15857, 0.01574, -0.19266]
+  PINN lam=0.1 seed=0 ep=18: train_data=2.3320 phys=2.7978 val_rmse=2.1396 params=[0.00014, 0.15621, 0.0155, -0.20066]
+  PINN lam=0.1 seed=0 ep=19: train_data=2.3023 phys=2.8207 val_rmse=2.1438 params=[0.00014, 0.15434, 0.01532, -0.20293]
+  PINN lam=0.1 seed=0 ep=20: train_data=2.2782 phys=2.8395 val_rmse=2.1468 params=[0.00014, 0.15293, 0.01518, -0.20615]
+  PINN lam=0.1 seed=0 ep=21: train_data=2.2589 phys=2.8737 val_rmse=2.1491 params=[0.00014, 0.15195, 0.01508, -0.2098]
+  PINN lam=0.1 seed=0 ep=22: train_data=2.2453 phys=2.8693 val_rmse=2.1505 params=[0.00014, 0.15131, 0.01501, -0.21051]
+  PINN lam=0.1 seed=0 ep=23: train_data=2.2352 phys=2.8654 val_rmse=2.1515 params=[0.00014, 0.15097, 0.01498, -0.21085]
+  PINN lam=0.1 seed=0 ep=24: train_data=2.2288 phys=2.8723 val_rmse=2.1518 params=[0.00014, 0.15083, 0.01497, -0.21091]
+  PINN lam=0.1 seed=0 ep=25: train_data=2.2259 phys=2.8733 val_rmse=2.1519 params=[0.00014, 0.15081, 0.01496, -0.21094]
+  PINN lam=1.0 seed=0 ep=1: train_data=3.5187 phys=5.2168 val_rmse=1.9654 params=[0.00048, 0.48157, 0.04815, 0.03444]
+  PINN lam=1.0 seed=0 ep=2: train_data=3.4706 phys=4.4305 val_rmse=1.9633 params=[0.00041, 0.41108, 0.04108, 0.14808]
+  PINN lam=1.0 seed=0 ep=3: train_data=3.4553 phys=3.2738 val_rmse=1.9618 params=[0.00031, 0.32564, 0.0325, 0.14245]
+  PINN lam=1.0 seed=0 ep=4: train_data=3.4450 phys=2.4085 val_rmse=1.9637 params=[0.00024, 0.25954, 0.02589, 0.01021]
+  PINN lam=1.0 seed=0 ep=5: train_data=3.4269 phys=1.9055 val_rmse=1.9642 params=[0.0002, 0.21124, 0.02108, -0.09321]
+  PINN lam=1.0 seed=0 ep=6: train_data=3.3910 phys=1.6600 val_rmse=1.9677 params=[0.00017, 0.17724, 0.0177, -0.16359]
+  PINN lam=1.0 seed=0 ep=7: train_data=3.3292 phys=1.5087 val_rmse=1.9709 params=[0.00014, 0.15415, 0.01539, -0.20219]
+  PINN lam=1.0 seed=0 ep=8: train_data=3.2595 phys=1.4076 val_rmse=1.9769 params=[0.00013, 0.13779, 0.01376, -0.23404]
+  PINN lam=1.0 seed=0 ep=9: train_data=3.1817 phys=1.3707 val_rmse=1.9817 params=[0.00012, 0.12591, 0.01258, -0.25624]
+  PINN lam=1.0 seed=0 ep=10: train_data=3.1139 phys=1.3549 val_rmse=1.9871 params=[0.00011, 0.11689, 0.01169, -0.27625]
+  PINN lam=1.0 seed=0 ep=11: train_data=3.0456 phys=1.3368 val_rmse=1.9906 params=[0.0001, 0.10983, 0.01098, -0.287]
+  PINN lam=1.0 seed=0 ep=12: train_data=2.9920 phys=1.3230 val_rmse=1.9941 params=[0.0001, 0.10421, 0.01042, -0.28805]
+  PINN lam=1.0 seed=0 ep=13: train_data=2.9366 phys=1.3293 val_rmse=1.9969 params=[9e-05, 0.09968, 0.00997, -0.30197]
+  PINN lam=1.0 seed=0 ep=14: train_data=2.8900 phys=1.3202 val_rmse=2.0007 params=[9e-05, 0.096, 0.0096, -0.3089]
+  PINN lam=1.0 seed=0 ep=15: train_data=2.8502 phys=1.3167 val_rmse=2.0055 params=[9e-05, 0.09298, 0.0093, -0.30921]
+  PINN lam=1.0 seed=0 ep=16: train_data=2.8114 phys=1.3233 val_rmse=2.0073 params=[9e-05, 0.09052, 0.00905, -0.31626]
+  PINN lam=1.0 seed=0 ep=17: train_data=2.7773 phys=1.3211 val_rmse=2.0110 params=[8e-05, 0.08853, 0.00885, -0.32189]
+  PINN lam=1.0 seed=0 ep=18: train_data=2.7503 phys=1.3389 val_rmse=2.0131 params=[8e-05, 0.08699, 0.0087, -0.32715]
+  PINN lam=1.0 seed=0 ep=19: train_data=2.7252 phys=1.3332 val_rmse=2.0158 params=[8e-05, 0.08578, 0.00858, -0.32706]
+  PINN lam=1.0 seed=0 ep=20: train_data=2.7044 phys=1.3361 val_rmse=2.0174 params=[8e-05, 0.08489, 0.00849, -0.32818]
+  PINN lam=1.0 seed=0 ep=21: train_data=2.6880 phys=1.3446 val_rmse=2.0183 params=[8e-05, 0.08427, 0.00843, -0.33072]
+  PINN lam=1.0 seed=0 ep=22: train_data=2.6760 phys=1.3390 val_rmse=2.0192 params=[8e-05, 0.08388, 0.00839, -0.3313]
+  PINN lam=1.0 seed=0 ep=23: train_data=2.6682 phys=1.3379 val_rmse=2.0196 params=[8e-05, 0.08367, 0.00837, -0.33172]
+  PINN lam=1.0 seed=0 ep=24: train_data=2.6633 phys=1.3397 val_rmse=2.0198 params=[8e-05, 0.08358, 0.00836, -0.33181]
+  PINN lam=1.0 seed=0 ep=25: train_data=2.6613 phys=1.3425 val_rmse=2.0198 params=[8e-05, 0.08357, 0.00836, -0.33184]
+  PINN lam=10.0 seed=0 ep=1: train_data=3.5578 phys=5.2038 val_rmse=1.9790 params=[0.00048, 0.48164, 0.04816, 0.02562]
+  PINN lam=10.0 seed=0 ep=2: train_data=3.5037 phys=4.4247 val_rmse=1.9640 params=[0.00041, 0.41101, 0.04107, 0.11286]
+  PINN lam=10.0 seed=0 ep=3: train_data=3.4627 phys=3.2695 val_rmse=1.9615 params=[0.00032, 0.32451, 0.03242, 0.14427]
+  PINN lam=10.0 seed=0 ep=4: train_data=3.4692 phys=2.3869 val_rmse=1.9672 params=[0.00025, 0.25597, 0.02558, 0.05032]
+  PINN lam=10.0 seed=0 ep=5: train_data=3.4711 phys=1.8563 val_rmse=1.9634 params=[0.00019, 0.20313, 0.02032, -0.06265]
+  PINN lam=10.0 seed=0 ep=6: train_data=3.4658 phys=1.5731 val_rmse=1.9631 params=[0.00016, 0.16272, 0.01629, -0.15883]
+  PINN lam=10.0 seed=0 ep=7: train_data=3.4621 phys=1.3785 val_rmse=1.9630 params=[0.00013, 0.13215, 0.01323, -0.22429]
+  PINN lam=10.0 seed=0 ep=8: train_data=3.4582 phys=1.2406 val_rmse=1.9623 params=[0.0001, 0.10953, 0.01098, -0.2721]
+  PINN lam=10.0 seed=0 ep=9: train_data=3.4557 phys=1.1750 val_rmse=1.9631 params=[9e-05, 0.09301, 0.00934, -0.31444]
+  PINN lam=10.0 seed=0 ep=10: train_data=3.4579 phys=1.1369 val_rmse=1.9618 params=[8e-05, 0.08099, 0.00815, -0.33769]
+  PINN lam=10.0 seed=0 ep=11: train_data=3.4557 phys=1.1027 val_rmse=1.9618 params=[7e-05, 0.07205, 0.00725, -0.34977]
+  PINN lam=10.0 seed=0 ep=12: train_data=3.4540 phys=1.0804 val_rmse=1.9613 params=[6e-05, 0.06541, 0.0066, -0.35337]
+  PINN lam=10.0 seed=0 ep=13: train_data=3.4523 phys=1.0740 val_rmse=1.9614 params=[6e-05, 0.06036, 0.00609, -0.36697]
+  PINN lam=10.0 seed=0 ep=14: train_data=3.4503 phys=1.0577 val_rmse=1.9615 params=[5e-05, 0.05651, 0.00571, -0.37674]
+  PINN lam=10.0 seed=0 ep=15: train_data=3.4487 phys=1.0500 val_rmse=1.9619 params=[5e-05, 0.0535, 0.00541, -0.37466]
+  PINN lam=10.0 seed=0 ep=16: train_data=3.4437 phys=1.0450 val_rmse=1.9616 params=[5e-05, 0.05113, 0.00518, -0.3845]
+  PINN lam=10.0 seed=0 ep=17: train_data=3.4416 phys=1.0399 val_rmse=1.9615 params=[5e-05, 0.04931, 0.005, -0.39068]
+  PINN lam=10.0 seed=0 ep=18: train_data=3.4391 phys=1.0555 val_rmse=1.9614 params=[5e-05, 0.04795, 0.00486, -0.39315]
+  PINN lam=10.0 seed=0 ep=19: train_data=3.4358 phys=1.0417 val_rmse=1.9619 params=[4e-05, 0.04689, 0.00476, -0.39379]
+  PINN lam=10.0 seed=0 ep=20: train_data=3.4323 phys=1.0430 val_rmse=1.9619 params=[4e-05, 0.04612, 0.00468, -0.39501]
+  PINN lam=10.0 seed=0 ep=21: train_data=3.4306 phys=1.0488 val_rmse=1.9619 params=[4e-05, 0.04559, 0.00463, -0.39745]
+  PINN lam=10.0 seed=0 ep=22: train_data=3.4286 phys=1.0417 val_rmse=1.9620 params=[4e-05, 0.04526, 0.00459, -0.39747]
+  PINN lam=10.0 seed=0 ep=23: train_data=3.4272 phys=1.0391 val_rmse=1.9621 params=[4e-05, 0.04509, 0.00458, -0.39756]
+  PINN lam=10.0 seed=0 ep=24: train_data=3.4267 phys=1.0415 val_rmse=1.9621 params=[4e-05, 0.04502, 0.00457, -0.39756]
+  PINN lam=10.0 seed=0 ep=25: train_data=3.4264 phys=1.0435 val_rmse=1.9621 params=[4e-05, 0.04501, 0.00457, -0.39757]
+  selected lambda: 10.0
+  PINN lam=10.0 seed=1 ep=1: train_data=3.5193 phys=5.2210 val_rmse=1.9800 params=[0.00048, 0.4816, 0.04816, 0.02444]
+  PINN lam=10.0 seed=1 ep=2: train_data=3.5071 phys=4.4615 val_rmse=1.9664 params=[0.00041, 0.41094, 0.04107, 0.09762]
+  PINN lam=10.0 seed=1 ep=3: train_data=3.4629 phys=3.2526 val_rmse=1.9636 params=[0.00031, 0.32449, 0.0324, 0.13372]
+  PINN lam=10.0 seed=1 ep=4: train_data=3.4724 phys=2.4069 val_rmse=1.9666 params=[0.00024, 0.25621, 0.02558, 0.05131]
+  PINN lam=10.0 seed=1 ep=5: train_data=3.4741 phys=1.8808 val_rmse=1.9650 params=[0.00019, 0.20342, 0.02032, -0.05135]
+  PINN lam=10.0 seed=1 ep=6: train_data=3.4710 phys=1.5662 val_rmse=1.9626 params=[0.00015, 0.16336, 0.01633, -0.14639]
+  PINN lam=10.0 seed=1 ep=7: train_data=3.4628 phys=1.3668 val_rmse=1.9639 params=[0.00013, 0.13303, 0.01332, -0.22451]
+  PINN lam=10.0 seed=1 ep=8: train_data=3.4617 phys=1.2566 val_rmse=1.9612 params=[0.0001, 0.11039, 0.01106, -0.2667]
+  PINN lam=10.0 seed=1 ep=9: train_data=3.4589 phys=1.1691 val_rmse=1.9617 params=[9e-05, 0.09389, 0.00942, -0.30181]
+  PINN lam=10.0 seed=1 ep=10: train_data=3.4574 phys=1.1408 val_rmse=1.9615 params=[8e-05, 0.082, 0.00823, -0.33615]
+  PINN lam=10.0 seed=1 ep=11: train_data=3.4562 phys=1.1096 val_rmse=1.9609 params=[7e-05, 0.07281, 0.00733, -0.33802]
+  PINN lam=10.0 seed=1 ep=12: train_data=3.4566 phys=1.0846 val_rmse=1.9616 params=[6e-05, 0.0661, 0.00666, -0.36202]
+  PINN lam=10.0 seed=1 ep=13: train_data=3.4534 phys=1.0759 val_rmse=1.9614 params=[6e-05, 0.06091, 0.00614, -0.36214]
+  PINN lam=10.0 seed=1 ep=14: train_data=3.4512 phys=1.0609 val_rmse=1.9612 params=[5e-05, 0.05696, 0.00575, -0.37655]
+  PINN lam=10.0 seed=1 ep=15: train_data=3.4506 phys=1.0697 val_rmse=1.9619 params=[5e-05, 0.05388, 0.00545, -0.3903]
+  PINN lam=10.0 seed=1 ep=16: train_data=3.4473 phys=1.0548 val_rmse=1.9616 params=[5e-05, 0.05144, 0.0052, -0.38704]
+  PINN lam=10.0 seed=1 ep=17: train_data=3.4445 phys=1.0536 val_rmse=1.9620 params=[5e-05, 0.04955, 0.00501, -0.38792]
+  PINN lam=10.0 seed=1 ep=18: train_data=3.4421 phys=1.0412 val_rmse=1.9619 params=[4e-05, 0.0481, 0.00487, -0.39252]
+  PINN lam=10.0 seed=1 ep=19: train_data=3.4378 phys=1.0414 val_rmse=1.9623 params=[4e-05, 0.04703, 0.00476, -0.39357]
+  PINN lam=10.0 seed=1 ep=20: train_data=3.4339 phys=1.0439 val_rmse=1.9624 params=[4e-05, 0.04624, 0.00468, -0.39599]
+  PINN lam=10.0 seed=1 ep=21: train_data=3.4326 phys=1.0536 val_rmse=1.9625 params=[4e-05, 0.04571, 0.00463, -0.39868]
+  PINN lam=10.0 seed=1 ep=22: train_data=3.4304 phys=1.0468 val_rmse=1.9625 params=[4e-05, 0.04538, 0.0046, -0.39855]
+  PINN lam=10.0 seed=1 ep=23: train_data=3.4291 phys=1.0396 val_rmse=1.9626 params=[4e-05, 0.0452, 0.00458, -0.39918]
+  PINN lam=10.0 seed=1 ep=24: train_data=3.4283 phys=1.0437 val_rmse=1.9626 params=[4e-05, 0.04513, 0.00457, -0.39903]
+  PINN lam=10.0 seed=1 ep=25: train_data=3.4280 phys=1.0402 val_rmse=1.9626 params=[4e-05, 0.04512, 0.00457, -0.39906]
+  PINN lam=0.0 seed=1 ep=1: train_data=3.4830 phys=0.0000 val_rmse=1.9633 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=2: train_data=3.4624 phys=0.0000 val_rmse=1.9651 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=3: train_data=3.4518 phys=0.0000 val_rmse=1.9651 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=4: train_data=3.4197 phys=0.0000 val_rmse=1.9723 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=5: train_data=3.3632 phys=0.0000 val_rmse=1.9805 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=6: train_data=3.2479 phys=0.0000 val_rmse=2.0028 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=7: train_data=3.1077 phys=0.0000 val_rmse=2.0302 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=8: train_data=2.9775 phys=0.0000 val_rmse=2.0566 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=9: train_data=2.8621 phys=0.0000 val_rmse=2.0849 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=10: train_data=2.7644 phys=0.0000 val_rmse=2.1081 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=11: train_data=2.6811 phys=0.0000 val_rmse=2.1244 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=12: train_data=2.6069 phys=0.0000 val_rmse=2.1412 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=13: train_data=2.5398 phys=0.0000 val_rmse=2.1592 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=14: train_data=2.4803 phys=0.0000 val_rmse=2.1750 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=15: train_data=2.4277 phys=0.0000 val_rmse=2.1890 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=16: train_data=2.3800 phys=0.0000 val_rmse=2.1998 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=17: train_data=2.3385 phys=0.0000 val_rmse=2.2090 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=18: train_data=2.3022 phys=0.0000 val_rmse=2.2187 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=19: train_data=2.2721 phys=0.0000 val_rmse=2.2251 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=20: train_data=2.2470 phys=0.0000 val_rmse=2.2310 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=21: train_data=2.2271 phys=0.0000 val_rmse=2.2347 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=22: train_data=2.2117 phys=0.0000 val_rmse=2.2372 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=23: train_data=2.2013 phys=0.0000 val_rmse=2.2388 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=24: train_data=2.1948 phys=0.0000 val_rmse=2.2392 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=25: train_data=2.1917 phys=0.0000 val_rmse=2.2393 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=10.0 seed=2 ep=1: train_data=3.5341 phys=5.1895 val_rmse=1.9819 params=[0.00048, 0.48165, 0.04816, 0.02528]
+  PINN lam=10.0 seed=2 ep=2: train_data=3.5100 phys=4.4442 val_rmse=1.9655 params=[0.00041, 0.41102, 0.04109, 0.10045]
+  PINN lam=10.0 seed=2 ep=3: train_data=3.4630 phys=3.3027 val_rmse=1.9626 params=[0.00032, 0.32454, 0.03243, 0.13594]
+  PINN lam=10.0 seed=2 ep=4: train_data=3.4690 phys=2.3971 val_rmse=1.9658 params=[0.00025, 0.25615, 0.02558, 0.0508]
+  PINN lam=10.0 seed=2 ep=5: train_data=3.4724 phys=1.8858 val_rmse=1.9631 params=[0.00019, 0.20339, 0.02031, -0.05575]
+  PINN lam=10.0 seed=2 ep=6: train_data=3.4662 phys=1.5687 val_rmse=1.9625 params=[0.00015, 0.163, 0.01629, -0.15478]
+  PINN lam=10.0 seed=2 ep=7: train_data=3.4618 phys=1.3725 val_rmse=1.9623 params=[0.00013, 0.13259, 0.01327, -0.2279]
+  PINN lam=10.0 seed=2 ep=8: train_data=3.4577 phys=1.2538 val_rmse=1.9618 params=[0.0001, 0.10996, 0.01102, -0.28218]
+  PINN lam=10.0 seed=2 ep=9: train_data=3.4556 phys=1.1764 val_rmse=1.9613 params=[9e-05, 0.09343, 0.00938, -0.30867]
+  PINN lam=10.0 seed=2 ep=10: train_data=3.4533 phys=1.1380 val_rmse=1.9614 params=[8e-05, 0.08145, 0.00819, -0.32584]
+  PINN lam=10.0 seed=2 ep=11: train_data=3.4514 phys=1.1126 val_rmse=1.9618 params=[7e-05, 0.07273, 0.00731, -0.35115]
+  PINN lam=10.0 seed=2 ep=12: train_data=3.4481 phys=1.0946 val_rmse=1.9613 params=[6e-05, 0.06619, 0.00666, -0.35763]
+  PINN lam=10.0 seed=2 ep=13: train_data=3.4439 phys=1.0749 val_rmse=1.9610 params=[6e-05, 0.06116, 0.00616, -0.36568]
+  PINN lam=10.0 seed=2 ep=14: train_data=3.4389 phys=1.0595 val_rmse=1.9615 params=[5e-05, 0.05736, 0.00579, -0.3696]
+  PINN lam=10.0 seed=2 ep=15: train_data=3.4323 phys=1.0540 val_rmse=1.9621 params=[5e-05, 0.05434, 0.00549, -0.38104]
+  PINN lam=10.0 seed=2 ep=16: train_data=3.4266 phys=1.0526 val_rmse=1.9620 params=[5e-05, 0.052, 0.00526, -0.38045]
+  PINN lam=10.0 seed=2 ep=17: train_data=3.4162 phys=1.0512 val_rmse=1.9626 params=[5e-05, 0.05018, 0.00508, -0.38727]
+  PINN lam=10.0 seed=2 ep=18: train_data=3.4107 phys=1.0460 val_rmse=1.9625 params=[5e-05, 0.0488, 0.00494, -0.38882]
+  PINN lam=10.0 seed=2 ep=19: train_data=3.4044 phys=1.0358 val_rmse=1.9629 params=[4e-05, 0.04776, 0.00484, -0.38807]
+  PINN lam=10.0 seed=2 ep=20: train_data=3.3952 phys=1.0465 val_rmse=1.9632 params=[4e-05, 0.047, 0.00476, -0.39174]
+  PINN lam=10.0 seed=2 ep=21: train_data=3.3900 phys=1.0507 val_rmse=1.9633 params=[4e-05, 0.04649, 0.00471, -0.39377]
+  PINN lam=10.0 seed=2 ep=22: train_data=3.3857 phys=1.0419 val_rmse=1.9638 params=[4e-05, 0.04617, 0.00468, -0.3947]
+  PINN lam=10.0 seed=2 ep=23: train_data=3.3827 phys=1.0476 val_rmse=1.9638 params=[4e-05, 0.046, 0.00466, -0.39512]
+  PINN lam=10.0 seed=2 ep=24: train_data=3.3817 phys=1.0444 val_rmse=1.9638 params=[4e-05, 0.04593, 0.00465, -0.39518]
+  PINN lam=10.0 seed=2 ep=25: train_data=3.3813 phys=1.0367 val_rmse=1.9638 params=[4e-05, 0.04592, 0.00465, -0.39522]
+  PINN lam=0.0 seed=2 ep=1: train_data=3.4880 phys=0.0000 val_rmse=1.9621 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=2: train_data=3.4646 phys=0.0000 val_rmse=1.9650 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=3: train_data=3.4497 phys=0.0000 val_rmse=1.9654 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=4: train_data=3.4209 phys=0.0000 val_rmse=1.9730 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=5: train_data=3.3554 phys=0.0000 val_rmse=1.9833 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=6: train_data=3.2243 phys=0.0000 val_rmse=2.0147 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=7: train_data=3.0678 phys=0.0000 val_rmse=2.0423 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=8: train_data=2.9223 phys=0.0000 val_rmse=2.0785 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=9: train_data=2.7979 phys=0.0000 val_rmse=2.1011 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=10: train_data=2.6930 phys=0.0000 val_rmse=2.1283 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=11: train_data=2.6024 phys=0.0000 val_rmse=2.1479 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=12: train_data=2.5225 phys=0.0000 val_rmse=2.1675 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=13: train_data=2.4493 phys=0.0000 val_rmse=2.1824 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=14: train_data=2.3901 phys=0.0000 val_rmse=2.1966 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=15: train_data=2.3325 phys=0.0000 val_rmse=2.2124 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=16: train_data=2.2835 phys=0.0000 val_rmse=2.2250 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=17: train_data=2.2410 phys=0.0000 val_rmse=2.2352 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=18: train_data=2.2028 phys=0.0000 val_rmse=2.2430 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=19: train_data=2.1704 phys=0.0000 val_rmse=2.2498 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=20: train_data=2.1442 phys=0.0000 val_rmse=2.2556 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=21: train_data=2.1230 phys=0.0000 val_rmse=2.2595 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=22: train_data=2.1073 phys=0.0000 val_rmse=2.2618 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=23: train_data=2.0961 phys=0.0000 val_rmse=2.2633 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=24: train_data=2.0890 phys=0.0000 val_rmse=2.2638 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=25: train_data=2.0857 phys=0.0000 val_rmse=2.2639 params=[0.0005, 0.5, 0.05, 0.0]
+== Test evaluation
+  Persistence: 0.634 / 1.732 / 2.971  resid=0.841
+  Physics ODE (identified): 0.302 / 0.550 / 0.671  resid=0.000
+  Linear (Ridge): 0.221 / 0.370 / 0.465  resid=0.160
+  Random Forest: 0.236 / 0.338 / 0.424  resid=0.209
+  Gradient Boosting: 0.232 / 0.314 / 0.389  resid=0.199
+  MLP: 0.217 / 0.307 / 0.387  resid=0.184
+  NN (no physics loss): 0.634 / 1.734 / 2.976  resid=0.844
+  PINN (PINNeAPPle): 0.634 / 1.732 / 2.972  resid=0.844
+== Extrapolation (radiation regime)
+  Linear (Ridge) alpha=0.1: val RMSE=0.3170
+  Linear (Ridge) alpha=10.0: val RMSE=0.3169
+  Linear (Ridge) alpha=1000.0: val RMSE=0.3220
+  Random Forest max_depth=12,min_leaf=5: val RMSE=0.3211
+  Random Forest max_depth=20,min_leaf=5: val RMSE=0.3066
+  Random Forest max_depth=None,min_leaf=20: val RMSE=0.3235
+  Gradient Boosting lr=0.05,leaves=31: val RMSE=0.2732
+  Gradient Boosting lr=0.1,leaves=63: val RMSE=0.2756
+  MLP hidden=(128, 128),alpha=0.0001: val RMSE=0.2749
+  MLP hidden=(256, 256, 128),alpha=0.001: val RMSE=0.2874
+  PINN-extrap lam=10.0 seed=0 ep=1: train_data=1.9332 phys=4.3993 val_rmse=1.2521 params=[0.00048, 0.4862, 0.04861, 0.02198]
+  PINN-extrap lam=10.0 seed=0 ep=2: train_data=1.8082 phys=3.7236 val_rmse=1.2611 params=[0.00042, 0.43101, 0.04304, 0.06427]
+  PINN-extrap lam=10.0 seed=0 ep=3: train_data=1.7868 phys=2.9274 val_rmse=1.3013 params=[0.00034, 0.36081, 0.036, 0.11471]
+  PINN-extrap lam=10.0 seed=0 ep=4: train_data=1.8202 phys=2.3369 val_rmse=1.3411 params=[0.00028, 0.30203, 0.03008, 0.11165]
+  PINN-extrap lam=10.0 seed=0 ep=5: train_data=1.8611 phys=1.9299 val_rmse=1.3440 params=[0.00023, 0.25389, 0.02527, 0.0379]
+  PINN-extrap lam=10.0 seed=0 ep=6: train_data=1.8523 phys=1.6840 val_rmse=1.3395 params=[0.0002, 0.2149, 0.02137, -0.08819]
+  PINN-extrap lam=10.0 seed=0 ep=7: train_data=1.8205 phys=1.4770 val_rmse=1.3100 params=[0.00017, 0.18364, 0.01827, -0.18558]
+  PINN-extrap lam=10.0 seed=0 ep=8: train_data=1.8011 phys=1.3629 val_rmse=1.2970 params=[0.00014, 0.15855, 0.0158, -0.27]
+  PINN-extrap lam=10.0 seed=0 ep=9: train_data=1.7852 phys=1.2655 val_rmse=1.3017 params=[0.00012, 0.13893, 0.01386, -0.32509]
+  PINN-extrap lam=10.0 seed=0 ep=10: train_data=1.7798 phys=1.2025 val_rmse=1.2823 params=[0.00011, 0.12338, 0.01231, -0.37202]
+  PINN-extrap lam=10.0 seed=0 ep=11: train_data=1.7739 phys=1.1647 val_rmse=1.2865 params=[0.0001, 0.11093, 0.01109, -0.41134]
+  PINN-extrap lam=10.0 seed=0 ep=12: train_data=1.7706 phys=1.1421 val_rmse=1.2762 params=[9e-05, 0.10143, 0.01015, -0.43428]
+  PINN-extrap lam=10.0 seed=0 ep=13: train_data=1.7676 phys=1.1208 val_rmse=1.2788 params=[8e-05, 0.09386, 0.00941, -0.45031]
+  PINN-extrap lam=10.0 seed=0 ep=14: train_data=1.7661 phys=1.1032 val_rmse=1.2740 params=[8e-05, 0.08785, 0.00881, -0.46273]
+  PINN-extrap lam=10.0 seed=0 ep=15: train_data=1.7646 phys=1.0915 val_rmse=1.2743 params=[8e-05, 0.08319, 0.00835, -0.4792]
+  PINN-extrap lam=10.0 seed=0 ep=16: train_data=1.7607 phys=1.0826 val_rmse=1.2696 params=[7e-05, 0.07955, 0.00799, -0.48643]
+  PINN-extrap lam=10.0 seed=0 ep=17: train_data=1.7603 phys=1.0875 val_rmse=1.2686 params=[7e-05, 0.07674, 0.00771, -0.49816]
+  PINN-extrap lam=10.0 seed=0 ep=18: train_data=1.7583 phys=1.0894 val_rmse=1.2681 params=[7e-05, 0.07452, 0.0075, -0.50365]
+  PINN-extrap lam=10.0 seed=0 ep=19: train_data=1.7559 phys=1.0699 val_rmse=1.2688 params=[7e-05, 0.07289, 0.00734, -0.50495]
+  PINN-extrap lam=10.0 seed=0 ep=20: train_data=1.7545 phys=1.0742 val_rmse=1.2691 params=[6e-05, 0.07172, 0.00722, -0.50808]
+  PINN-extrap lam=10.0 seed=0 ep=21: train_data=1.7529 phys=1.0634 val_rmse=1.2682 params=[6e-05, 0.07091, 0.00714, -0.50897]
+  PINN-extrap lam=10.0 seed=0 ep=22: train_data=1.7528 phys=1.0661 val_rmse=1.2679 params=[6e-05, 0.07043, 0.00709, -0.5098]
+  PINN-extrap lam=10.0 seed=0 ep=23: train_data=1.7517 phys=1.0696 val_rmse=1.2680 params=[6e-05, 0.07017, 0.00707, -0.51052]
+  PINN-extrap lam=10.0 seed=0 ep=24: train_data=1.7518 phys=1.0691 val_rmse=1.2684 params=[6e-05, 0.07007, 0.00706, -0.51114]
+  PINN-extrap lam=10.0 seed=0 ep=25: train_data=1.7517 phys=1.0623 val_rmse=1.2684 params=[6e-05, 0.07006, 0.00706, -0.51116]
+  PINN-extrap lam=0.0 seed=0 ep=1: train_data=1.9238 phys=0.0000 val_rmse=1.2637 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=2: train_data=1.7829 phys=0.0000 val_rmse=1.2730 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=3: train_data=1.7716 phys=0.0000 val_rmse=1.2684 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=4: train_data=1.7485 phys=0.0000 val_rmse=1.2788 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=5: train_data=1.7098 phys=0.0000 val_rmse=1.2908 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=6: train_data=1.6462 phys=0.0000 val_rmse=1.3174 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=7: train_data=1.5602 phys=0.0000 val_rmse=1.3350 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=8: train_data=1.4730 phys=0.0000 val_rmse=1.3692 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=9: train_data=1.3907 phys=0.0000 val_rmse=1.3857 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=10: train_data=1.3214 phys=0.0000 val_rmse=1.4133 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=11: train_data=1.2603 phys=0.0000 val_rmse=1.4409 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=12: train_data=1.2097 phys=0.0000 val_rmse=1.4555 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=13: train_data=1.1658 phys=0.0000 val_rmse=1.4637 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=14: train_data=1.1259 phys=0.0000 val_rmse=1.4826 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=15: train_data=1.0926 phys=0.0000 val_rmse=1.4950 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=16: train_data=1.0636 phys=0.0000 val_rmse=1.5085 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=17: train_data=1.0394 phys=0.0000 val_rmse=1.5146 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=18: train_data=1.0174 phys=0.0000 val_rmse=1.5222 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=19: train_data=1.0001 phys=0.0000 val_rmse=1.5296 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=20: train_data=0.9858 phys=0.0000 val_rmse=1.5341 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=21: train_data=0.9746 phys=0.0000 val_rmse=1.5373 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=22: train_data=0.9666 phys=0.0000 val_rmse=1.5378 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=23: train_data=0.9610 phys=0.0000 val_rmse=1.5393 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=24: train_data=0.9576 phys=0.0000 val_rmse=1.5398 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=25: train_data=0.9560 phys=0.0000 val_rmse=1.5399 params=[0.0005, 0.5, 0.05, 0.0]
+  Persistence: h6 RMSE=4.382
+  Physics ODE (identified): h6 RMSE=0.954
+  Linear (Ridge): h6 RMSE=0.830
+  Random Forest: h6 RMSE=1.227
+  Gradient Boosting: h6 RMSE=0.828
+  MLP: h6 RMSE=0.579
+  NN (no physics loss): h6 RMSE=5.264
+  PINN (PINNeAPPle): h6 RMSE=5.512
+== What-if
+  Solar x1.4: ODE +0.639  PINN -0.001  NN +0.002  GB +0.652
+  Wind x0.35 (e.g. 14->5 km/h): ODE +0.274  PINN -0.000  NN +0.002  GB +0.080
+  Ambient +1 K: ODE +0.914  PINN +0.001  NN +0.009  GB +0.407
+  Internal heat +50 W/m2: ODE +2.863  PINN -0.001  NN +0.005  GB +0.000
+  Combined (all four): ODE +5.141  PINN +0.002  NN -0.005  GB +1.188
+== Anomaly detection
+[ANOMALY] T_facility/r1: obs=2.085 pred=0 diff=2.085 (score=1.10)
+[ANOMALY] T_facility/r6: obs=6.582 pred=0 diff=6.582 (score=1.06)
+[ANOMALY] T_facility/r6: obs=6.785 pred=0 diff=6.785 (score=1.10)
+[ANOMALY] T_facility/r6: obs=6.677 pred=0 diff=6.677 (score=1.08)
+[ANOMALY] T_facility/r1: obs=-2.868 pred=0 diff=2.868 (score=1.15)
+[ANOMALY] T_facility/r1: obs=2.808 pred=0 diff=2.808 (score=1.13)
+[ANOMALY] T_facility/r1: obs=-3.113 pred=0 diff=3.113 (score=1.25)
+[ANOMALY] T_facility/r1: obs=4.507 pred=0 diff=4.507 (score=1.81)
+[ANOMALY] T_facility/r6: obs=9.048 pred=0 diff=9.048 (score=1.32)
+[ANOMALY] T_facility/r1: obs=6.558 pred=0 diff=6.558 (score=2.63)
+[ANOMALY] T_facility/r6: obs=10.09 pred=0 diff=10.09 (score=1.48)
+[ANOMALY] T_facility/r1: obs=-4.775 pred=0 diff=4.775 (score=1.91)
+[ANOMALY] T_facility/r6: obs=-6.435 pred=0 diff=6.435 (score=1.04)
+[ANOMALY] T_facility/r1: obs=2.494 pred=0 diff=2.494 (score=1.32)
+[ANOMALY] T_facility/r1: obs=-6.19 pred=0 diff=6.19 (score=2.48)
+[ANOMALY] T_facility/r6: obs=-9.383 pred=0 diff=9.383 (score=1.37)
+[ANOMALY] T_facility/r1: obs=5.289 pred=0 diff=5.289 (score=2.12)
+[ANOMALY] T_facility/r1: obs=4.861 pred=0 diff=4.861 (score=1.95)
+[ANOMALY] T_facility/r1: obs=-3.094 pred=0 diff=3.094 (score=1.24)
+[ANOMALY] T_facility/r1: obs=-5.356 pred=0 diff=5.356 (score=2.15)
+[ANOMALY] T_facility/r1: obs=4.627 pred=0 diff=4.627 (score=1.86)
+[ANOMALY] T_facility/r1: obs=2.094 pred=0 diff=2.094 (score=1.11)
+[ANOMALY] T_facility/r6: obs=6.351 pred=0 diff=6.351 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.715 pred=0 diff=6.715 (score=1.09)
+[ANOMALY] T_facility/r6: obs=6.265 pred=0 diff=6.265 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.49 pred=0 diff=6.49 (score=1.05)
+[ANOMALY] T_facility/r1: obs=2.776 pred=0 diff=2.776 (score=1.11)
+[ANOMALY] T_facility/r1: obs=-2.883 pred=0 diff=2.883 (score=1.16)
+[ANOMALY] T_facility/r6: obs=6.292 pred=0 diff=6.292 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.445 pred=0 diff=6.445 (score=1.04)
+[ANOMALY] T_facility/r1: obs=2.29 pred=0 diff=2.29 (score=1.21)
+[ANOMALY] T_facility/r6: obs=6.51 pred=0 diff=6.51 (score=1.05)
+[ANOMALY] T_facility/r6: obs=6.534 pred=0 diff=6.534 (score=1.06)
+[ANOMALY] T_facility/r6: obs=6.395 pred=0 diff=6.395 (score=1.03)
+[ANOMALY] T_facility/r1: obs=-3.535 pred=0 diff=3.535 (score=1.42)
+[ANOMALY] T_facility/r1: obs=2.924 pred=0 diff=2.924 (score=1.17)
+[ANOMALY] T_facility/r6: obs=6.192 pred=0 diff=6.192 (score=1.00)
+[ANOMALY] T_facility/r6: obs=6.381 pred=0 diff=6.381 (score=1.03)
+[ANOMALY] T_facility/r1: obs=1.98 pred=0 diff=1.98 (score=1.05)
+[ANOMALY] T_facility/r1: obs=2.81 pred=0 diff=2.81 (score=1.13)
+[ANOMALY] T_facility/r1: obs=5.456 pred=0 diff=5.456 (score=2.19)
+[ANOMALY] T_facility/r1: obs=-5.872 pred=0 diff=5.872 (score=2.35)
+[ANOMALY] T_facility/r1: obs=3.802 pred=0 diff=3.802 (score=1.52)
+[ANOMALY] T_facility/r6: obs=6.584 pred=0 diff=6.584 (score=1.07)
+[ANOMALY] T_facility/r6: obs=7.04 pred=0 diff=7.04 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.539 pred=0 diff=6.539 (score=1.06)
+[ANOMALY] T_facility/r6: obs=6.348 pred=0 diff=6.348 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.403 pred=0 diff=6.403 (score=1.04)
+[ANOMALY] T_facility/r6: obs=6.548 pred=0 diff=6.548 (score=1.06)
+[ANOMALY] T_facility/r1: obs=-5.793 pred=0 diff=5.793 (score=2.32)
+[ANOMALY] T_facility/r6: obs=-7.289 pred=0 diff=7.289 (score=1.07)
+[ANOMALY] T_facility/r1: obs=4.98 pred=0 diff=4.98 (score=2.00)
+[ANOMALY] T_facility/r6: obs=6.524 pred=0 diff=6.524 (score=1.06)
+[ANOMALY] T_facility/r6: obs=6.343 pred=0 diff=6.343 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.381 pred=0 diff=6.381 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.374 pred=0 diff=6.374 (score=1.03)
+[ANOMALY] T_facility/r1: obs=6.631 pred=0 diff=6.631 (score=2.66)
+[ANOMALY] T_facility/r6: obs=9.065 pred=0 diff=9.065 (score=1.33)
+[ANOMALY] T_facility/r1: obs=-4.047 pred=0 diff=4.047 (score=1.62)
+[ANOMALY] T_facility/r6: obs=6.471 pred=0 diff=6.471 (score=1.05)
+[ANOMALY] T_facility/r6: obs=6.471 pred=0 diff=6.471 (score=1.05)
+[ANOMALY] T_facility/r6: obs=6.684 pred=0 diff=6.684 (score=1.08)
+[ANOMALY] T_facility/r1: obs=2.985 pred=0 diff=2.985 (score=1.20)
+[ANOMALY] T_facility/r6: obs=6.593 pred=0 diff=6.593 (score=1.07)
+[ANOMALY] T_facility/r6: obs=6.226 pred=0 diff=6.226 (score=1.01)
+[ANOMALY] T_facility/r1: obs=2.979 pred=0 diff=2.979 (score=1.19)
+[ANOMALY] T_facility/r6: obs=6.33 pred=0 diff=6.33 (score=1.02)
+[ANOMALY] T_facility/r1: obs=-1.907 pred=0 diff=1.907 (score=1.01)
+[ANOMALY] T_facility/r1: obs=2.303 pred=0 diff=2.303 (score=1.22)
+[ANOMALY] T_facility/r1: obs=2.902 pred=0 diff=2.902 (score=1.16)
+[ANOMALY] T_facility/r1: obs=2.8 pred=0 diff=2.8 (score=1.12)
+[ANOMALY] T_facility/r6: obs=6.615 pred=0 diff=6.615 (score=1.07)
+[ANOMALY] T_facility/r6: obs=6.615 pred=0 diff=6.615 (score=1.07)
+[ANOMALY] T_facility/r1: obs=2.383 pred=0 diff=2.383 (score=1.26)
+[ANOMALY] T_facility/r1: obs=-5.278 pred=0 diff=5.278 (score=2.12)
+[ANOMALY] T_facility/r1: obs=3.955 pred=0 diff=3.955 (score=1.59)
+[ANOMALY] T_facility/r1: obs=-3.363 pred=0 diff=3.363 (score=1.35)
+[ANOMALY] T_facility/r1: obs=3.063 pred=0 diff=3.063 (score=1.23)
+[ANOMALY] T_facility/r6: obs=6.391 pred=0 diff=6.391 (score=1.03)
+[ANOMALY] T_facility/r1: obs=3.937 pred=0 diff=3.937 (score=1.58)
+[ANOMALY] T_facility/r6: obs=7.9 pred=0 diff=7.9 (score=1.16)
+[ANOMALY] T_facility/r1: obs=-3.734 pred=0 diff=3.734 (score=1.50)
+[ANOMALY] T_facility/r6: obs=-6.851 pred=0 diff=6.851 (score=1.00)
+[ANOMALY] T_facility/r1: obs=-1.906 pred=0 diff=1.906 (score=1.01)
+[ANOMALY] T_facility/r1: obs=-2.97 pred=0 diff=2.97 (score=1.19)
+[ANOMALY] T_facility/r1: obs=1.899 pred=0 diff=1.899 (score=1.00)
+[ANOMALY] T_facility/r1: obs=2.35 pred=0 diff=2.35 (score=1.24)
+[ANOMALY] T_facility/r6: obs=6.274 pred=0 diff=6.274 (score=1.02)
+[ANOMALY] T_facility/r1: obs=-4.26 pred=0 diff=4.26 (score=1.71)
+[ANOMALY] T_facility/r6: obs=-6.285 pred=0 diff=6.285 (score=1.02)
+[ANOMALY] T_facility/r6: obs=-7.153 pred=0 diff=7.153 (score=1.05)
+[ANOMALY] T_facility/r1: obs=-4.45 pred=0 diff=4.45 (score=1.78)
+[ANOMALY] T_facility/r1: obs=3.434 pred=0 diff=3.434 (score=1.38)
+[ANOMALY] T_facility/r1: obs=2.493 pred=0 diff=2.493 (score=1.32)
+[ANOMALY] T_facility/r1: obs=-5.678 pred=0 diff=5.678 (score=2.28)
+[ANOMALY] T_facility/r1: obs=3.745 pred=0 diff=3.745 (score=1.50)
+[ANOMALY] T_facility/r1: obs=1.895 pred=0 diff=1.895 (score=1.00)
+[ANOMALY] T_facility/r1: obs=2.001 pred=0 diff=2.001 (score=1.06)
+[ANOMALY] T_facility/r1: obs=2.09 pred=0 diff=2.09 (score=1.10)
+[ANOMALY] T_facility/r1: obs=-2.649 pred=0 diff=2.649 (score=1.06)
+[ANOMALY] T_facility/r1: obs=-4.6 pred=0 diff=4.6 (score=1.84)
+[ANOMALY] T_facility/r1: obs=3.283 pred=0 diff=3.283 (score=1.32)
+[ANOMALY] T_facility/r1: obs=2.491 pred=0 diff=2.491 (score=1.32)
+[ANOMALY] T_facility/r1: obs=-3.935 pred=0 diff=3.935 (score=1.58)
+[ANOMALY] T_facility/r1: obs=2.241 pred=0 diff=2.241 (score=1.18)
+[ANOMALY] T_facility/r1: obs=-2.99 pred=0 diff=2.99 (score=1.20)
+[ANOMALY] T_facility/r1: obs=3.168 pred=0 diff=3.168 (score=1.27)
+[ANOMALY] T_facility/r6: obs=6.753 pred=0 diff=6.753 (score=1.09)
+[ANOMALY] T_facility/r1: obs=-3.083 pred=0 diff=3.083 (score=1.24)
+[ANOMALY] T_facility/r1: obs=2.092 pred=0 diff=2.092 (score=1.11)
+[ANOMALY] T_facility/r1: obs=2.103 pred=0 diff=2.103 (score=1.11)
+[ANOMALY] T_facility/r1: obs=-4.704 pred=0 diff=4.704 (score=1.89)
+[ANOMALY] T_facility/r1: obs=2.399 pred=0 diff=2.399 (score=1.27)
+[ANOMALY] T_facility/r1: obs=2.121 pred=0 diff=2.121 (score=1.12)
+[ANOMALY] T_facility/r1: obs=2.089 pred=0 diff=2.089 (score=1.10)
+[ANOMALY] T_facility/r1: obs=3.44 pred=0 diff=3.44 (score=1.38)
+[ANOMALY] T_facility/r6: obs=7.396 pred=0 diff=7.396 (score=1.08)
+[ANOMALY] T_facility/r1: obs=-3.538 pred=0 diff=3.538 (score=1.42)
+[ANOMALY] T_facility/r6: obs=-6.755 pred=0 diff=6.755 (score=1.09)
+[ANOMALY] T_facility/r1: obs=1.989 pred=0 diff=1.989 (score=1.05)
+[ANOMALY] T_facility/r1: obs=1.997 pred=0 diff=1.997 (score=1.06)
+[ANOMALY] T_facility/r1: obs=5.464 pred=0 diff=5.464 (score=2.19)
+[ANOMALY] T_facility/r1: obs=-2.765 pred=0 diff=2.765 (score=1.11)
+[ANOMALY] T_facility/r1: obs=2.181 pred=0 diff=2.181 (score=1.15)
+[ANOMALY] T_facility/r1: obs=3.53 pred=0 diff=3.53 (score=1.42)
+[ANOMALY] T_facility/r1: obs=-4.157 pred=0 diff=4.157 (score=1.67)
+[ANOMALY] T_facility/r1: obs=-4.273 pred=0 diff=4.273 (score=1.71)
+[ANOMALY] T_facility/r1: obs=3.559 pred=0 diff=3.559 (score=1.43)
+[ANOMALY] T_facility/r1: obs=1.991 pred=0 diff=1.991 (score=1.05)
+[ANOMALY] T_facility/r1: obs=-5.001 pred=0 diff=5.001 (score=2.00)
+[ANOMALY] T_facility/r1: obs=-6.266 pred=0 diff=6.266 (score=2.51)
+[ANOMALY] T_facility/r1: obs=4.852 pred=0 diff=4.852 (score=1.95)
+[ANOMALY] T_facility/r1: obs=2.961 pred=0 diff=2.961 (score=1.19)
+[ANOMALY] T_facility/r1: obs=-3.472 pred=0 diff=3.472 (score=1.39)
+[ANOMALY] T_facility/r1: obs=-2.716 pred=0 diff=2.716 (score=1.09)
+[ANOMALY] T_facility/r1: obs=2.916 pred=0 diff=2.916 (score=1.17)
+[ANOMALY] T_facility/r6: obs=6.555 pred=0 diff=6.555 (score=1.06)
+[ANOMALY] T_facility/r1: obs=-6.091 pred=0 diff=6.091 (score=2.44)
+[ANOMALY] T_facility/r6: obs=-7.847 pred=0 diff=7.847 (score=1.15)
+[ANOMALY] T_facility/r1: obs=5.182 pred=0 diff=5.182 (score=2.08)
+[ANOMALY] T_facility/r1: obs=1.893 pred=0 diff=1.893 (score=1.00)
+[ANOMALY] T_facility/r1: obs=-3.033 pred=0 diff=3.033 (score=1.22)
+[ANOMALY] T_facility/r1: obs=3.538 pred=0 diff=3.538 (score=1.42)
+[ANOMALY] T_facility/r1: obs=-2.35 pred=0 diff=2.35 (score=1.24)
+[ANOMALY] T_facility/r1: obs=4.597 pred=0 diff=4.597 (score=1.84)
+[ANOMALY] T_facility/r1: obs=-5.626 pred=0 diff=5.626 (score=2.26)
+[ANOMALY] T_facility/r6: obs=-6.924 pred=0 diff=6.924 (score=1.01)
+[ANOMALY] T_facility/r1: obs=-2.697 pred=0 diff=2.697 (score=1.08)
+[ANOMALY] T_facility/r1: obs=3.074 pred=0 diff=3.074 (score=1.23)
+[ANOMALY] T_facility/r1: obs=4.869 pred=0 diff=4.869 (score=1.95)
+[ANOMALY] T_facility/r1: obs=-5.065 pred=0 diff=5.065 (score=2.03)
+[ANOMALY] T_facility/r1: obs=-2.209 pred=0 diff=2.209 (score=1.17)
+[ANOMALY] T_facility/r1: obs=3.13 pred=0 diff=3.13 (score=1.25)
+[ANOMALY] T_facility/r1: obs=-3.625 pred=0 diff=3.625 (score=1.45)
+[ANOMALY] T_facility/r1: obs=2.301 pred=0 diff=2.301 (score=1.22)
+[ANOMALY] T_facility/r1: obs=2.51 pred=0 diff=2.51 (score=1.01)
+[ANOMALY] T_facility/r1: obs=5.865 pred=0 diff=5.865 (score=2.35)
+[ANOMALY] T_facility/r6: obs=8.08 pred=0 diff=8.08 (score=1.18)
+[ANOMALY] T_facility/r1: obs=-4.077 pred=0 diff=4.077 (score=1.63)
+[ANOMALY] T_facility/r1: obs=3.445 pred=0 diff=3.445 (score=1.38)
+[ANOMALY] T_facility/r1: obs=-4.864 pred=0 diff=4.864 (score=1.95)
+[ANOMALY] T_facility/r6: obs=-6.789 pred=0 diff=6.789 (score=1.10)
+[ANOMALY] T_facility/r1: obs=2.098 pred=0 diff=2.098 (score=1.11)
+[ANOMALY] T_facility/r1: obs=3.884 pred=0 diff=3.884 (score=1.56)
+[ANOMALY] T_facility/r6: obs=7.156 pred=0 diff=7.156 (score=1.05)
+[ANOMALY] T_facility/r1: obs=-2.713 pred=0 diff=2.713 (score=1.09)
+[ANOMALY] T_facility/r1: obs=4.841 pred=0 diff=4.841 (score=1.94)
+[ANOMALY] T_facility/r1: obs=-5.66 pred=0 diff=5.66 (score=2.27)
+[ANOMALY] T_facility/r6: obs=-6.685 pred=0 diff=6.685 (score=1.08)
+[ANOMALY] T_facility/r1: obs=2.028 pred=0 diff=2.028 (score=1.07)
+[ANOMALY] T_facility/r1: obs=-2.955 pred=0 diff=2.955 (score=1.18)
+[ANOMALY] T_facility/r1: obs=2.003 pred=0 diff=2.003 (score=1.06)
+[ANOMALY] T_facility/r1: obs=1.977 pred=0 diff=1.977 (score=1.05)
+[ANOMALY] T_facility/r1: obs=3.299 pred=0 diff=3.299 (score=1.32)
+[ANOMALY] T_facility/r1: obs=2.289 pred=0 diff=2.289 (score=1.21)
+[ANOMALY] T_facility/r1: obs=-2.091 pred=0 diff=2.091 (score=1.11)
+[ANOMALY] T_facility/r1: obs=2.205 pred=0 diff=2.205 (score=1.17)
+[ANOMALY] T_facility/r1: obs=3.682 pred=0 diff=3.682 (score=1.48)
+[ANOMALY] T_facility/r1: obs=-4.311 pred=0 diff=4.311 (score=1.73)
+[ANOMALY] T_facility/r1: obs=4.947 pred=0 diff=4.947 (score=1.98)
+[ANOMALY] T_facility/r1: obs=-3.761 pred=0 diff=3.761 (score=1.51)
+[ANOMALY] T_facility/r1: obs=-5.569 pred=0 diff=5.569 (score=2.23)
+[ANOMALY] T_facility/r1: obs=4.161 pred=0 diff=4.161 (score=1.67)
+[ANOMALY] T_facility/r1: obs=5.192 pred=0 diff=5.192 (score=2.08)
+[ANOMALY] T_facility/r1: obs=-5.905 pred=0 diff=5.905 (score=2.37)
+[ANOMALY] T_facility/r6: obs=-7.416 pred=0 diff=7.416 (score=1.08)
+[ANOMALY] T_facility/r1: obs=-4.679 pred=0 diff=4.679 (score=1.88)
+[ANOMALY] T_facility/r1: obs=5.465 pred=0 diff=5.465 (score=2.19)
+[ANOMALY] T_facility/r6: obs=8.74 pred=0 diff=8.74 (score=1.28)
+[ANOMALY] T_facility/r1: obs=-2.303 pred=0 diff=2.303 (score=1.22)
+[ANOMALY] T_facility/r1: obs=3.278 pred=0 diff=3.278 (score=1.31)
+[ANOMALY] T_facility/r6: obs=6.427 pred=0 diff=6.427 (score=1.04)
+[ANOMALY] T_facility/r1: obs=-6.585 pred=0 diff=6.585 (score=2.64)
+[ANOMALY] T_facility/r6: obs=-7.538 pred=0 diff=7.538 (score=1.10)
+[ANOMALY] T_facility/r1: obs=5.378 pred=0 diff=5.378 (score=2.16)
+[ANOMALY] T_facility/r1: obs=3.515 pred=0 diff=3.515 (score=1.41)
+[ANOMALY] T_facility/r1: obs=-4.235 pred=0 diff=4.235 (score=1.70)
+[ANOMALY] T_facility/r6: obs=6.299 pred=0 diff=6.299 (score=1.02)
+[ANOMALY] T_facility/r1: obs=2.247 pred=0 diff=2.247 (score=1.19)
+[ANOMALY] T_facility/r1: obs=-2.858 pred=0 diff=2.858 (score=1.15)
+[ANOMALY] T_facility/r1: obs=-6.068 pred=0 diff=6.068 (score=2.43)
+[ANOMALY] T_facility/r6: obs=-9.077 pred=0 diff=9.077 (score=1.33)
+[ANOMALY] T_facility/r1: obs=5.373 pred=0 diff=5.373 (score=2.15)
+[ANOMALY] T_facility/r1: obs=2.997 pred=0 diff=2.997 (score=1.20)
+[ANOMALY] T_facility/r1: obs=3.39 pred=0 diff=3.39 (score=1.36)
+[ANOMALY] T_facility/r1: obs=-4.098 pred=0 diff=4.098 (score=1.64)
+[ANOMALY] T_facility/r1: obs=2.013 pred=0 diff=2.013 (score=1.06)
+[ANOMALY] T_facility/r6: obs=6.722 pred=0 diff=6.722 (score=1.09)
+[ANOMALY] T_facility/r1: obs=-2.173 pred=0 diff=2.173 (score=1.15)
+[ANOMALY] T_facility/r1: obs=4.582 pred=0 diff=4.582 (score=1.84)
+[ANOMALY] T_facility/r1: obs=-4.793 pred=0 diff=4.793 (score=1.92)
+[ANOMALY] T_facility/r1: obs=5.768 pred=0 diff=5.768 (score=2.31)
+[ANOMALY] T_facility/r6: obs=9.951 pred=0 diff=9.951 (score=1.45)
+[ANOMALY] T_facility/r1: obs=-4.396 pred=0 diff=4.396 (score=1.76)
+[ANOMALY] T_facility/r1: obs=2.085 pred=0 diff=2.085 (score=1.10)
+[ANOMALY] T_facility/r1: obs=5.558 pred=0 diff=5.558 (score=2.23)
+[ANOMALY] T_facility/r1: obs=-2.783 pred=0 diff=2.783 (score=1.12)
+[ANOMALY] T_facility/r1: obs=-3.665 pred=0 diff=3.665 (score=1.47)
+[ANOMALY] T_facility/r1: obs=1.988 pred=0 diff=1.988 (score=1.05)
+[ANOMALY] T_facility/r6: obs=6.285 pred=0 diff=6.285 (score=1.02)
+[ANOMALY] T_facility/r1: obs=-3.063 pred=0 diff=3.063 (score=1.23)
+[ANOMALY] T_facility/r1: obs=2.753 pred=0 diff=2.753 (score=1.10)
+[ANOMALY] T_facility/r1: obs=-4.165 pred=0 diff=4.165 (score=1.67)
+[ANOMALY] T_facility/r6: obs=-6.262 pred=0 diff=6.262 (score=1.01)
+[ANOMALY] T_facility/r1: obs=4.875 pred=0 diff=4.875 (score=1.95)
+[ANOMALY] T_facility/r1: obs=-4.809 pred=0 diff=4.809 (score=1.93)
+[ANOMALY] T_facility/r6: obs=6.775 pred=0 diff=6.775 (score=1.10)
+[ANOMALY] T_facility/r6: obs=6.699 pred=0 diff=6.699 (score=1.08)
+[ANOMALY] T_facility/r1: obs=-2.935 pred=0 diff=2.935 (score=1.18)
+[ANOMALY] T_facility/r6: obs=6.277 pred=0 diff=6.277 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.253 pred=0 diff=6.253 (score=1.01)
+[ANOMALY] T_facility/r1: obs=2.807 pred=0 diff=2.807 (score=1.13)
+[ANOMALY] T_facility/r1: obs=1.933 pred=0 diff=1.933 (score=1.02)
+[ANOMALY] T_facility/r1: obs=-2.013 pred=0 diff=2.013 (score=1.06)
+[ANOMALY] T_facility/r6: obs=6.364 pred=0 diff=6.364 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.447 pred=0 diff=6.447 (score=1.04)
+[ANOMALY] T_facility/r6: obs=7.272 pred=0 diff=7.272 (score=1.06)
+[ANOMALY] T_facility/r6: obs=7.059 pred=0 diff=7.059 (score=1.03)
+[ANOMALY] T_facility/r1: obs=-2.949 pred=0 diff=2.949 (score=1.18)
+[ANOMALY] T_facility/r1: obs=-5.096 pred=0 diff=5.096 (score=2.04)
+[ANOMALY] T_facility/r6: obs=7.061 pred=0 diff=7.061 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.816 pred=0 diff=6.816 (score=1.10)
+[ANOMALY] T_facility/r1: obs=6.078 pred=0 diff=6.078 (score=2.44)
+[ANOMALY] T_facility/r1: obs=-4.783 pred=0 diff=4.783 (score=1.92)
+[ANOMALY] T_facility/r1: obs=4.78 pred=0 diff=4.78 (score=1.92)
+[ANOMALY] T_facility/r6: obs=9.547 pred=0 diff=9.547 (score=1.40)
+[ANOMALY] T_facility/r1: obs=-5.122 pred=0 diff=5.122 (score=2.05)
+[ANOMALY] T_facility/r6: obs=-9.11 pred=0 diff=9.11 (score=1.33)
+[ANOMALY] T_facility/r6: obs=6.519 pred=0 diff=6.519 (score=1.05)
+[ANOMALY] T_facility/r6: obs=6.312 pred=0 diff=6.312 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.617 pred=0 diff=6.617 (score=1.07)
+[ANOMALY] T_facility/r6: obs=6.55 pred=0 diff=6.55 (score=1.06)
+[ANOMALY] T_facility/r1: obs=1.998 pred=0 diff=1.998 (score=1.06)
+[ANOMALY] T_facility/r1: obs=3.509 pred=0 diff=3.509 (score=1.41)
+[ANOMALY] T_facility/r6: obs=8.825 pred=0 diff=8.825 (score=1.29)
+[ANOMALY] T_facility/r1: obs=-1.928 pred=0 diff=1.928 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.652 pred=0 diff=6.652 (score=1.08)
+[ANOMALY] T_facility/r6: obs=6.788 pred=0 diff=6.788 (score=1.10)
+[ANOMALY] T_facility/r6: obs=7.28 pred=0 diff=7.28 (score=1.06)
+[ANOMALY] T_facility/r6: obs=6.689 pred=0 diff=6.689 (score=1.08)
+[ANOMALY] T_facility/r6: obs=6.388 pred=0 diff=6.388 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.33 pred=0 diff=6.33 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.39 pred=0 diff=6.39 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.684 pred=0 diff=6.684 (score=1.08)
+[ANOMALY] T_facility/r6: obs=7.449 pred=0 diff=7.449 (score=1.09)
+[ANOMALY] T_facility/r6: obs=6.907 pred=0 diff=6.907 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.241 pred=0 diff=6.241 (score=1.01)
+[ANOMALY] T_facility/r1: obs=2.127 pred=0 diff=2.127 (score=1.12)
+[ANOMALY] T_facility/r1: obs=-2.751 pred=0 diff=2.751 (score=1.10)
+[ANOMALY] T_facility/r6: obs=6.294 pred=0 diff=6.294 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.669 pred=0 diff=6.669 (score=1.08)
+[ANOMALY] T_facility/r6: obs=6.545 pred=0 diff=6.545 (score=1.06)
+[ANOMALY] T_facility/r6: obs=6.286 pred=0 diff=6.286 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.295 pred=0 diff=6.295 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.768 pred=0 diff=6.768 (score=1.10)
+[ANOMALY] T_facility/r6: obs=6.274 pred=0 diff=6.274 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.269 pred=0 diff=6.269 (score=1.01)
+[ANOMALY] T_facility/r6: obs=7.15 pred=0 diff=7.15 (score=1.05)
+[ANOMALY] T_facility/r6: obs=6.928 pred=0 diff=6.928 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.615 pred=0 diff=6.615 (score=1.07)
+[ANOMALY] T_facility/r6: obs=6.354 pred=0 diff=6.354 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.368 pred=0 diff=6.368 (score=1.03)
+[ANOMALY] T_facility/r1: obs=1.905 pred=0 diff=1.905 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.714 pred=0 diff=6.714 (score=1.09)
+[ANOMALY] T_facility/r6: obs=7.36 pred=0 diff=7.36 (score=1.08)
+[ANOMALY] T_facility/r6: obs=7.008 pred=0 diff=7.008 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.98 pred=0 diff=6.98 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.79 pred=0 diff=6.79 (score=1.10)
+[ANOMALY] T_facility/r6: obs=6.448 pred=0 diff=6.448 (score=1.04)
+[ANOMALY] T_facility/r6: obs=6.861 pred=0 diff=6.861 (score=1.00)
+[ANOMALY] T_facility/r6: obs=6.382 pred=0 diff=6.382 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.258 pred=0 diff=6.258 (score=1.01)
+[ANOMALY] T_facility/r1: obs=2.655 pred=0 diff=2.655 (score=1.06)
+[ANOMALY] T_facility/r1: obs=-3.255 pred=0 diff=3.255 (score=1.31)
+[ANOMALY] T_facility/r6: obs=6.643 pred=0 diff=6.643 (score=1.07)
+[ANOMALY] T_facility/r6: obs=6.218 pred=0 diff=6.218 (score=1.01)
+[ANOMALY] T_facility/r1: obs=4.694 pred=0 diff=4.694 (score=1.88)
+[ANOMALY] T_facility/r1: obs=-3.695 pred=0 diff=3.695 (score=1.48)
+[ANOMALY] T_facility/r1: obs=4.685 pred=0 diff=4.685 (score=1.88)
+[ANOMALY] T_facility/r6: obs=10.16 pred=0 diff=10.16 (score=1.49)
+[ANOMALY] T_facility/r6: obs=6.207 pred=0 diff=6.207 (score=1.00)
+[ANOMALY] T_facility/r1: obs=3.581 pred=0 diff=3.581 (score=1.44)
+[ANOMALY] T_facility/r6: obs=9.228 pred=0 diff=9.228 (score=1.35)
+[ANOMALY] T_facility/r1: obs=-2.817 pred=0 diff=2.817 (score=1.13)
+[ANOMALY] T_facility/r6: obs=-7.515 pred=0 diff=7.515 (score=1.10)
+[ANOMALY] T_facility/r1: obs=2.948 pred=0 diff=2.948 (score=1.18)
+[ANOMALY] T_facility/r6: obs=7.05 pred=0 diff=7.05 (score=1.03)
+[ANOMALY] T_facility/r1: obs=-2.062 pred=0 diff=2.062 (score=1.09)
+[ANOMALY] T_facility/r6: obs=6.467 pred=0 diff=6.467 (score=1.05)
+[ANOMALY] T_facility/r6: obs=6.284 pred=0 diff=6.284 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.917 pred=0 diff=6.917 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.619 pred=0 diff=6.619 (score=1.07)
+[ANOMALY] T_facility/r1: obs=5.792 pred=0 diff=5.792 (score=2.32)
+[ANOMALY] T_facility/r1: obs=2.3 pred=0 diff=2.3 (score=1.22)
+[ANOMALY] T_facility/r6: obs=6.247 pred=0 diff=6.247 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.197 pred=0 diff=6.197 (score=1.00)
+[ANOMALY] T_facility/r1: obs=2.515 pred=0 diff=2.515 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.307 pred=0 diff=6.307 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.242 pred=0 diff=6.242 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.387 pred=0 diff=6.387 (score=1.03)
+[ANOMALY] T_facility/r1: obs=3.149 pred=0 diff=3.149 (score=1.26)
+[ANOMALY] T_facility/r1: obs=-3.653 pred=0 diff=3.653 (score=1.46)
+[ANOMALY] T_facility/r6: obs=6.287 pred=0 diff=6.287 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.433 pred=0 diff=6.433 (score=1.04)
+[ANOMALY] T_facility/r6: obs=6.31 pred=0 diff=6.31 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.187 pred=0 diff=6.187 (score=1.00)
+[ANOMALY] T_facility/r1: obs=-5.904 pred=0 diff=5.904 (score=2.37)
+[ANOMALY] T_facility/r6: obs=-7.458 pred=0 diff=7.458 (score=1.09)
+[ANOMALY] T_facility/r1: obs=5.416 pred=0 diff=5.416 (score=2.17)
+[ANOMALY] T_facility/r1: obs=-5.758 pred=0 diff=5.758 (score=2.31)
+[ANOMALY] T_facility/r1: obs=5.654 pred=0 diff=5.654 (score=2.27)
+[ANOMALY] T_facility/r6: obs=8.416 pred=0 diff=8.416 (score=1.23)
+[ANOMALY] T_facility/r1: obs=4.166 pred=0 diff=4.166 (score=1.67)
+[ANOMALY] T_facility/r1: obs=-4.279 pred=0 diff=4.279 (score=1.72)
+[ANOMALY] T_facility/r1: obs=3.096 pred=0 diff=3.096 (score=1.24)
+[ANOMALY] T_facility/r1: obs=-3.622 pred=0 diff=3.622 (score=1.45)
+[ANOMALY] T_facility/r6: obs=6.232 pred=0 diff=6.232 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.227 pred=0 diff=6.227 (score=1.01)
+[ANOMALY] T_facility/r1: obs=3.756 pred=0 diff=3.756 (score=1.51)
+[ANOMALY] T_facility/r6: obs=6.202 pred=0 diff=6.202 (score=1.00)
+[ANOMALY] T_facility/r1: obs=3.079 pred=0 diff=3.079 (score=1.23)
+[ANOMALY] T_facility/r1: obs=-3.404 pred=0 diff=3.404 (score=1.36)
+[ANOMALY] T_facility/r6: obs=6.441 pred=0 diff=6.441 (score=1.04)
+[ANOMALY] T_facility/r1: obs=-2.753 pred=0 diff=2.753 (score=1.10)
+[ANOMALY] T_facility/r6: obs=6.347 pred=0 diff=6.347 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.296 pred=0 diff=6.296 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.182 pred=0 diff=6.182 (score=1.00)
+[ANOMALY] T_facility/r6: obs=6.937 pred=0 diff=6.937 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.184 pred=0 diff=6.184 (score=1.00)
+[ANOMALY] T_facility/r6: obs=6.637 pred=0 diff=6.637 (score=1.07)
+[ANOMALY] T_facility/r6: obs=6.452 pred=0 diff=6.452 (score=1.04)
+[ANOMALY] T_facility/r6: obs=6.801 pred=0 diff=6.801 (score=1.10)
+[ANOMALY] T_facility/r6: obs=6.627 pred=0 diff=6.627 (score=1.07)
+[ANOMALY] T_facility/r1: obs=-2.698 pred=0 diff=2.698 (score=1.08)
+[ANOMALY] T_facility/r1: obs=2.093 pred=0 diff=2.093 (score=1.11)
+[ANOMALY] T_facility/r1: obs=-3.544 pred=0 diff=3.544 (score=1.42)
+[ANOMALY] T_facility/r1: obs=5.542 pred=0 diff=5.542 (score=2.22)
+[ANOMALY] T_facility/r6: obs=9.894 pred=0 diff=9.894 (score=1.45)
+[ANOMALY] T_facility/r6: obs=6.414 pred=0 diff=6.414 (score=1.04)
+[ANOMALY] T_facility/r6: obs=6.479 pred=0 diff=6.479 (score=1.05)
+[ANOMALY] T_facility/r6: obs=6.199 pred=0 diff=6.199 (score=1.00)
+[ANOMALY] T_facility/r6: obs=7.065 pred=0 diff=7.065 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.776 pred=0 diff=6.776 (score=1.10)
+[ANOMALY] T_facility/r6: obs=7.188 pred=0 diff=7.188 (score=1.05)
+[ANOMALY] T_facility/r6: obs=7.144 pred=0 diff=7.144 (score=1.04)
+[ANOMALY] T_facility/r6: obs=6.339 pred=0 diff=6.339 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.784 pred=0 diff=6.784 (score=1.10)
+[ANOMALY] T_facility/r6: obs=6.746 pred=0 diff=6.746 (score=1.09)
+[ANOMALY] T_facility/r6: obs=6.183 pred=0 diff=6.183 (score=1.00)
+[ANOMALY] T_facility/r6: obs=7.17 pred=0 diff=7.17 (score=1.05)
+[ANOMALY] T_facility/r6: obs=7.318 pred=0 diff=7.318 (score=1.07)
+[ANOMALY] T_facility/r6: obs=6.497 pred=0 diff=6.497 (score=1.05)
+[ANOMALY] T_facility/r6: obs=6.351 pred=0 diff=6.351 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.325 pred=0 diff=6.325 (score=1.02)
+[ANOMALY] T_facility/r1: obs=-4.195 pred=0 diff=4.195 (score=1.68)
+[ANOMALY] T_facility/r1: obs=2.084 pred=0 diff=2.084 (score=1.10)
+[ANOMALY] T_facility/r1: obs=1.985 pred=0 diff=1.985 (score=1.05)
+[ANOMALY] T_facility/r6: obs=6.903 pred=0 diff=6.903 (score=1.01)
+[ANOMALY] T_facility/r1: obs=4.403 pred=0 diff=4.403 (score=1.77)
+[ANOMALY] T_facility/r1: obs=-4.206 pred=0 diff=4.206 (score=1.69)
+[ANOMALY] T_facility/r6: obs=6.364 pred=0 diff=6.364 (score=1.03)
+[ANOMALY] T_facility/r1: obs=-2.945 pred=0 diff=2.945 (score=1.18)
+[ANOMALY] T_facility/r1: obs=4.241 pred=0 diff=4.241 (score=1.70)
+[ANOMALY] T_facility/r6: obs=9.84 pred=0 diff=9.84 (score=1.44)
+[ANOMALY] T_facility/r6: obs=6.31 pred=0 diff=6.31 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.232 pred=0 diff=6.232 (score=1.01)
+[ANOMALY] T_facility/r6: obs=7.415 pred=0 diff=7.415 (score=1.08)
+[ANOMALY] T_facility/r6: obs=7.595 pred=0 diff=7.595 (score=1.11)
+[ANOMALY] T_facility/r6: obs=6.958 pred=0 diff=6.958 (score=1.02)
+[ANOMALY] T_facility/r1: obs=-2.143 pred=0 diff=2.143 (score=1.13)
+[ANOMALY] T_facility/r6: obs=6.495 pred=0 diff=6.495 (score=1.05)
+[ANOMALY] T_facility/r1: obs=-2.213 pred=0 diff=2.213 (score=1.17)
+[ANOMALY] T_facility/r1: obs=2.619 pred=0 diff=2.619 (score=1.05)
+[ANOMALY] T_facility/r6: obs=6.465 pred=0 diff=6.465 (score=1.05)
+[ANOMALY] T_facility/r6: obs=6.597 pred=0 diff=6.597 (score=1.07)
+[ANOMALY] T_facility/r6: obs=6.409 pred=0 diff=6.409 (score=1.04)
+[ANOMALY] T_facility/r6: obs=6.371 pred=0 diff=6.371 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.41 pred=0 diff=6.41 (score=1.04)
+[ANOMALY] T_facility/r1: obs=3.647 pred=0 diff=3.647 (score=1.46)
+[ANOMALY] T_facility/r6: obs=9.68 pred=0 diff=9.68 (score=1.42)
+[ANOMALY] T_facility/r1: obs=-2.714 pred=0 diff=2.714 (score=1.09)
+[ANOMALY] T_facility/r6: obs=-6.485 pred=0 diff=6.485 (score=1.05)
+[ANOMALY] T_facility/r1: obs=2.485 pred=0 diff=2.485 (score=1.31)
+[ANOMALY] T_facility/r6: obs=6.19 pred=0 diff=6.19 (score=1.00)
+[ANOMALY] T_facility/r6: obs=7.159 pred=0 diff=7.159 (score=1.05)
+[ANOMALY] T_facility/r6: obs=7.039 pred=0 diff=7.039 (score=1.03)
+[ANOMALY] T_facility/r1: obs=3.182 pred=0 diff=3.182 (score=1.28)
+[ANOMALY] T_facility/r1: obs=2.392 pred=0 diff=2.392 (score=1.26)
+[ANOMALY] T_facility/r6: obs=6.798 pred=0 diff=6.798 (score=1.10)
+[ANOMALY] T_facility/r6: obs=6.679 pred=0 diff=6.679 (score=1.08)
+[ANOMALY] T_facility/r6: obs=6.793 pred=0 diff=6.793 (score=1.10)
+[ANOMALY] T_facility/r6: obs=7.161 pred=0 diff=7.161 (score=1.05)
+[ANOMALY] T_facility/r1: obs=-2.413 pred=0 diff=2.413 (score=1.28)
+[ANOMALY] T_facility/r1: obs=2.206 pred=0 diff=2.206 (score=1.17)
+[ANOMALY] T_facility/r1: obs=2.001 pred=0 diff=2.001 (score=1.06)
+[ANOMALY] T_facility/r1: obs=2.659 pred=0 diff=2.659 (score=1.07)
+[ANOMALY] T_facility/r1: obs=-2.974 pred=0 diff=2.974 (score=1.19)
+[ANOMALY] T_facility/r1: obs=3.383 pred=0 diff=3.383 (score=1.36)
+[ANOMALY] T_facility/r6: obs=6.423 pred=0 diff=6.423 (score=1.04)
+[ANOMALY] T_facility/r1: obs=2.402 pred=0 diff=2.402 (score=1.27)
+[ANOMALY] T_facility/r6: obs=7.68 pred=0 diff=7.68 (score=1.12)
+[ANOMALY] T_facility/r1: obs=-2.314 pred=0 diff=2.314 (score=1.22)
+[ANOMALY] T_facility/r1: obs=2.817 pred=0 diff=2.817 (score=1.13)
+[ANOMALY] T_facility/r1: obs=2.34 pred=0 diff=2.34 (score=1.24)
+[ANOMALY] T_facility/r1: obs=2.081 pred=0 diff=2.081 (score=1.10)
+[ANOMALY] T_facility/r1: obs=4.026 pred=0 diff=4.026 (score=1.61)
+[ANOMALY] T_facility/r1: obs=-5.944 pred=0 diff=5.944 (score=2.38)
+[ANOMALY] T_facility/r6: obs=-6.478 pred=0 diff=6.478 (score=1.05)
+[ANOMALY] T_facility/r1: obs=1.984 pred=0 diff=1.984 (score=1.05)
+[ANOMALY] T_facility/r6: obs=6.449 pred=0 diff=6.449 (score=1.04)
+[ANOMALY] T_facility/r6: obs=6.38 pred=0 diff=6.38 (score=1.03)
+[ANOMALY] T_facility/r1: obs=1.987 pred=0 diff=1.987 (score=1.05)
+[ANOMALY] T_facility/r1: obs=4.185 pred=0 diff=4.185 (score=1.68)
+[ANOMALY] T_facility/r6: obs=9.82 pred=0 diff=9.82 (score=1.44)
+[ANOMALY] T_facility/r1: obs=-4.208 pred=0 diff=4.208 (score=1.69)
+[ANOMALY] T_facility/r6: obs=-6.898 pred=0 diff=6.898 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.395 pred=0 diff=6.395 (score=1.03)
+[ANOMALY] T_facility/r1: obs=-4.305 pred=0 diff=4.305 (score=1.73)
+[ANOMALY] T_facility/r1: obs=7.286 pred=0 diff=7.286 (score=2.92)
+[ANOMALY] T_facility/r6: obs=8.474 pred=0 diff=8.474 (score=1.24)
+[ANOMALY] T_facility/r6: obs=6.402 pred=0 diff=6.402 (score=1.04)
+[ANOMALY] T_facility/r1: obs=2.1 pred=0 diff=2.1 (score=1.11)
+[ANOMALY] T_facility/r6: obs=6.7 pred=0 diff=6.7 (score=1.08)
+[ANOMALY] T_facility/r6: obs=6.307 pred=0 diff=6.307 (score=1.02)
+[ANOMALY] T_facility/r1: obs=-2.957 pred=0 diff=2.957 (score=1.19)
+[ANOMALY] T_facility/r1: obs=3.111 pred=0 diff=3.111 (score=1.25)
+[ANOMALY] T_facility/r1: obs=-2.846 pred=0 diff=2.846 (score=1.14)
+[ANOMALY] T_facility/r1: obs=3.235 pred=0 diff=3.235 (score=1.30)
+[ANOMALY] T_facility/r6: obs=8.654 pred=0 diff=8.654 (score=1.27)
+[ANOMALY] T_facility/r1: obs=5.508 pred=0 diff=5.508 (score=2.21)
+[ANOMALY] T_facility/r6: obs=8.465 pred=0 diff=8.465 (score=1.24)
+[ANOMALY] T_facility/r1: obs=-4.327 pred=0 diff=4.327 (score=1.73)
+[ANOMALY] T_facility/r1: obs=1.988 pred=0 diff=1.988 (score=1.05)
+[ANOMALY] T_facility/r1: obs=2.094 pred=0 diff=2.094 (score=1.11)
+[ANOMALY] T_facility/r1: obs=-1.969 pred=0 diff=1.969 (score=1.04)
+[ANOMALY] T_facility/r1: obs=2.106 pred=0 diff=2.106 (score=1.11)
+[ANOMALY] T_facility/r1: obs=2.291 pred=0 diff=2.291 (score=1.21)
+[ANOMALY] T_facility/r1: obs=3.206 pred=0 diff=3.206 (score=1.29)
+[ANOMALY] T_facility/r1: obs=-4.21 pred=0 diff=4.21 (score=1.69)
+[ANOMALY] T_facility/r1: obs=-3.305 pred=0 diff=3.305 (score=1.33)
+[ANOMALY] T_facility/r1: obs=2.309 pred=0 diff=2.309 (score=1.22)
+[ANOMALY] T_facility/r1: obs=2.192 pred=0 diff=2.192 (score=1.16)
+[ANOMALY] T_facility/r1: obs=2.294 pred=0 diff=2.294 (score=1.21)
+[ANOMALY] T_facility/r1: obs=-5.607 pred=0 diff=5.607 (score=2.25)
+[ANOMALY] T_facility/r1: obs=-4.808 pred=0 diff=4.808 (score=1.93)
+[ANOMALY] T_facility/r6: obs=-7.277 pred=0 diff=7.277 (score=1.06)
+[ANOMALY] T_facility/r1: obs=3.79 pred=0 diff=3.79 (score=1.52)
+[ANOMALY] T_facility/r1: obs=2.955 pred=0 diff=2.955 (score=1.18)
+[ANOMALY] T_facility/r1: obs=-3.275 pred=0 diff=3.275 (score=1.31)
+[ANOMALY] T_facility/r1: obs=1.995 pred=0 diff=1.995 (score=1.05)
+[ANOMALY] T_facility/r1: obs=-3.735 pred=0 diff=3.735 (score=1.50)
+[ANOMALY] T_facility/r1: obs=6.236 pred=0 diff=6.236 (score=2.50)
+[ANOMALY] T_facility/r6: obs=6.352 pred=0 diff=6.352 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.508 pred=0 diff=6.508 (score=1.05)
+[ANOMALY] T_facility/r6: obs=7.426 pred=0 diff=7.426 (score=1.09)
+[ANOMALY] T_facility/r6: obs=6.285 pred=0 diff=6.285 (score=1.02)
+[ANOMALY] T_facility/r1: obs=2.013 pred=0 diff=2.013 (score=1.06)
+[ANOMALY] T_facility/r1: obs=1.996 pred=0 diff=1.996 (score=1.06)
+[ANOMALY] T_facility/r1: obs=5.143 pred=0 diff=5.143 (score=2.06)
+[ANOMALY] T_facility/r6: obs=9.8 pred=0 diff=9.8 (score=1.43)
+[ANOMALY] T_facility/r1: obs=-4.153 pred=0 diff=4.153 (score=1.67)
+[ANOMALY] T_facility/r6: obs=-6.427 pred=0 diff=6.427 (score=1.04)
+[ANOMALY] T_facility/r1: obs=1.998 pred=0 diff=1.998 (score=1.06)
+[ANOMALY] T_facility/r1: obs=2.279 pred=0 diff=2.279 (score=1.20)
+[ANOMALY] T_facility/r1: obs=-3.939 pred=0 diff=3.939 (score=1.58)
+[ANOMALY] T_facility/r1: obs=5.025 pred=0 diff=5.025 (score=2.01)
+[ANOMALY] T_facility/r6: obs=8.863 pred=0 diff=8.863 (score=1.30)
+[ANOMALY] T_facility/r1: obs=-6.395 pred=0 diff=6.395 (score=2.56)
+[ANOMALY] T_facility/r1: obs=5.606 pred=0 diff=5.606 (score=2.25)
+[ANOMALY] T_facility/r1: obs=2.203 pred=0 diff=2.203 (score=1.16)
+[ANOMALY] T_facility/r1: obs=-3.57 pred=0 diff=3.57 (score=1.43)
+[ANOMALY] T_facility/r1: obs=4.857 pred=0 diff=4.857 (score=1.95)
+[ANOMALY] T_facility/r1: obs=-3.481 pred=0 diff=3.481 (score=1.40)
+[ANOMALY] T_facility/r1: obs=-5.351 pred=0 diff=5.351 (score=2.15)
+[ANOMALY] T_facility/r6: obs=-7.528 pred=0 diff=7.528 (score=1.10)
+[ANOMALY] T_facility/r1: obs=5.548 pred=0 diff=5.548 (score=2.22)
+[ANOMALY] T_facility/r1: obs=-4.127 pred=0 diff=4.127 (score=1.65)
+[ANOMALY] T_facility/r1: obs=-2.543 pred=0 diff=2.543 (score=1.02)
+[ANOMALY] T_facility/r1: obs=-2.602 pred=0 diff=2.602 (score=1.04)
+[ANOMALY] T_facility/r1: obs=2.492 pred=0 diff=2.492 (score=1.32)
+[ANOMALY] T_facility/r1: obs=4.644 pred=0 diff=4.644 (score=1.86)
+[ANOMALY] T_facility/r1: obs=-5.327 pred=0 diff=5.327 (score=2.14)
+[ANOMALY] T_facility/r6: obs=-6.666 pred=0 diff=6.666 (score=1.08)
+[ANOMALY] T_facility/r1: obs=1.979 pred=0 diff=1.979 (score=1.05)
+[ANOMALY] T_facility/r1: obs=-2.983 pred=0 diff=2.983 (score=1.20)
+[ANOMALY] T_facility/r1: obs=4.452 pred=0 diff=4.452 (score=1.79)
+[ANOMALY] T_facility/r1: obs=-4.974 pred=0 diff=4.974 (score=1.99)
+[ANOMALY] T_facility/r1: obs=3.002 pred=0 diff=3.002 (score=1.20)
+[ANOMALY] T_facility/r1: obs=-3.4 pred=0 diff=3.4 (score=1.36)
+[ANOMALY] T_facility/r1: obs=4.923 pred=0 diff=4.923 (score=1.97)
+[ANOMALY] T_facility/r1: obs=-5.244 pred=0 diff=5.244 (score=2.10)
+[ANOMALY] T_facility/r1: obs=2.999 pred=0 diff=2.999 (score=1.20)
+[ANOMALY] T_facility/r1: obs=4.485 pred=0 diff=4.485 (score=1.80)
+[ANOMALY] T_facility/r1: obs=-5.316 pred=0 diff=5.316 (score=2.13)
+[ANOMALY] T_facility/r1: obs=4.886 pred=0 diff=4.886 (score=1.96)
+[ANOMALY] T_facility/r1: obs=-3.41 pred=0 diff=3.41 (score=1.37)
+[ANOMALY] T_facility/r1: obs=-2.876 pred=0 diff=2.876 (score=1.15)
+[ANOMALY] T_facility/r1: obs=3.159 pred=0 diff=3.159 (score=1.27)
+[ANOMALY] T_facility/r6: obs=6.957 pred=0 diff=6.957 (score=1.02)
+[ANOMALY] T_facility/r1: obs=-2.611 pred=0 diff=2.611 (score=1.05)
+[ANOMALY] T_facility/r1: obs=-4.168 pred=0 diff=4.168 (score=1.67)
+[ANOMALY] T_facility/r1: obs=3.258 pred=0 diff=3.258 (score=1.31)
+[ANOMALY] T_facility/r1: obs=-2.369 pred=0 diff=2.369 (score=1.25)
+[ANOMALY] T_facility/r1: obs=3.622 pred=0 diff=3.622 (score=1.45)
+[ANOMALY] T_facility/r6: obs=6.613 pred=0 diff=6.613 (score=1.07)
+[ANOMALY] T_facility/r1: obs=4.279 pred=0 diff=4.279 (score=1.72)
+[ANOMALY] T_facility/r1: obs=-4.691 pred=0 diff=4.691 (score=1.88)
+[ANOMALY] T_facility/r1: obs=-2.297 pred=0 diff=2.297 (score=1.21)
+[ANOMALY] T_facility/r1: obs=1.983 pred=0 diff=1.983 (score=1.05)
+[ANOMALY] T_facility/r1: obs=-2.511 pred=0 diff=2.511 (score=1.01)
+[ANOMALY] T_facility/r1: obs=3.284 pred=0 diff=3.284 (score=1.32)
+[ANOMALY] T_facility/r1: obs=2.392 pred=0 diff=2.392 (score=1.26)
+[ANOMALY] T_facility/r1: obs=4.14 pred=0 diff=4.14 (score=1.66)
+[ANOMALY] T_facility/r6: obs=7.875 pred=0 diff=7.875 (score=1.15)
+[ANOMALY] T_facility/r1: obs=-3.669 pred=0 diff=3.669 (score=1.47)
+[ANOMALY] T_facility/r1: obs=-2.752 pred=0 diff=2.752 (score=1.10)
+[ANOMALY] T_facility/r1: obs=-2.409 pred=0 diff=2.409 (score=1.27)
+[ANOMALY] T_facility/r1: obs=2.086 pred=0 diff=2.086 (score=1.10)
+[ANOMALY] T_facility/r1: obs=-3.525 pred=0 diff=3.525 (score=1.41)
+[ANOMALY] T_facility/r1: obs=2.716 pred=0 diff=2.716 (score=1.09)
+[ANOMALY] T_facility/r1: obs=1.894 pred=0 diff=1.894 (score=1.00)
+[ANOMALY] T_facility/r1: obs=2.093 pred=0 diff=2.093 (score=1.11)
+[ANOMALY] T_facility/r1: obs=-3.971 pred=0 diff=3.971 (score=1.59)
+[ANOMALY] T_facility/r1: obs=3.94 pred=0 diff=3.94 (score=1.58)
+[ANOMALY] T_facility/r1: obs=-5.001 pred=0 diff=5.001 (score=2.00)
+[ANOMALY] T_facility/r1: obs=5.29 pred=0 diff=5.29 (score=2.12)
+[ANOMALY] T_facility/r6: obs=8.041 pred=0 diff=8.041 (score=1.18)
+[ANOMALY] T_facility/r1: obs=-4.204 pred=0 diff=4.204 (score=1.69)
+[ANOMALY] T_facility/r1: obs=-2.311 pred=0 diff=2.311 (score=1.22)
+[ANOMALY] T_facility/r1: obs=2.166 pred=0 diff=2.166 (score=1.15)
+[ANOMALY] T_facility/r1: obs=-3.884 pred=0 diff=3.884 (score=1.56)
+[ANOMALY] T_facility/r1: obs=2.699 pred=0 diff=2.699 (score=1.08)
+[ANOMALY] T_facility/r1: obs=-3.12 pred=0 diff=3.12 (score=1.25)
+[ANOMALY] T_facility/r1: obs=-2.463 pred=0 diff=2.463 (score=1.30)
+[ANOMALY] T_facility/r1: obs=3.586 pred=0 diff=3.586 (score=1.44)
+[ANOMALY] T_facility/r1: obs=2.595 pred=0 diff=2.595 (score=1.04)
+[ANOMALY] T_facility/r1: obs=-5.927 pred=0 diff=5.927 (score=2.38)
+[ANOMALY] T_facility/r6: obs=-7.948 pred=0 diff=7.948 (score=1.16)
+[ANOMALY] T_facility/r1: obs=4.631 pred=0 diff=4.631 (score=1.86)
+[ANOMALY] T_facility/r1: obs=5.493 pred=0 diff=5.493 (score=2.20)
+[ANOMALY] T_facility/r6: obs=6.499 pred=0 diff=6.499 (score=1.05)
+[ANOMALY] T_facility/r6: obs=6.492 pred=0 diff=6.492 (score=1.05)
+[ANOMALY] T_facility/r1: obs=-5.46 pred=0 diff=5.46 (score=2.19)
+[ANOMALY] T_facility/r6: obs=-8.572 pred=0 diff=8.572 (score=1.25)
+[ANOMALY] T_facility/r1: obs=4.655 pred=0 diff=4.655 (score=1.87)
+[ANOMALY] T_facility/r6: obs=6.951 pred=0 diff=6.951 (score=1.02)
+[ANOMALY] T_facility/r1: obs=1.979 pred=0 diff=1.979 (score=1.05)
+[ANOMALY] T_facility/r1: obs=-3.963 pred=0 diff=3.963 (score=1.59)
+[ANOMALY] T_facility/r1: obs=3.052 pred=0 diff=3.052 (score=1.22)
+[ANOMALY] T_facility/r1: obs=2.002 pred=0 diff=2.002 (score=1.06)
+[ANOMALY] T_facility/r6: obs=6.217 pred=0 diff=6.217 (score=1.01)
+[ANOMALY] T_facility/r1: obs=-3.241 pred=0 diff=3.241 (score=1.30)
+[ANOMALY] T_facility/r6: obs=-6.914 pred=0 diff=6.914 (score=1.01)
+[ANOMALY] T_facility/r1: obs=2.72 pred=0 diff=2.72 (score=1.09)
+[ANOMALY] T_facility/r1: obs=2.007 pred=0 diff=2.007 (score=1.06)
+[ANOMALY] T_facility/r1: obs=-5.364 pred=0 diff=5.364 (score=2.15)
+[ANOMALY] T_facility/r6: obs=-8.017 pred=0 diff=8.017 (score=1.17)
+[ANOMALY] T_facility/r1: obs=4.948 pred=0 diff=4.948 (score=1.98)
+[ANOMALY] T_facility/r1: obs=2.809 pred=0 diff=2.809 (score=1.13)
+[ANOMALY] T_facility/r1: obs=-2.514 pred=0 diff=2.514 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.191 pred=0 diff=6.191 (score=1.00)
+[ANOMALY] T_facility/r1: obs=-1.946 pred=0 diff=1.946 (score=1.03)
+[ANOMALY] T_facility/r1: obs=1.942 pred=0 diff=1.942 (score=1.03)
+[ANOMALY] T_facility/r1: obs=-4.24 pred=0 diff=4.24 (score=1.70)
+[ANOMALY] T_facility/r1: obs=3.938 pred=0 diff=3.938 (score=1.58)
+[ANOMALY] T_facility/r6: obs=6.234 pred=0 diff=6.234 (score=1.01)
+[ANOMALY] T_facility/r1: obs=-4.792 pred=0 diff=4.792 (score=1.92)
+[ANOMALY] T_facility/r1: obs=4.082 pred=0 diff=4.082 (score=1.64)
+[ANOMALY] T_facility/r1: obs=-2.943 pred=0 diff=2.943 (score=1.18)
+[ANOMALY] T_facility/r1: obs=-2.866 pred=0 diff=2.866 (score=1.15)
+[ANOMALY] T_facility/r1: obs=-4.673 pred=0 diff=4.673 (score=1.87)
+[ANOMALY] T_facility/r1: obs=3.873 pred=0 diff=3.873 (score=1.55)
+[ANOMALY] T_facility/r1: obs=-5.114 pred=0 diff=5.114 (score=2.05)
+[ANOMALY] T_facility/r6: obs=6.866 pred=0 diff=6.866 (score=1.00)
+[ANOMALY] T_facility/r6: obs=6.543 pred=0 diff=6.543 (score=1.06)
+[ANOMALY] T_facility/r6: obs=6.577 pred=0 diff=6.577 (score=1.06)
+[ANOMALY] T_facility/r6: obs=6.198 pred=0 diff=6.198 (score=1.00)
+[ANOMALY] T_facility/r1: obs=3.618 pred=0 diff=3.618 (score=1.45)
+[ANOMALY] T_facility/r6: obs=8.778 pred=0 diff=8.778 (score=1.28)
+[ANOMALY] T_facility/r1: obs=-1.924 pred=0 diff=1.924 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.181 pred=0 diff=6.181 (score=1.00)
+[ANOMALY] T_facility/r6: obs=6.998 pred=0 diff=6.998 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.878 pred=0 diff=6.878 (score=1.01)
+[ANOMALY] T_facility/r1: obs=-1.902 pred=0 diff=1.902 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.405 pred=0 diff=6.405 (score=1.04)
+[ANOMALY] T_facility/r6: obs=6.798 pred=0 diff=6.798 (score=1.10)
+[ANOMALY] T_facility/r1: obs=-2.125 pred=0 diff=2.125 (score=1.12)
+[ANOMALY] T_facility/r1: obs=-4.601 pred=0 diff=4.601 (score=1.84)
+[ANOMALY] T_facility/r6: obs=6.189 pred=0 diff=6.189 (score=1.00)
+[ANOMALY] T_facility/r6: obs=6.393 pred=0 diff=6.393 (score=1.03)
+[ANOMALY] T_facility/r1: obs=-6.275 pred=0 diff=6.275 (score=2.52)
+[ANOMALY] T_facility/r6: obs=-8.304 pred=0 diff=8.304 (score=1.21)
+[ANOMALY] T_facility/r1: obs=5.465 pred=0 diff=5.465 (score=2.19)
+[ANOMALY] T_facility/r6: obs=6.679 pred=0 diff=6.679 (score=1.08)
+[ANOMALY] T_facility/r6: obs=6.426 pred=0 diff=6.426 (score=1.04)
+[ANOMALY] T_facility/r1: obs=-3.859 pred=0 diff=3.859 (score=1.55)
+[ANOMALY] T_facility/r1: obs=3.146 pred=0 diff=3.146 (score=1.26)
+[ANOMALY] T_facility/r6: obs=6.23 pred=0 diff=6.23 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.185 pred=0 diff=6.185 (score=1.00)
+[ANOMALY] T_facility/r6: obs=6.707 pred=0 diff=6.707 (score=1.09)
+[ANOMALY] T_facility/r6: obs=6.392 pred=0 diff=6.392 (score=1.03)
+[ANOMALY] T_facility/r1: obs=-5.746 pred=0 diff=5.746 (score=2.30)
+[ANOMALY] T_facility/r6: obs=-7.077 pred=0 diff=7.077 (score=1.03)
+[ANOMALY] T_facility/r1: obs=5.533 pred=0 diff=5.533 (score=2.22)
+[ANOMALY] T_facility/r6: obs=7.254 pred=0 diff=7.254 (score=1.06)
+[ANOMALY] T_facility/r1: obs=5.553 pred=0 diff=5.553 (score=2.23)
+[ANOMALY] T_facility/r1: obs=-6.268 pred=0 diff=6.268 (score=2.51)
+[ANOMALY] T_facility/r6: obs=-6.935 pred=0 diff=6.935 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.35 pred=0 diff=6.35 (score=1.03)
+[ANOMALY] T_facility/r1: obs=1.999 pred=0 diff=1.999 (score=1.06)
+[ANOMALY] T_facility/r6: obs=6.327 pred=0 diff=6.327 (score=1.02)
+[ANOMALY] T_facility/r6: obs=7.315 pred=0 diff=7.315 (score=1.07)
+[ANOMALY] T_facility/r6: obs=7.473 pred=0 diff=7.473 (score=1.09)
+[ANOMALY] T_facility/r6: obs=6.48 pred=0 diff=6.48 (score=1.05)
+[ANOMALY] T_facility/r6: obs=6.248 pred=0 diff=6.248 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.669 pred=0 diff=6.669 (score=1.08)
+[ANOMALY] T_facility/r6: obs=6.432 pred=0 diff=6.432 (score=1.04)
+[ANOMALY] T_facility/r1: obs=4.024 pred=0 diff=4.024 (score=1.61)
+[ANOMALY] T_facility/r1: obs=-5.93 pred=0 diff=5.93 (score=2.38)
+[ANOMALY] T_facility/r6: obs=-7.677 pred=0 diff=7.677 (score=1.12)
+[ANOMALY] T_facility/r6: obs=6.369 pred=0 diff=6.369 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.611 pred=0 diff=6.611 (score=1.07)
+[ANOMALY] T_facility/r6: obs=6.22 pred=0 diff=6.22 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.701 pred=0 diff=6.701 (score=1.08)
+[ANOMALY] T_facility/r6: obs=6.217 pred=0 diff=6.217 (score=1.01)
+[ANOMALY] T_facility/r1: obs=-3.999 pred=0 diff=3.999 (score=1.60)
+[ANOMALY] T_facility/r1: obs=-3.59 pred=0 diff=3.59 (score=1.44)
+[ANOMALY] T_facility/r1: obs=6.169 pred=0 diff=6.169 (score=2.47)
+[ANOMALY] T_facility/r6: obs=6.61 pred=0 diff=6.61 (score=1.07)
+[ANOMALY] T_facility/r6: obs=6.2 pred=0 diff=6.2 (score=1.00)
+[ANOMALY] T_facility/r6: obs=6.566 pred=0 diff=6.566 (score=1.06)
+[ANOMALY] T_facility/r6: obs=6.473 pred=0 diff=6.473 (score=1.05)
+[ANOMALY] T_facility/r6: obs=6.22 pred=0 diff=6.22 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.741 pred=0 diff=6.741 (score=1.09)
+[ANOMALY] T_facility/r6: obs=6.303 pred=0 diff=6.303 (score=1.02)
+[ANOMALY] T_facility/r1: obs=2.28 pred=0 diff=2.28 (score=1.21)
+[ANOMALY] T_facility/r6: obs=6.2 pred=0 diff=6.2 (score=1.00)
+[ANOMALY] T_facility/r6: obs=7.33 pred=0 diff=7.33 (score=1.07)
+[ANOMALY] T_facility/r6: obs=7.908 pred=0 diff=7.908 (score=1.16)
+[ANOMALY] T_facility/r6: obs=7.741 pred=0 diff=7.741 (score=1.13)
+[ANOMALY] T_facility/r6: obs=6.619 pred=0 diff=6.619 (score=1.07)
+[ANOMALY] T_facility/r6: obs=6.875 pred=0 diff=6.875 (score=1.01)
+[ANOMALY] T_facility/r6: obs=7.702 pred=0 diff=7.702 (score=1.13)
+[ANOMALY] T_facility/r6: obs=7.217 pred=0 diff=7.217 (score=1.06)
+[ANOMALY] T_facility/r6: obs=6.181 pred=0 diff=6.181 (score=1.00)
+[ANOMALY] T_facility/r1: obs=2.908 pred=0 diff=2.908 (score=1.17)
+[ANOMALY] T_facility/r1: obs=-5.313 pred=0 diff=5.313 (score=2.13)
+[ANOMALY] T_facility/r6: obs=-6.264 pred=0 diff=6.264 (score=1.01)
+[ANOMALY] T_facility/r6: obs=-9.397 pred=0 diff=9.397 (score=1.37)
+[ANOMALY] T_facility/r6: obs=6.446 pred=0 diff=6.446 (score=1.04)
+[ANOMALY] T_facility/r6: obs=7.249 pred=0 diff=7.249 (score=1.06)
+[ANOMALY] T_facility/r6: obs=7.116 pred=0 diff=7.116 (score=1.04)
+[ANOMALY] T_facility/r6: obs=6.35 pred=0 diff=6.35 (score=1.03)
+[ANOMALY] T_facility/r1: obs=3.377 pred=0 diff=3.377 (score=1.35)
+[ANOMALY] T_facility/r1: obs=-3.199 pred=0 diff=3.199 (score=1.28)
+[ANOMALY] T_facility/r6: obs=7.504 pred=0 diff=7.504 (score=1.10)
+[ANOMALY] T_facility/r6: obs=7.132 pred=0 diff=7.132 (score=1.04)
+[ANOMALY] T_facility/r6: obs=6.257 pred=0 diff=6.257 (score=1.01)
+[ANOMALY] T_facility/r6: obs=7.299 pred=0 diff=7.299 (score=1.07)
+[ANOMALY] T_facility/r6: obs=7.231 pred=0 diff=7.231 (score=1.06)
+[ANOMALY] T_facility/r1: obs=4.983 pred=0 diff=4.983 (score=2.00)
+[ANOMALY] T_facility/r1: obs=-2.981 pred=0 diff=2.981 (score=1.20)
+[ANOMALY] T_facility/r6: obs=6.333 pred=0 diff=6.333 (score=1.02)
+[ANOMALY] T_facility/r6: obs=7.05 pred=0 diff=7.05 (score=1.03)
+[ANOMALY] T_facility/r6: obs=7.275 pred=0 diff=7.275 (score=1.06)
+[ANOMALY] T_facility/r6: obs=7.065 pred=0 diff=7.065 (score=1.03)
+[ANOMALY] T_facility/r1: obs=-2.162 pred=0 diff=2.162 (score=1.14)
+[ANOMALY] T_facility/r6: obs=6.977 pred=0 diff=6.977 (score=1.02)
+[ANOMALY] T_facility/r6: obs=7.008 pred=0 diff=7.008 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.844 pred=0 diff=6.844 (score=1.00)
+[ANOMALY] T_facility/r6: obs=7.026 pred=0 diff=7.026 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.399 pred=0 diff=6.399 (score=1.04)
+[ANOMALY] T_facility/r1: obs=1.897 pred=0 diff=1.897 (score=1.00)
+[ANOMALY] T_facility/r6: obs=6.73 pred=0 diff=6.73 (score=1.09)
+[ANOMALY] T_facility/r6: obs=7.524 pred=0 diff=7.524 (score=1.10)
+[ANOMALY] T_facility/r6: obs=7.206 pred=0 diff=7.206 (score=1.05)
+[ANOMALY] T_facility/r6: obs=7.2 pred=0 diff=7.2 (score=1.05)
+[ANOMALY] T_facility/r6: obs=8.439 pred=0 diff=8.439 (score=1.23)
+[ANOMALY] T_facility/r6: obs=8.211 pred=0 diff=8.211 (score=1.20)
+[ANOMALY] T_facility/r6: obs=6.924 pred=0 diff=6.924 (score=1.01)
+[ANOMALY] T_facility/r6: obs=-6.482 pred=0 diff=6.482 (score=1.05)
+[ANOMALY] T_facility/r6: obs=-6.604 pred=0 diff=6.604 (score=1.07)
+[ANOMALY] T_facility/r6: obs=7.193 pred=0 diff=7.193 (score=1.05)
+[ANOMALY] T_facility/r6: obs=7.998 pred=0 diff=7.998 (score=1.17)
+[ANOMALY] T_facility/r6: obs=7.826 pred=0 diff=7.826 (score=1.14)
+[ANOMALY] T_facility/r6: obs=6.233 pred=0 diff=6.233 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.284 pred=0 diff=6.284 (score=1.02)
+[ANOMALY] T_facility/r6: obs=7.054 pred=0 diff=7.054 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.613 pred=0 diff=6.613 (score=1.07)
+[ANOMALY] T_facility/r6: obs=-6.519 pred=0 diff=6.519 (score=1.05)
+[ANOMALY] T_facility/r6: obs=7.118 pred=0 diff=7.118 (score=1.04)
+[ANOMALY] T_facility/r6: obs=8.15 pred=0 diff=8.15 (score=1.19)
+[ANOMALY] T_facility/r6: obs=7.925 pred=0 diff=7.925 (score=1.16)
+[ANOMALY] T_facility/r6: obs=7.007 pred=0 diff=7.007 (score=1.02)
+[ANOMALY] T_facility/r6: obs=-6.231 pred=0 diff=6.231 (score=1.01)
+[ANOMALY] T_facility/r6: obs=-6.424 pred=0 diff=6.424 (score=1.04)
+[ANOMALY] T_facility/r6: obs=7.005 pred=0 diff=7.005 (score=1.02)
+[ANOMALY] T_facility/r6: obs=8.06 pred=0 diff=8.06 (score=1.18)
+[ANOMALY] T_facility/r6: obs=7.766 pred=0 diff=7.766 (score=1.14)
+[ANOMALY] T_facility/r6: obs=6.593 pred=0 diff=6.593 (score=1.07)
+[ANOMALY] T_facility/r6: obs=6.864 pred=0 diff=6.864 (score=1.00)
+[ANOMALY] T_facility/r6: obs=7.851 pred=0 diff=7.851 (score=1.15)
+[ANOMALY] T_facility/r6: obs=7.768 pred=0 diff=7.768 (score=1.14)
+[ANOMALY] T_facility/r6: obs=6.74 pred=0 diff=6.74 (score=1.09)
+[ANOMALY] T_facility/r6: obs=7.075 pred=0 diff=7.075 (score=1.03)
+[ANOMALY] T_facility/r6: obs=8.162 pred=0 diff=8.162 (score=1.19)
+[ANOMALY] T_facility/r6: obs=8.125 pred=0 diff=8.125 (score=1.19)
+[ANOMALY] T_facility/r6: obs=7.164 pred=0 diff=7.164 (score=1.05)
+[ANOMALY] T_facility/r1: obs=-3.119 pred=0 diff=3.119 (score=1.25)
+[ANOMALY] T_facility/r6: obs=6.843 pred=0 diff=6.843 (score=1.00)
+[ANOMALY] T_facility/r6: obs=7.563 pred=0 diff=7.563 (score=1.11)
+[ANOMALY] T_facility/r6: obs=7.257 pred=0 diff=7.257 (score=1.06)
+[ANOMALY] T_facility/r6: obs=-6.191 pred=0 diff=6.191 (score=1.00)
+[ANOMALY] T_facility/r6: obs=6.187 pred=0 diff=6.187 (score=1.00)
+[ANOMALY] T_facility/r6: obs=7.534 pred=0 diff=7.534 (score=1.10)
+[ANOMALY] T_facility/r6: obs=8.028 pred=0 diff=8.028 (score=1.17)
+[ANOMALY] T_facility/r6: obs=7.714 pred=0 diff=7.714 (score=1.13)
+[ANOMALY] T_facility/r6: obs=6.199 pred=0 diff=6.199 (score=1.00)
+[ANOMALY] T_facility/r1: obs=1.99 pred=0 diff=1.99 (score=1.05)
+[ANOMALY] T_facility/r6: obs=6.845 pred=0 diff=6.845 (score=1.00)
+[ANOMALY] T_facility/r6: obs=7.862 pred=0 diff=7.862 (score=1.15)
+[ANOMALY] T_facility/r6: obs=7.499 pred=0 diff=7.499 (score=1.10)
+[ANOMALY] T_facility/r6: obs=6.564 pred=0 diff=6.564 (score=1.06)
+[ANOMALY] T_facility/r6: obs=6.299 pred=0 diff=6.299 (score=1.02)
+[ANOMALY] T_facility/r1: obs=2.697 pred=0 diff=2.697 (score=1.08)
+[ANOMALY] T_facility/r6: obs=6.871 pred=0 diff=6.871 (score=1.00)
+[ANOMALY] T_facility/r6: obs=7.515 pred=0 diff=7.515 (score=1.10)
+[ANOMALY] T_facility/r6: obs=7.591 pred=0 diff=7.591 (score=1.11)
+[ANOMALY] T_facility/r6: obs=6.883 pred=0 diff=6.883 (score=1.01)
+[ANOMALY] T_facility/r1: obs=4.168 pred=0 diff=4.168 (score=1.67)
+[ANOMALY] T_facility/r6: obs=8.097 pred=0 diff=8.097 (score=1.18)
+[ANOMALY] T_facility/r6: obs=6.709 pred=0 diff=6.709 (score=1.09)
+[ANOMALY] T_facility/r6: obs=6.67 pred=0 diff=6.67 (score=1.08)
+[ANOMALY] T_facility/r6: obs=6.72 pred=0 diff=6.72 (score=1.09)
+[ANOMALY] T_facility/r1: obs=2.497 pred=0 diff=2.497 (score=1.00)
+[ANOMALY] T_facility/r6: obs=7.13 pred=0 diff=7.13 (score=1.04)
+[ANOMALY] T_facility/r6: obs=7.906 pred=0 diff=7.906 (score=1.16)
+[ANOMALY] T_facility/r6: obs=7.518 pred=0 diff=7.518 (score=1.10)
+[ANOMALY] T_facility/r6: obs=6.587 pred=0 diff=6.587 (score=1.07)
+[ANOMALY] T_facility/r1: obs=5.343 pred=0 diff=5.343 (score=2.14)
+[ANOMALY] T_facility/r6: obs=10.77 pred=0 diff=10.77 (score=1.57)
+[ANOMALY] T_facility/r1: obs=-3.169 pred=0 diff=3.169 (score=1.27)
+[ANOMALY] T_facility/r6: obs=7.271 pred=0 diff=7.271 (score=1.06)
+[ANOMALY] T_facility/r6: obs=6.859 pred=0 diff=6.859 (score=1.00)
+[ANOMALY] T_facility/r1: obs=2.295 pred=0 diff=2.295 (score=1.21)
+[ANOMALY] T_facility/r6: obs=6.596 pred=0 diff=6.596 (score=1.07)
+[ANOMALY] T_facility/r6: obs=8.208 pred=0 diff=8.208 (score=1.20)
+[ANOMALY] T_facility/r6: obs=8.323 pred=0 diff=8.323 (score=1.22)
+[ANOMALY] T_facility/r6: obs=7.605 pred=0 diff=7.605 (score=1.11)
+[ANOMALY] T_facility/r6: obs=6.84 pred=0 diff=6.84 (score=1.00)
+[ANOMALY] T_facility/r6: obs=6.862 pred=0 diff=6.862 (score=1.00)
+[ANOMALY] T_facility/r1: obs=3.839 pred=0 diff=3.839 (score=1.54)
+[ANOMALY] T_facility/r1: obs=-2.969 pred=0 diff=2.969 (score=1.19)
+[ANOMALY] T_facility/r1: obs=2.103 pred=0 diff=2.103 (score=1.11)
+[ANOMALY] T_facility/r6: obs=6.673 pred=0 diff=6.673 (score=1.08)
+[ANOMALY] T_facility/r6: obs=6.746 pred=0 diff=6.746 (score=1.09)
+[ANOMALY] T_facility/r1: obs=2.51 pred=0 diff=2.51 (score=1.01)
+[ANOMALY] T_facility/r1: obs=-3.125 pred=0 diff=3.125 (score=1.25)
+[ANOMALY] T_facility/r6: obs=6.25 pred=0 diff=6.25 (score=1.01)
+[ANOMALY] T_facility/r6: obs=7.119 pred=0 diff=7.119 (score=1.04)
+[ANOMALY] T_facility/r6: obs=7.04 pred=0 diff=7.04 (score=1.03)
+[ANOMALY] T_facility/r1: obs=-4.275 pred=0 diff=4.275 (score=1.71)
+[ANOMALY] T_facility/r1: obs=4.954 pred=0 diff=4.954 (score=1.99)
+[ANOMALY] T_facility/r1: obs=2.004 pred=0 diff=2.004 (score=1.06)
+[ANOMALY] T_facility/r6: obs=6.554 pred=0 diff=6.554 (score=1.06)
+[ANOMALY] T_facility/r6: obs=11.92 pred=0 diff=11.92 (score=1.74)
+[ANOMALY] T_facility/r6: obs=7.759 pred=0 diff=7.759 (score=1.13)
+[ANOMALY] T_facility/r6: obs=7.159 pred=0 diff=7.159 (score=1.05)
+[ANOMALY] T_facility/r6: obs=6.237 pred=0 diff=6.237 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.997 pred=0 diff=6.997 (score=1.02)
+[ANOMALY] T_facility/r6: obs=6.763 pred=0 diff=6.763 (score=1.09)
+[ANOMALY] T_facility/r6: obs=6.372 pred=0 diff=6.372 (score=1.03)
+[ANOMALY] T_facility/r6: obs=6.297 pred=0 diff=6.297 (score=1.02)
+[ANOMALY] T_facility/r1: obs=2.093 pred=0 diff=2.093 (score=1.11)
+[ANOMALY] T_facility/r6: obs=6.572 pred=0 diff=6.572 (score=1.06)
+[ANOMALY] T_facility/r6: obs=6.658 pred=0 diff=6.658 (score=1.08)
+[ANOMALY] T_facility/r1: obs=2.41 pred=0 diff=2.41 (score=1.27)
+[ANOMALY] T_facility/r6: obs=6.899 pred=0 diff=6.899 (score=1.01)
+[ANOMALY] T_facility/r6: obs=7.249 pred=0 diff=7.249 (score=1.06)
+[ANOMALY] T_facility/r6: obs=6.242 pred=0 diff=6.242 (score=1.01)
+[ANOMALY] T_facility/r1: obs=4.964 pred=0 diff=4.964 (score=1.99)
+[ANOMALY] T_facility/r6: obs=9.669 pred=0 diff=9.669 (score=1.41)
+[ANOMALY] T_facility/r6: obs=7.084 pred=0 diff=7.084 (score=1.04)
+[ANOMALY] T_facility/r6: obs=6.97 pred=0 diff=6.97 (score=1.02)
+[ANOMALY] T_facility/r6: obs=7.288 pred=0 diff=7.288 (score=1.07)
+[ANOMALY] T_facility/r6: obs=7.568 pred=0 diff=7.568 (score=1.11)
+[ANOMALY] T_facility/r6: obs=6.47 pred=0 diff=6.47 (score=1.05)
+[ANOMALY] T_facility/r6: obs=6.468 pred=0 diff=6.468 (score=1.05)
+[ANOMALY] T_facility/r6: obs=7.715 pred=0 diff=7.715 (score=1.13)
+[ANOMALY] T_facility/r6: obs=8.203 pred=0 diff=8.203 (score=1.20)
+[ANOMALY] T_facility/r6: obs=7.126 pred=0 diff=7.126 (score=1.04)
+[ANOMALY] T_facility/r6: obs=6.883 pred=0 diff=6.883 (score=1.01)
+[ANOMALY] T_facility/r6: obs=6.762 pred=0 diff=6.762 (score=1.09)
+[ANOMALY] T_facility/r1: obs=2.493 pred=0 diff=2.493 (score=1.32)
+[ANOMALY] T_facility/r1: obs=2.205 pred=0 diff=2.205 (score=1.17)
+[ANOMALY] T_facility/r6: obs=6.856 pred=0 diff=6.856 (score=1.00)
+[ANOMALY] T_facility/r6: obs=7.184 pred=0 diff=7.184 (score=1.05)
+[ANOMALY] T_facility/r6: obs=6.643 pred=0 diff=6.643 (score=1.07)
+[ANOMALY] T_facility/r6: obs=6.871 pred=0 diff=6.871 (score=1.00)
+[ANOMALY] T_facility/r6: obs=7.349 pred=0 diff=7.349 (score=1.07)
+[ANOMALY] T_facility/r6: obs=7.074 pred=0 diff=7.074 (score=1.03)
+[ANOMALY] T_facility/r6: obs=7.049 pred=0 diff=7.049 (score=1.03)
+[ANOMALY] T_facility/r6: obs=7.102 pred=0 diff=7.102 (score=1.04)
+[ANOMALY] T_facility/r6: obs=6.415 pred=0 diff=6.415 (score=1.04)
+  anomaly: {"spike": {"n": 150, "recall_twin_warn_or_anom": 1.0, "recall_twin_anomaly": 0.9666666666666667, "recall_naive": 0.41333333333333333, "median_delay_h": 0.0}, "drift": {"n": 30, "recall_twin_warn_or_anom": 0.9666666666666667, "recall_twin_anomaly": 0.7, "recall_naive": 0.3, "median_delay_h": 22.0}, "stuck": {"n": 30, "recall_twin_warn_or_anom": 0.8333333333333334, "recall_twin_anomaly": 0.6, "recall_naive": 0.0, "median_delay_h": 12.0}} {'twin_WARNING_or_ANOMALY': 0.0255863539445629, 'twin_ANOMALY': 0.008528784648187633, 'naive_band': 0.021588486140724946}
+== VeriPhysics
+PhysicsConfidenceScore report:
+  overall_score: 0.6442  (coverage=0.60, i.e. 3/5 possible checks)
+  [numerical_convergence] score=1 -- observed_order=1.009, GCI_fine=0.0002964, GCI_coarse=0.0005966, asymptotic_ratio=1, asymptotic_tolerance=0.1, is_asymptotic=True
+  [uq_calibration] score=0.9327 -- ECE=0.06725, coverage=0.8849 (target=0.9), sharpness=2.821
+  [benchmark_agreement] score=0 -- benchmark=natal_thermal_mass_dT6h_2023_2024, relative_l2_error=1, rmse=2.972, n_compared_points=17532
+PhysicsConfidenceScore report:
+  overall_score: 0.9008  (coverage=0.60, i.e. 3/5 possible checks)
+  [numerical_convergence] score=1 -- observed_order=1.009, GCI_fine=0.0002964, GCI_coarse=0.0005966, asymptotic_ratio=1, asymptotic_tolerance=0.1, is_asymptotic=True
+  [uq_calibration] score=0.9283 -- ECE=0.0717, coverage=0.8448 (target=0.9), sharpness=0.5889
+  [benchmark_agreement] score=0.774 -- benchmark=natal_thermal_mass_dT6h_2023_2024, relative_l2_error=0.226, rmse=0.6715, n_compared_points=17532
+PhysicsConfidenceScore report:
+  overall_score: 0.9046  (coverage=0.40, i.e. 2/5 possible checks)
+  [uq_calibration] score=0.94 -- ECE=0.05999, coverage=0.871 (target=0.9), sharpness=0.3402
+  [benchmark_agreement] score=0.8691 -- benchmark=natal_thermal_mass_dT6h_2023_2024, relative_l2_error=0.1309, rmse=0.3888, n_compared_points=17532
+PhysicsConfidenceScore report:
+  overall_score: 0.467  (coverage=0.40, i.e. 2/5 possible checks)
+  [uq_calibration] score=0.9339 -- ECE=0.06609, coverage=0.8843 (target=0.9), sharpness=2.824
+  [benchmark_agreement] score=0 -- benchmark=natal_thermal_mass_dT6h_2023_2024, relative_l2_error=1.002, rmse=2.976, n_compared_points=17532
+done in 175014.58224987984

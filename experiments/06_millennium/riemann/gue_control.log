@@ -1,0 +1,19 @@
+{
+ "gue_eigenvalues": {
+  "n": 2367,
+  "mse_mean_predictor": 0.18535961210727692,
+  "mse_linear_AR32": 0.1485086851997487,
+  "mse_gru_pinneapple": 0.14694879949092865,
+  "R2_linear_AR32": 0.19880774721410588,
+  "R2_gru_pinneapple": 0.20722320347820966
+ },
+ "poisson": {
+  "n": 2367,
+  "mse_mean_predictor": 1.0680466890335083,
+  "mse_linear_AR32": 1.0922740847596866,
+  "mse_gru_pinneapple": 1.1529858112335205,
+  "R2_linear_AR32": -0.022683835805063834,
+  "R2_gru_pinneapple": -0.07952753664437173
+ },
+ "n_spacings": 2399
+}

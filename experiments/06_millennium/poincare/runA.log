@@ -1,0 +1,4 @@
+/Users/yanbarros/Documents/GitHub/pinneapple-labs/PINNeAPPle-Climate/experiments/06_millennium/poincare/poincare_experiment.py:98: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:823.)
+  return lambda th, t: U(torch.tensor(th[:, None]), torch.full((len(th), 1), float(t), dtype=torch.float64)).detach().numpy()[:, 0], float(loss)
+0.00044423748637112404 3.360365862809809 {'final_train_residual': 0.003611371394067633, 'vs_fd': {'0.5': {'max_abs_diff_u': 0.01760697904738992, 'rel_to_initial_amplitude': 0.034823515040943546}, '1.0': {'max_abs_diff_u': 0.04431906160892259, 'rel_to_initial_amplitude': 0.09707167615838122}}}

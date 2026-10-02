@@ -1,0 +1,2 @@
+{'window': [1910.0, 2010.0], 'N_diff': 91, 'coarse_found': np.int64(89), 'fine_factor': 8, 'fine_found': 91, 'added_zeros': [1977.17394369804, 1977.2714461997466], 'min_gap_in_window': 0.09750250170668551}
+{'windows_refined': [{'window': [1910.0, 2010.0], 'N_diff': 91, 'coarse_found': np.int64(89), 'fine_factor': 8, 'fine_found': 91, 'added_zeros': [1977.17394369804, 1977.2714461997466], 'min_gap_in_window': 0.09750250170668551}], 'zeros_on_line_found': 2469, 'N_T_all_zeros_in_strip': 2469, 'all_zeros_on_line_up_to_T': True}

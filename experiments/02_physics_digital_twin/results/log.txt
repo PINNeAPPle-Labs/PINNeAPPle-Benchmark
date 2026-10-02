@@ -1,0 +1,329 @@
+== Physics ODE identification
+  ThermalParams(a=0.0010960401268675923, b0=0.309190571308136, b1=0.01813926361501217, q=0.27357372641563416) {'C_J_m2K': 140000.0, 'alpha': 0.04262378271151748, 'k0_W_m2K': 12.024077773094177, 'k1_W_m2K_per_ms': 0.7054158072504733, 'Q_int_W_m2': 10.638978249496883}
+  year 2015: ThermalParams(a=0.0018053860403597355, b0=0.43524980545043945, b1=0.024398375302553177, q=0.3895372152328491)
+  year 2016: ThermalParams(a=0.0016466642264276743, b0=0.5757127404212952, b1=0.00509656174108386, q=0.4005994200706482)
+  year 2017: ThermalParams(a=0.0007657367386855185, b0=0.23568405210971832, b1=0.02746325545012951, q=0.31981635093688965)
+  year 2018: ThermalParams(a=0.0008356008911505342, b0=0.3074883818626404, b1=0.012800169177353382, q=0.3082755506038666)
+  year 2019: ThermalParams(a=0.0009513244149275124, b0=0.28202807903289795, b1=0.01323525607585907, q=0.21268896758556366)
+  year 2020: ThermalParams(a=0.000944092171266675, b0=0.384442538022995, b1=2.971454193811951e-07, q=0.2159920036792755)
+  year 2021: ThermalParams(a=0.0011245268397033215, b0=0.2698131203651428, b1=0.01781333051621914, q=0.23412001132965088)
+== EKI cross-check
+  EKI: {'mean': {'a': 0.0011306358188609797, 'b0': 0.28947622559418906, 'b1': 0.019505455268921175, 'q': 0.2460574366799706}, 'std': {'a': 3.402337415627601e-06, 'b0': 0.002297842945346982, 'b1': 0.00031755815644192724, 'q': 0.002090137260588382}, 'n_windows': 400, 'ensemble': 40, 'iterations': 25}
+== Baselines
+  Linear (Ridge) alpha=0.1: val RMSE=0.3629
+  Linear (Ridge) alpha=10.0: val RMSE=0.3629
+  Linear (Ridge) alpha=1000.0: val RMSE=0.3638
+  Random Forest max_depth=12,min_leaf=5: val RMSE=0.3416
+  Random Forest max_depth=20,min_leaf=5: val RMSE=0.3251
+  Random Forest max_depth=None,min_leaf=20: val RMSE=0.3441
+  Gradient Boosting lr=0.05,leaves=31: val RMSE=0.2932
+  Gradient Boosting lr=0.1,leaves=63: val RMSE=0.2927
+  MLP hidden=(128, 128),alpha=0.0001: val RMSE=0.2985
+  MLP hidden=(256, 256, 128),alpha=0.001: val RMSE=0.3202
+== PINN lambda sweep
+  PINN lam=0.0 seed=0 ep=1: train_data=3.5036 phys=0.0000 val_rmse=1.9633 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=2: train_data=3.4634 phys=0.0000 val_rmse=1.9644 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=3: train_data=3.4489 phys=0.0000 val_rmse=1.9656 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=4: train_data=3.4214 phys=0.0000 val_rmse=1.9730 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=5: train_data=3.3538 phys=0.0000 val_rmse=1.9874 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=6: train_data=3.2319 phys=0.0000 val_rmse=2.0050 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=7: train_data=3.0765 phys=0.0000 val_rmse=2.0351 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=8: train_data=2.9343 phys=0.0000 val_rmse=2.0644 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=9: train_data=2.8178 phys=0.0000 val_rmse=2.0929 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=10: train_data=2.7181 phys=0.0000 val_rmse=2.1193 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=11: train_data=2.6322 phys=0.0000 val_rmse=2.1363 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=12: train_data=2.5550 phys=0.0000 val_rmse=2.1548 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=13: train_data=2.4892 phys=0.0000 val_rmse=2.1678 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=14: train_data=2.4294 phys=0.0000 val_rmse=2.1848 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=15: train_data=2.3772 phys=0.0000 val_rmse=2.1975 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=16: train_data=2.3302 phys=0.0000 val_rmse=2.2097 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=17: train_data=2.2883 phys=0.0000 val_rmse=2.2211 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=18: train_data=2.2531 phys=0.0000 val_rmse=2.2294 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=19: train_data=2.2220 phys=0.0000 val_rmse=2.2357 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=20: train_data=2.1962 phys=0.0000 val_rmse=2.2418 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=21: train_data=2.1768 phys=0.0000 val_rmse=2.2453 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=22: train_data=2.1615 phys=0.0000 val_rmse=2.2476 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=23: train_data=2.1509 phys=0.0000 val_rmse=2.2491 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=24: train_data=2.1442 phys=0.0000 val_rmse=2.2495 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=0 ep=25: train_data=2.1411 phys=0.0000 val_rmse=2.2496 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.1 seed=0 ep=1: train_data=3.5033 phys=5.2488 val_rmse=1.9630 params=[0.00048, 0.48083, 0.04808, 0.03913]
+  PINN lam=0.1 seed=0 ep=2: train_data=3.4636 phys=4.4627 val_rmse=1.9644 params=[0.00041, 0.41706, 0.04168, 0.14698]
+  PINN lam=0.1 seed=0 ep=3: train_data=3.4485 phys=3.4753 val_rmse=1.9657 params=[0.00034, 0.35273, 0.0352, 0.16716]
+  PINN lam=0.1 seed=0 ep=4: train_data=3.4187 phys=2.8144 val_rmse=1.9696 params=[0.00029, 0.30802, 0.03071, 0.11083]
+  PINN lam=0.1 seed=0 ep=5: train_data=3.3571 phys=2.4623 val_rmse=1.9794 params=[0.00025, 0.2748, 0.02738, 0.04769]
+  PINN lam=0.1 seed=0 ep=6: train_data=3.2423 phys=2.3625 val_rmse=1.9992 params=[0.00023, 0.25019, 0.02491, -0.0125]
+  PINN lam=0.1 seed=0 ep=7: train_data=3.1013 phys=2.3600 val_rmse=2.0130 params=[0.00021, 0.23188, 0.02307, -0.0514]
+  PINN lam=0.1 seed=0 ep=8: train_data=2.9748 phys=2.3676 val_rmse=2.0408 params=[0.0002, 0.21738, 0.02162, -0.07782]
+  PINN lam=0.1 seed=0 ep=9: train_data=2.8619 phys=2.4379 val_rmse=2.0512 params=[0.00019, 0.20561, 0.02044, -0.10383]
+  PINN lam=0.1 seed=0 ep=10: train_data=2.7694 phys=2.4924 val_rmse=2.0691 params=[0.00018, 0.19583, 0.01947, -0.12382]
+  PINN lam=0.1 seed=0 ep=11: train_data=2.6866 phys=2.5378 val_rmse=2.0799 params=[0.00017, 0.18756, 0.01864, -0.14023]
+  PINN lam=0.1 seed=0 ep=12: train_data=2.6169 phys=2.5702 val_rmse=2.0935 params=[0.00016, 0.18053, 0.01794, -0.15316]
+  PINN lam=0.1 seed=0 ep=13: train_data=2.5541 phys=2.6288 val_rmse=2.1017 params=[0.00016, 0.1745, 0.01734, -0.16287]
+  PINN lam=0.1 seed=0 ep=14: train_data=2.4986 phys=2.6673 val_rmse=2.1114 params=[0.00015, 0.16941, 0.01683, -0.17252]
+  PINN lam=0.1 seed=0 ep=15: train_data=2.4485 phys=2.6933 val_rmse=2.1212 params=[0.00015, 0.16513, 0.0164, -0.18036]
+  PINN lam=0.1 seed=0 ep=16: train_data=2.4022 phys=2.7348 val_rmse=2.1274 params=[0.00015, 0.16153, 0.01604, -0.18651]
+  PINN lam=0.1 seed=0 ep=17: train_data=2.3643 phys=2.7836 val_rmse=2.1337 params=[0.00015, 0.15857, 0.01574, -0.19266]
+  PINN lam=0.1 seed=0 ep=18: train_data=2.3320 phys=2.7978 val_rmse=2.1396 params=[0.00014, 0.15621, 0.0155, -0.20066]
+  PINN lam=0.1 seed=0 ep=19: train_data=2.3023 phys=2.8207 val_rmse=2.1438 params=[0.00014, 0.15434, 0.01532, -0.20293]
+  PINN lam=0.1 seed=0 ep=20: train_data=2.2782 phys=2.8395 val_rmse=2.1468 params=[0.00014, 0.15293, 0.01518, -0.20615]
+  PINN lam=0.1 seed=0 ep=21: train_data=2.2589 phys=2.8737 val_rmse=2.1491 params=[0.00014, 0.15195, 0.01508, -0.2098]
+  PINN lam=0.1 seed=0 ep=22: train_data=2.2453 phys=2.8693 val_rmse=2.1505 params=[0.00014, 0.15131, 0.01501, -0.21051]
+  PINN lam=0.1 seed=0 ep=23: train_data=2.2352 phys=2.8654 val_rmse=2.1515 params=[0.00014, 0.15097, 0.01498, -0.21085]
+  PINN lam=0.1 seed=0 ep=24: train_data=2.2288 phys=2.8723 val_rmse=2.1518 params=[0.00014, 0.15083, 0.01497, -0.21091]
+  PINN lam=0.1 seed=0 ep=25: train_data=2.2259 phys=2.8733 val_rmse=2.1519 params=[0.00014, 0.15081, 0.01496, -0.21094]
+  PINN lam=1.0 seed=0 ep=1: train_data=3.5187 phys=5.2168 val_rmse=1.9654 params=[0.00048, 0.48157, 0.04815, 0.03444]
+  PINN lam=1.0 seed=0 ep=2: train_data=3.4706 phys=4.4305 val_rmse=1.9633 params=[0.00041, 0.41108, 0.04108, 0.14808]
+  PINN lam=1.0 seed=0 ep=3: train_data=3.4553 phys=3.2738 val_rmse=1.9618 params=[0.00031, 0.32564, 0.0325, 0.14245]
+  PINN lam=1.0 seed=0 ep=4: train_data=3.4450 phys=2.4085 val_rmse=1.9637 params=[0.00024, 0.25954, 0.02589, 0.01021]
+  PINN lam=1.0 seed=0 ep=5: train_data=3.4269 phys=1.9055 val_rmse=1.9642 params=[0.0002, 0.21124, 0.02108, -0.09321]
+  PINN lam=1.0 seed=0 ep=6: train_data=3.3910 phys=1.6600 val_rmse=1.9677 params=[0.00017, 0.17724, 0.0177, -0.16359]
+  PINN lam=1.0 seed=0 ep=7: train_data=3.3292 phys=1.5087 val_rmse=1.9709 params=[0.00014, 0.15415, 0.01539, -0.20219]
+  PINN lam=1.0 seed=0 ep=8: train_data=3.2595 phys=1.4076 val_rmse=1.9769 params=[0.00013, 0.13779, 0.01376, -0.23404]
+  PINN lam=1.0 seed=0 ep=9: train_data=3.1817 phys=1.3707 val_rmse=1.9817 params=[0.00012, 0.12591, 0.01258, -0.25624]
+  PINN lam=1.0 seed=0 ep=10: train_data=3.1139 phys=1.3549 val_rmse=1.9871 params=[0.00011, 0.11689, 0.01169, -0.27625]
+  PINN lam=1.0 seed=0 ep=11: train_data=3.0456 phys=1.3368 val_rmse=1.9906 params=[0.0001, 0.10983, 0.01098, -0.287]
+  PINN lam=1.0 seed=0 ep=12: train_data=2.9920 phys=1.3230 val_rmse=1.9941 params=[0.0001, 0.10421, 0.01042, -0.28805]
+  PINN lam=1.0 seed=0 ep=13: train_data=2.9366 phys=1.3293 val_rmse=1.9969 params=[9e-05, 0.09968, 0.00997, -0.30197]
+  PINN lam=1.0 seed=0 ep=14: train_data=2.8900 phys=1.3202 val_rmse=2.0007 params=[9e-05, 0.096, 0.0096, -0.3089]
+  PINN lam=1.0 seed=0 ep=15: train_data=2.8502 phys=1.3167 val_rmse=2.0055 params=[9e-05, 0.09298, 0.0093, -0.30921]
+  PINN lam=1.0 seed=0 ep=16: train_data=2.8114 phys=1.3233 val_rmse=2.0073 params=[9e-05, 0.09052, 0.00905, -0.31626]
+  PINN lam=1.0 seed=0 ep=17: train_data=2.7773 phys=1.3211 val_rmse=2.0110 params=[8e-05, 0.08853, 0.00885, -0.32189]
+  PINN lam=1.0 seed=0 ep=18: train_data=2.7503 phys=1.3389 val_rmse=2.0131 params=[8e-05, 0.08699, 0.0087, -0.32715]
+  PINN lam=1.0 seed=0 ep=19: train_data=2.7252 phys=1.3332 val_rmse=2.0158 params=[8e-05, 0.08578, 0.00858, -0.32706]
+  PINN lam=1.0 seed=0 ep=20: train_data=2.7044 phys=1.3361 val_rmse=2.0174 params=[8e-05, 0.08489, 0.00849, -0.32818]
+  PINN lam=1.0 seed=0 ep=21: train_data=2.6880 phys=1.3446 val_rmse=2.0183 params=[8e-05, 0.08427, 0.00843, -0.33072]
+  PINN lam=1.0 seed=0 ep=22: train_data=2.6760 phys=1.3390 val_rmse=2.0192 params=[8e-05, 0.08388, 0.00839, -0.3313]
+  PINN lam=1.0 seed=0 ep=23: train_data=2.6682 phys=1.3379 val_rmse=2.0196 params=[8e-05, 0.08367, 0.00837, -0.33172]
+  PINN lam=1.0 seed=0 ep=24: train_data=2.6633 phys=1.3397 val_rmse=2.0198 params=[8e-05, 0.08358, 0.00836, -0.33181]
+  PINN lam=1.0 seed=0 ep=25: train_data=2.6613 phys=1.3425 val_rmse=2.0198 params=[8e-05, 0.08357, 0.00836, -0.33184]
+  PINN lam=10.0 seed=0 ep=1: train_data=3.5578 phys=5.2038 val_rmse=1.9790 params=[0.00048, 0.48164, 0.04816, 0.02562]
+  PINN lam=10.0 seed=0 ep=2: train_data=3.5037 phys=4.4247 val_rmse=1.9640 params=[0.00041, 0.41101, 0.04107, 0.11286]
+  PINN lam=10.0 seed=0 ep=3: train_data=3.4627 phys=3.2695 val_rmse=1.9615 params=[0.00032, 0.32451, 0.03242, 0.14427]
+  PINN lam=10.0 seed=0 ep=4: train_data=3.4692 phys=2.3869 val_rmse=1.9672 params=[0.00025, 0.25597, 0.02558, 0.05032]
+  PINN lam=10.0 seed=0 ep=5: train_data=3.4711 phys=1.8563 val_rmse=1.9634 params=[0.00019, 0.20313, 0.02032, -0.06265]
+  PINN lam=10.0 seed=0 ep=6: train_data=3.4658 phys=1.5731 val_rmse=1.9631 params=[0.00016, 0.16272, 0.01629, -0.15883]
+  PINN lam=10.0 seed=0 ep=7: train_data=3.4621 phys=1.3785 val_rmse=1.9630 params=[0.00013, 0.13215, 0.01323, -0.22429]
+  PINN lam=10.0 seed=0 ep=8: train_data=3.4582 phys=1.2406 val_rmse=1.9623 params=[0.0001, 0.10953, 0.01098, -0.2721]
+  PINN lam=10.0 seed=0 ep=9: train_data=3.4557 phys=1.1750 val_rmse=1.9631 params=[9e-05, 0.09301, 0.00934, -0.31444]
+  PINN lam=10.0 seed=0 ep=10: train_data=3.4579 phys=1.1369 val_rmse=1.9618 params=[8e-05, 0.08099, 0.00815, -0.33769]
+  PINN lam=10.0 seed=0 ep=11: train_data=3.4557 phys=1.1027 val_rmse=1.9618 params=[7e-05, 0.07205, 0.00725, -0.34977]
+  PINN lam=10.0 seed=0 ep=12: train_data=3.4540 phys=1.0804 val_rmse=1.9613 params=[6e-05, 0.06541, 0.0066, -0.35337]
+  PINN lam=10.0 seed=0 ep=13: train_data=3.4523 phys=1.0740 val_rmse=1.9614 params=[6e-05, 0.06036, 0.00609, -0.36697]
+  PINN lam=10.0 seed=0 ep=14: train_data=3.4503 phys=1.0577 val_rmse=1.9615 params=[5e-05, 0.05651, 0.00571, -0.37674]
+  PINN lam=10.0 seed=0 ep=15: train_data=3.4487 phys=1.0500 val_rmse=1.9619 params=[5e-05, 0.0535, 0.00541, -0.37466]
+  PINN lam=10.0 seed=0 ep=16: train_data=3.4437 phys=1.0450 val_rmse=1.9616 params=[5e-05, 0.05113, 0.00518, -0.3845]
+  PINN lam=10.0 seed=0 ep=17: train_data=3.4416 phys=1.0399 val_rmse=1.9615 params=[5e-05, 0.04931, 0.005, -0.39068]
+  PINN lam=10.0 seed=0 ep=18: train_data=3.4391 phys=1.0555 val_rmse=1.9614 params=[5e-05, 0.04795, 0.00486, -0.39315]
+  PINN lam=10.0 seed=0 ep=19: train_data=3.4358 phys=1.0417 val_rmse=1.9619 params=[4e-05, 0.04689, 0.00476, -0.39379]
+  PINN lam=10.0 seed=0 ep=20: train_data=3.4323 phys=1.0430 val_rmse=1.9619 params=[4e-05, 0.04612, 0.00468, -0.39501]
+  PINN lam=10.0 seed=0 ep=21: train_data=3.4306 phys=1.0488 val_rmse=1.9619 params=[4e-05, 0.04559, 0.00463, -0.39745]
+  PINN lam=10.0 seed=0 ep=22: train_data=3.4286 phys=1.0417 val_rmse=1.9620 params=[4e-05, 0.04526, 0.00459, -0.39747]
+  PINN lam=10.0 seed=0 ep=23: train_data=3.4272 phys=1.0391 val_rmse=1.9621 params=[4e-05, 0.04509, 0.00458, -0.39756]
+  PINN lam=10.0 seed=0 ep=24: train_data=3.4267 phys=1.0415 val_rmse=1.9621 params=[4e-05, 0.04502, 0.00457, -0.39756]
+  PINN lam=10.0 seed=0 ep=25: train_data=3.4264 phys=1.0435 val_rmse=1.9621 params=[4e-05, 0.04501, 0.00457, -0.39757]
+  selected lambda: 10.0
+  PINN lam=10.0 seed=1 ep=1: train_data=3.5193 phys=5.2210 val_rmse=1.9800 params=[0.00048, 0.4816, 0.04816, 0.02444]
+  PINN lam=10.0 seed=1 ep=2: train_data=3.5071 phys=4.4615 val_rmse=1.9664 params=[0.00041, 0.41094, 0.04107, 0.09762]
+  PINN lam=10.0 seed=1 ep=3: train_data=3.4629 phys=3.2526 val_rmse=1.9636 params=[0.00031, 0.32449, 0.0324, 0.13372]
+  PINN lam=10.0 seed=1 ep=4: train_data=3.4724 phys=2.4069 val_rmse=1.9666 params=[0.00024, 0.25621, 0.02558, 0.05131]
+  PINN lam=10.0 seed=1 ep=5: train_data=3.4741 phys=1.8808 val_rmse=1.9650 params=[0.00019, 0.20342, 0.02032, -0.05135]
+  PINN lam=10.0 seed=1 ep=6: train_data=3.4710 phys=1.5662 val_rmse=1.9626 params=[0.00015, 0.16336, 0.01633, -0.14639]
+  PINN lam=10.0 seed=1 ep=7: train_data=3.4628 phys=1.3668 val_rmse=1.9639 params=[0.00013, 0.13303, 0.01332, -0.22451]
+  PINN lam=10.0 seed=1 ep=8: train_data=3.4617 phys=1.2566 val_rmse=1.9612 params=[0.0001, 0.11039, 0.01106, -0.2667]
+  PINN lam=10.0 seed=1 ep=9: train_data=3.4589 phys=1.1691 val_rmse=1.9617 params=[9e-05, 0.09389, 0.00942, -0.30181]
+  PINN lam=10.0 seed=1 ep=10: train_data=3.4574 phys=1.1408 val_rmse=1.9615 params=[8e-05, 0.082, 0.00823, -0.33615]
+  PINN lam=10.0 seed=1 ep=11: train_data=3.4562 phys=1.1096 val_rmse=1.9609 params=[7e-05, 0.07281, 0.00733, -0.33802]
+  PINN lam=10.0 seed=1 ep=12: train_data=3.4566 phys=1.0846 val_rmse=1.9616 params=[6e-05, 0.0661, 0.00666, -0.36202]
+  PINN lam=10.0 seed=1 ep=13: train_data=3.4534 phys=1.0759 val_rmse=1.9614 params=[6e-05, 0.06091, 0.00614, -0.36214]
+  PINN lam=10.0 seed=1 ep=14: train_data=3.4512 phys=1.0609 val_rmse=1.9612 params=[5e-05, 0.05696, 0.00575, -0.37655]
+  PINN lam=10.0 seed=1 ep=15: train_data=3.4506 phys=1.0697 val_rmse=1.9619 params=[5e-05, 0.05388, 0.00545, -0.3903]
+  PINN lam=10.0 seed=1 ep=16: train_data=3.4473 phys=1.0548 val_rmse=1.9616 params=[5e-05, 0.05144, 0.0052, -0.38704]
+  PINN lam=10.0 seed=1 ep=17: train_data=3.4445 phys=1.0536 val_rmse=1.9620 params=[5e-05, 0.04955, 0.00501, -0.38792]
+  PINN lam=10.0 seed=1 ep=18: train_data=3.4421 phys=1.0412 val_rmse=1.9619 params=[4e-05, 0.0481, 0.00487, -0.39252]
+  PINN lam=10.0 seed=1 ep=19: train_data=3.4378 phys=1.0414 val_rmse=1.9623 params=[4e-05, 0.04703, 0.00476, -0.39357]
+  PINN lam=10.0 seed=1 ep=20: train_data=3.4339 phys=1.0439 val_rmse=1.9624 params=[4e-05, 0.04624, 0.00468, -0.39599]
+  PINN lam=10.0 seed=1 ep=21: train_data=3.4326 phys=1.0536 val_rmse=1.9625 params=[4e-05, 0.04571, 0.00463, -0.39868]
+  PINN lam=10.0 seed=1 ep=22: train_data=3.4304 phys=1.0468 val_rmse=1.9625 params=[4e-05, 0.04538, 0.0046, -0.39855]
+  PINN lam=10.0 seed=1 ep=23: train_data=3.4291 phys=1.0396 val_rmse=1.9626 params=[4e-05, 0.0452, 0.00458, -0.39918]
+  PINN lam=10.0 seed=1 ep=24: train_data=3.4283 phys=1.0437 val_rmse=1.9626 params=[4e-05, 0.04513, 0.00457, -0.39903]
+  PINN lam=10.0 seed=1 ep=25: train_data=3.4280 phys=1.0402 val_rmse=1.9626 params=[4e-05, 0.04512, 0.00457, -0.39906]
+  PINN lam=0.0 seed=1 ep=1: train_data=3.4830 phys=0.0000 val_rmse=1.9633 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=2: train_data=3.4624 phys=0.0000 val_rmse=1.9651 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=3: train_data=3.4518 phys=0.0000 val_rmse=1.9651 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=4: train_data=3.4197 phys=0.0000 val_rmse=1.9723 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=5: train_data=3.3632 phys=0.0000 val_rmse=1.9805 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=6: train_data=3.2479 phys=0.0000 val_rmse=2.0028 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=7: train_data=3.1077 phys=0.0000 val_rmse=2.0302 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=8: train_data=2.9775 phys=0.0000 val_rmse=2.0566 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=9: train_data=2.8621 phys=0.0000 val_rmse=2.0849 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=10: train_data=2.7644 phys=0.0000 val_rmse=2.1081 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=11: train_data=2.6811 phys=0.0000 val_rmse=2.1244 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=12: train_data=2.6069 phys=0.0000 val_rmse=2.1412 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=13: train_data=2.5398 phys=0.0000 val_rmse=2.1592 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=14: train_data=2.4803 phys=0.0000 val_rmse=2.1750 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=15: train_data=2.4277 phys=0.0000 val_rmse=2.1890 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=16: train_data=2.3800 phys=0.0000 val_rmse=2.1998 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=17: train_data=2.3385 phys=0.0000 val_rmse=2.2090 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=18: train_data=2.3022 phys=0.0000 val_rmse=2.2187 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=19: train_data=2.2721 phys=0.0000 val_rmse=2.2251 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=20: train_data=2.2470 phys=0.0000 val_rmse=2.2310 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=21: train_data=2.2271 phys=0.0000 val_rmse=2.2347 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=22: train_data=2.2117 phys=0.0000 val_rmse=2.2372 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=23: train_data=2.2013 phys=0.0000 val_rmse=2.2388 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=24: train_data=2.1948 phys=0.0000 val_rmse=2.2392 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=1 ep=25: train_data=2.1917 phys=0.0000 val_rmse=2.2393 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=10.0 seed=2 ep=1: train_data=3.5341 phys=5.1895 val_rmse=1.9819 params=[0.00048, 0.48165, 0.04816, 0.02528]
+  PINN lam=10.0 seed=2 ep=2: train_data=3.5100 phys=4.4442 val_rmse=1.9655 params=[0.00041, 0.41102, 0.04109, 0.10045]
+  PINN lam=10.0 seed=2 ep=3: train_data=3.4630 phys=3.3027 val_rmse=1.9626 params=[0.00032, 0.32454, 0.03243, 0.13594]
+  PINN lam=10.0 seed=2 ep=4: train_data=3.4690 phys=2.3971 val_rmse=1.9658 params=[0.00025, 0.25615, 0.02558, 0.0508]
+  PINN lam=10.0 seed=2 ep=5: train_data=3.4724 phys=1.8858 val_rmse=1.9631 params=[0.00019, 0.20339, 0.02031, -0.05575]
+  PINN lam=10.0 seed=2 ep=6: train_data=3.4662 phys=1.5687 val_rmse=1.9625 params=[0.00015, 0.163, 0.01629, -0.15478]
+  PINN lam=10.0 seed=2 ep=7: train_data=3.4618 phys=1.3725 val_rmse=1.9623 params=[0.00013, 0.13259, 0.01327, -0.2279]
+  PINN lam=10.0 seed=2 ep=8: train_data=3.4577 phys=1.2538 val_rmse=1.9618 params=[0.0001, 0.10996, 0.01102, -0.28218]
+  PINN lam=10.0 seed=2 ep=9: train_data=3.4556 phys=1.1764 val_rmse=1.9613 params=[9e-05, 0.09343, 0.00938, -0.30867]
+  PINN lam=10.0 seed=2 ep=10: train_data=3.4533 phys=1.1380 val_rmse=1.9614 params=[8e-05, 0.08145, 0.00819, -0.32584]
+  PINN lam=10.0 seed=2 ep=11: train_data=3.4514 phys=1.1126 val_rmse=1.9618 params=[7e-05, 0.07273, 0.00731, -0.35115]
+  PINN lam=10.0 seed=2 ep=12: train_data=3.4481 phys=1.0946 val_rmse=1.9613 params=[6e-05, 0.06619, 0.00666, -0.35763]
+  PINN lam=10.0 seed=2 ep=13: train_data=3.4439 phys=1.0749 val_rmse=1.9610 params=[6e-05, 0.06116, 0.00616, -0.36568]
+  PINN lam=10.0 seed=2 ep=14: train_data=3.4389 phys=1.0595 val_rmse=1.9615 params=[5e-05, 0.05736, 0.00579, -0.3696]
+  PINN lam=10.0 seed=2 ep=15: train_data=3.4323 phys=1.0540 val_rmse=1.9621 params=[5e-05, 0.05434, 0.00549, -0.38104]
+  PINN lam=10.0 seed=2 ep=16: train_data=3.4266 phys=1.0526 val_rmse=1.9620 params=[5e-05, 0.052, 0.00526, -0.38045]
+  PINN lam=10.0 seed=2 ep=17: train_data=3.4162 phys=1.0512 val_rmse=1.9626 params=[5e-05, 0.05018, 0.00508, -0.38727]
+  PINN lam=10.0 seed=2 ep=18: train_data=3.4107 phys=1.0460 val_rmse=1.9625 params=[5e-05, 0.0488, 0.00494, -0.38882]
+  PINN lam=10.0 seed=2 ep=19: train_data=3.4044 phys=1.0358 val_rmse=1.9629 params=[4e-05, 0.04776, 0.00484, -0.38807]
+  PINN lam=10.0 seed=2 ep=20: train_data=3.3952 phys=1.0465 val_rmse=1.9632 params=[4e-05, 0.047, 0.00476, -0.39174]
+  PINN lam=10.0 seed=2 ep=21: train_data=3.3900 phys=1.0507 val_rmse=1.9633 params=[4e-05, 0.04649, 0.00471, -0.39377]
+  PINN lam=10.0 seed=2 ep=22: train_data=3.3857 phys=1.0419 val_rmse=1.9638 params=[4e-05, 0.04617, 0.00468, -0.3947]
+  PINN lam=10.0 seed=2 ep=23: train_data=3.3827 phys=1.0476 val_rmse=1.9638 params=[4e-05, 0.046, 0.00466, -0.39512]
+  PINN lam=10.0 seed=2 ep=24: train_data=3.3817 phys=1.0444 val_rmse=1.9638 params=[4e-05, 0.04593, 0.00465, -0.39518]
+  PINN lam=10.0 seed=2 ep=25: train_data=3.3813 phys=1.0367 val_rmse=1.9638 params=[4e-05, 0.04592, 0.00465, -0.39522]
+  PINN lam=0.0 seed=2 ep=1: train_data=3.4880 phys=0.0000 val_rmse=1.9621 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=2: train_data=3.4646 phys=0.0000 val_rmse=1.9650 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=3: train_data=3.4497 phys=0.0000 val_rmse=1.9654 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=4: train_data=3.4209 phys=0.0000 val_rmse=1.9730 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=5: train_data=3.3554 phys=0.0000 val_rmse=1.9833 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=6: train_data=3.2243 phys=0.0000 val_rmse=2.0147 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=7: train_data=3.0678 phys=0.0000 val_rmse=2.0423 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=8: train_data=2.9223 phys=0.0000 val_rmse=2.0785 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=9: train_data=2.7979 phys=0.0000 val_rmse=2.1011 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=10: train_data=2.6930 phys=0.0000 val_rmse=2.1283 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=11: train_data=2.6024 phys=0.0000 val_rmse=2.1479 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=12: train_data=2.5225 phys=0.0000 val_rmse=2.1675 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=13: train_data=2.4493 phys=0.0000 val_rmse=2.1824 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=14: train_data=2.3901 phys=0.0000 val_rmse=2.1966 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=15: train_data=2.3325 phys=0.0000 val_rmse=2.2124 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=16: train_data=2.2835 phys=0.0000 val_rmse=2.2250 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=17: train_data=2.2410 phys=0.0000 val_rmse=2.2352 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=18: train_data=2.2028 phys=0.0000 val_rmse=2.2430 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=19: train_data=2.1704 phys=0.0000 val_rmse=2.2498 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=20: train_data=2.1442 phys=0.0000 val_rmse=2.2556 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=21: train_data=2.1230 phys=0.0000 val_rmse=2.2595 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=22: train_data=2.1073 phys=0.0000 val_rmse=2.2618 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=23: train_data=2.0961 phys=0.0000 val_rmse=2.2633 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=24: train_data=2.0890 phys=0.0000 val_rmse=2.2638 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN lam=0.0 seed=2 ep=25: train_data=2.0857 phys=0.0000 val_rmse=2.2639 params=[0.0005, 0.5, 0.05, 0.0]
+== Test evaluation
+  Persistence: 0.634 / 1.732 / 2.971  resid=0.841
+  Physics ODE (identified): 0.302 / 0.550 / 0.671  resid=0.000
+  Linear (Ridge): 0.221 / 0.370 / 0.465  resid=0.160
+  Random Forest: 0.236 / 0.338 / 0.424  resid=0.209
+  Gradient Boosting: 0.232 / 0.314 / 0.389  resid=0.199
+  MLP: 0.217 / 0.307 / 0.387  resid=0.184
+  NN (no physics loss): 0.634 / 1.734 / 2.976  resid=0.844
+  PINN (PINNeAPPle): 0.634 / 1.732 / 2.972  resid=0.844
+== Extrapolation (radiation regime)
+  Linear (Ridge) alpha=0.1: val RMSE=0.3170
+  Linear (Ridge) alpha=10.0: val RMSE=0.3169
+  Linear (Ridge) alpha=1000.0: val RMSE=0.3220
+  Random Forest max_depth=12,min_leaf=5: val RMSE=0.3211
+  Random Forest max_depth=20,min_leaf=5: val RMSE=0.3066
+  Random Forest max_depth=None,min_leaf=20: val RMSE=0.3235
+  Gradient Boosting lr=0.05,leaves=31: val RMSE=0.2732
+  Gradient Boosting lr=0.1,leaves=63: val RMSE=0.2756
+  MLP hidden=(128, 128),alpha=0.0001: val RMSE=0.2749
+  MLP hidden=(256, 256, 128),alpha=0.001: val RMSE=0.2874
+  PINN-extrap lam=10.0 seed=0 ep=1: train_data=1.9332 phys=4.3993 val_rmse=1.2521 params=[0.00048, 0.4862, 0.04861, 0.02198]
+  PINN-extrap lam=10.0 seed=0 ep=2: train_data=1.8082 phys=3.7236 val_rmse=1.2611 params=[0.00042, 0.43101, 0.04304, 0.06427]
+  PINN-extrap lam=10.0 seed=0 ep=3: train_data=1.7868 phys=2.9274 val_rmse=1.3013 params=[0.00034, 0.36081, 0.036, 0.11471]
+  PINN-extrap lam=10.0 seed=0 ep=4: train_data=1.8202 phys=2.3369 val_rmse=1.3411 params=[0.00028, 0.30203, 0.03008, 0.11165]
+  PINN-extrap lam=10.0 seed=0 ep=5: train_data=1.8611 phys=1.9299 val_rmse=1.3440 params=[0.00023, 0.25389, 0.02527, 0.0379]
+  PINN-extrap lam=10.0 seed=0 ep=6: train_data=1.8523 phys=1.6840 val_rmse=1.3395 params=[0.0002, 0.2149, 0.02137, -0.08819]
+  PINN-extrap lam=10.0 seed=0 ep=7: train_data=1.8205 phys=1.4770 val_rmse=1.3100 params=[0.00017, 0.18364, 0.01827, -0.18558]
+  PINN-extrap lam=10.0 seed=0 ep=8: train_data=1.8011 phys=1.3629 val_rmse=1.2970 params=[0.00014, 0.15855, 0.0158, -0.27]
+  PINN-extrap lam=10.0 seed=0 ep=9: train_data=1.7852 phys=1.2655 val_rmse=1.3017 params=[0.00012, 0.13893, 0.01386, -0.32509]
+  PINN-extrap lam=10.0 seed=0 ep=10: train_data=1.7798 phys=1.2025 val_rmse=1.2823 params=[0.00011, 0.12338, 0.01231, -0.37202]
+  PINN-extrap lam=10.0 seed=0 ep=11: train_data=1.7739 phys=1.1647 val_rmse=1.2865 params=[0.0001, 0.11093, 0.01109, -0.41134]
+  PINN-extrap lam=10.0 seed=0 ep=12: train_data=1.7706 phys=1.1421 val_rmse=1.2762 params=[9e-05, 0.10143, 0.01015, -0.43428]
+  PINN-extrap lam=10.0 seed=0 ep=13: train_data=1.7676 phys=1.1208 val_rmse=1.2788 params=[8e-05, 0.09386, 0.00941, -0.45031]
+  PINN-extrap lam=10.0 seed=0 ep=14: train_data=1.7661 phys=1.1032 val_rmse=1.2740 params=[8e-05, 0.08785, 0.00881, -0.46273]
+  PINN-extrap lam=10.0 seed=0 ep=15: train_data=1.7646 phys=1.0915 val_rmse=1.2743 params=[8e-05, 0.08319, 0.00835, -0.4792]
+  PINN-extrap lam=10.0 seed=0 ep=16: train_data=1.7607 phys=1.0826 val_rmse=1.2696 params=[7e-05, 0.07955, 0.00799, -0.48643]
+  PINN-extrap lam=10.0 seed=0 ep=17: train_data=1.7603 phys=1.0875 val_rmse=1.2686 params=[7e-05, 0.07674, 0.00771, -0.49816]
+  PINN-extrap lam=10.0 seed=0 ep=18: train_data=1.7583 phys=1.0894 val_rmse=1.2681 params=[7e-05, 0.07452, 0.0075, -0.50365]
+  PINN-extrap lam=10.0 seed=0 ep=19: train_data=1.7559 phys=1.0699 val_rmse=1.2688 params=[7e-05, 0.07289, 0.00734, -0.50495]
+  PINN-extrap lam=10.0 seed=0 ep=20: train_data=1.7545 phys=1.0742 val_rmse=1.2691 params=[6e-05, 0.07172, 0.00722, -0.50808]
+  PINN-extrap lam=10.0 seed=0 ep=21: train_data=1.7529 phys=1.0634 val_rmse=1.2682 params=[6e-05, 0.07091, 0.00714, -0.50897]
+  PINN-extrap lam=10.0 seed=0 ep=22: train_data=1.7528 phys=1.0661 val_rmse=1.2679 params=[6e-05, 0.07043, 0.00709, -0.5098]
+  PINN-extrap lam=10.0 seed=0 ep=23: train_data=1.7517 phys=1.0696 val_rmse=1.2680 params=[6e-05, 0.07017, 0.00707, -0.51052]
+  PINN-extrap lam=10.0 seed=0 ep=24: train_data=1.7518 phys=1.0691 val_rmse=1.2684 params=[6e-05, 0.07007, 0.00706, -0.51114]
+  PINN-extrap lam=10.0 seed=0 ep=25: train_data=1.7517 phys=1.0623 val_rmse=1.2684 params=[6e-05, 0.07006, 0.00706, -0.51116]
+  PINN-extrap lam=0.0 seed=0 ep=1: train_data=1.9238 phys=0.0000 val_rmse=1.2637 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=2: train_data=1.7829 phys=0.0000 val_rmse=1.2730 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=3: train_data=1.7716 phys=0.0000 val_rmse=1.2684 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=4: train_data=1.7485 phys=0.0000 val_rmse=1.2788 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=5: train_data=1.7098 phys=0.0000 val_rmse=1.2908 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=6: train_data=1.6462 phys=0.0000 val_rmse=1.3174 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=7: train_data=1.5602 phys=0.0000 val_rmse=1.3350 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=8: train_data=1.4730 phys=0.0000 val_rmse=1.3692 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=9: train_data=1.3907 phys=0.0000 val_rmse=1.3857 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=10: train_data=1.3214 phys=0.0000 val_rmse=1.4133 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=11: train_data=1.2603 phys=0.0000 val_rmse=1.4409 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=12: train_data=1.2097 phys=0.0000 val_rmse=1.4555 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=13: train_data=1.1658 phys=0.0000 val_rmse=1.4637 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=14: train_data=1.1259 phys=0.0000 val_rmse=1.4826 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=15: train_data=1.0926 phys=0.0000 val_rmse=1.4950 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=16: train_data=1.0636 phys=0.0000 val_rmse=1.5085 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=17: train_data=1.0394 phys=0.0000 val_rmse=1.5146 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=18: train_data=1.0174 phys=0.0000 val_rmse=1.5222 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=19: train_data=1.0001 phys=0.0000 val_rmse=1.5296 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=20: train_data=0.9858 phys=0.0000 val_rmse=1.5341 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=21: train_data=0.9746 phys=0.0000 val_rmse=1.5373 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=22: train_data=0.9666 phys=0.0000 val_rmse=1.5378 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=23: train_data=0.9610 phys=0.0000 val_rmse=1.5393 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=24: train_data=0.9576 phys=0.0000 val_rmse=1.5398 params=[0.0005, 0.5, 0.05, 0.0]
+  PINN-extrap lam=0.0 seed=0 ep=25: train_data=0.9560 phys=0.0000 val_rmse=1.5399 params=[0.0005, 0.5, 0.05, 0.0]
+  Persistence: h6 RMSE=4.382
+  Physics ODE (identified): h6 RMSE=0.954
+  Linear (Ridge): h6 RMSE=0.830
+  Random Forest: h6 RMSE=1.227
+  Gradient Boosting: h6 RMSE=0.828
+  MLP: h6 RMSE=0.579
+  NN (no physics loss): h6 RMSE=5.264
+  PINN (PINNeAPPle): h6 RMSE=5.512
+== What-if
+  Solar x1.4: ODE +0.639  PINN -0.001  NN +0.002  GB +0.652
+  Wind x0.35 (e.g. 14->5 km/h): ODE +0.274  PINN -0.000  NN +0.002  GB +0.080
+  Ambient +1 K: ODE +0.914  PINN +0.001  NN +0.009  GB +0.407
+  Internal heat +50 W/m2: ODE +2.863  PINN -0.001  NN +0.005  GB +0.000
+  Combined (all four): ODE +5.141  PINN +0.002  NN -0.005  GB +1.188
+== Anomaly detection
+  anomaly: {"spike": {"n": 150, "recall_twin_warn_or_anom": 1.0, "recall_twin_anomaly": 0.9666666666666667, "recall_naive": 0.41333333333333333, "median_delay_h": 0.0}, "drift": {"n": 30, "recall_twin_warn_or_anom": 0.9666666666666667, "recall_twin_anomaly": 0.7, "recall_naive": 0.3, "median_delay_h": 22.0}, "stuck": {"n": 30, "recall_twin_warn_or_anom": 0.8333333333333334, "recall_twin_anomaly": 0.6, "recall_naive": 0.0, "median_delay_h": 12.0}} {'twin_WARNING_or_ANOMALY': 0.0255863539445629, 'twin_ANOMALY': 0.008528784648187633, 'naive_band': 0.021588486140724946}
+== VeriPhysics
+PhysicsConfidenceScore report:
+  overall_score: 0.6442  (coverage=0.60, i.e. 3/5 possible checks)
+  [numerical_convergence] score=1 -- observed_order=1.009, GCI_fine=0.0002964, GCI_coarse=0.0005966, asymptotic_ratio=1, asymptotic_tolerance=0.1, is_asymptotic=True
+  [uq_calibration] score=0.9327 -- ECE=0.06725, coverage=0.8849 (target=0.9), sharpness=2.821
+  [benchmark_agreement] score=0 -- benchmark=natal_thermal_mass_dT6h_2023_2024, relative_l2_error=1, rmse=2.972, n_compared_points=17532
+PhysicsConfidenceScore report:
+  overall_score: 0.9008  (coverage=0.60, i.e. 3/5 possible checks)
+  [numerical_convergence] score=1 -- observed_order=1.009, GCI_fine=0.0002964, GCI_coarse=0.0005966, asymptotic_ratio=1, asymptotic_tolerance=0.1, is_asymptotic=True
+  [uq_calibration] score=0.9283 -- ECE=0.0717, coverage=0.8448 (target=0.9), sharpness=0.5889
+  [benchmark_agreement] score=0.774 -- benchmark=natal_thermal_mass_dT6h_2023_2024, relative_l2_error=0.226, rmse=0.6715, n_compared_points=17532
+PhysicsConfidenceScore report:
+  overall_score: 0.9046  (coverage=0.40, i.e. 2/5 possible checks)
+  [uq_calibration] score=0.94 -- ECE=0.05999, coverage=0.871 (target=0.9), sharpness=0.3402
+  [benchmark_agreement] score=0.8691 -- benchmark=natal_thermal_mass_dT6h_2023_2024, relative_l2_error=0.1309, rmse=0.3888, n_compared_points=17532
+PhysicsConfidenceScore report:
+  overall_score: 0.467  (coverage=0.40, i.e. 2/5 possible checks)
+  [uq_calibration] score=0.9339 -- ECE=0.06609, coverage=0.8843 (target=0.9), sharpness=2.824
+  [benchmark_agreement] score=0 -- benchmark=natal_thermal_mass_dT6h_2023_2024, relative_l2_error=1.002, rmse=2.976, n_compared_points=17532

@@ -1,0 +1,34 @@
+{'T': 3000.0, 'zeros_on_line_found': 2467, 'N_T_all_zeros_in_strip': 2469, 'all_zeros_on_line_up_to_T': False, 'seconds': 45038.239084005356, 'first_zeros': [14.134725142, 21.022039639, 25.01085758, 30.424876126, 32.935061588], 'check_first_zero_vs_mpmath_zetazero1': 14.134725141734695}
+{
+ "verification": {
+  "T": 3000.0,
+  "zeros_on_line_found": 2467,
+  "N_T_all_zeros_in_strip": 2469,
+  "all_zeros_on_line_up_to_T": false,
+  "seconds": 45038.239084005356,
+  "first_zeros": [
+   14.134725142,
+   21.022039639,
+   25.01085758,
+   30.424876126,
+   32.935061588
+  ],
+  "check_first_zero_vs_mpmath_zetazero1": 14.134725141734695
+ },
+ "spacings": {
+  "mean": 1.00068995022339,
+  "var": 0.15027951304095005,
+  "var_GUE_wigner": 0.17809724509617242,
+  "lag1_autocorr": -0.3778707709648856,
+  "KS_vs_GUE_wigner": 0.04039069394122491,
+  "KS_vs_Poisson": 0.31501876942881374
+ },
+ "predictability": {
+  "n": 2434,
+  "mse_mean_predictor": 0.1546042561531067,
+  "mse_linear_AR32": 0.11289535481206785,
+  "mse_gru_pinneapple": 0.023508530110120773,
+  "R2_linear_AR32": 0.26977848074074984,
+  "R2_gru_pinneapple": 0.8479438361202685
+ }
+}
