@@ -1,0 +1,233 @@
+runs=100 train=80 val=10 test=10 nodes=13882 T=101 dev=mps
+/Users/yanbarros/Documents/GitHub/pinneapple-labs/PINNeAPPle-Climate/experiments/03_bumper_beam_transolver/src/bumper_experiment.py:139: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:823.)
+  tl += float(loss)
+  [lite s0] ep 10: train 37.9845 val relL2 0.3659 node RMSE 97.469 mm (87s)
+  [lite s0] ep 20: train 4.3204 val relL2 0.1445 node RMSE 3.366 mm (212s)
+  [lite s0] ep 30: train 1.4570 val relL2 0.1047 node RMSE 1.754 mm (318s)
+  [lite s0] ep 40: train 1.0716 val relL2 0.0765 node RMSE 1.116 mm (416s)
+  [lite s0] ep 50: train 0.9199 val relL2 0.0454 node RMSE 1.288 mm (523s)
+  [lite s0] ep 60: train 0.7722 val relL2 0.0610 node RMSE 2.281 mm (582s)
+  [lite s0] ep 70: train 0.6056 val relL2 0.0465 node RMSE 1.681 mm (635s)
+  [lite s0] ep 80: train 0.4856 val relL2 0.0504 node RMSE 1.523 mm (685s)
+  [lite s0] ep 90: train 0.3677 val relL2 0.0439 node RMSE 1.468 mm (732s)
+  [lite s0] ep 100: train 0.5212 val relL2 0.0435 node RMSE 1.077 mm (776s)
+  [lite s0] ep 110: train 0.4384 val relL2 0.0427 node RMSE 0.985 mm (810s)
+  [lite s0] ep 120: train 0.3246 val relL2 0.0381 node RMSE 0.907 mm (844s)
+  [lite s0] ep 130: train 0.3143 val relL2 0.0354 node RMSE 0.844 mm (877s)
+  [lite s0] ep 140: train 0.3478 val relL2 0.0441 node RMSE 0.900 mm (911s)
+  [lite s0] ep 150: train 0.3798 val relL2 0.0364 node RMSE 1.175 mm (946s)
+  [lite s0] ep 160: train 0.2738 val relL2 0.0342 node RMSE 0.586 mm (984s)
+  [lite s0] ep 170: train 0.2814 val relL2 0.0377 node RMSE 1.052 mm (1018s)
+  [lite s0] ep 180: train 0.1916 val relL2 0.0293 node RMSE 0.627 mm (1050s)
+  [lite s0] ep 190: train 0.2298 val relL2 0.0318 node RMSE 0.564 mm (1079s)
+  [lite s0] ep 200: train 0.2335 val relL2 0.0284 node RMSE 0.704 mm (1109s)
+  [lite s0] ep 210: train 0.1680 val relL2 0.0283 node RMSE 0.633 mm (1139s)
+  [lite s0] ep 220: train 0.3057 val relL2 0.0435 node RMSE 0.706 mm (1169s)
+  [lite s0] ep 230: train 0.1853 val relL2 0.0264 node RMSE 0.786 mm (1199s)
+  [lite s0] ep 240: train 0.2088 val relL2 0.0349 node RMSE 0.890 mm (1230s)
+  [lite s0] ep 250: train 0.2023 val relL2 0.0366 node RMSE 1.157 mm (1260s)
+  [lite s0] ep 260: train 0.1430 val relL2 0.0266 node RMSE 0.737 mm (1291s)
+  early stop at 264
+A: {"field_rel_l2": 0.032788001000881195, "field_rmse_mm": 3.9508371353149414, "node_rmse_mm": 0.9678969383239746, "node_max_abs_mm": 7.163055419921875, "node_r2": 0.9523853063583374, "node_peak_err_mm": 0.5934607982635498, "node_final_err_mm": 2.8442089557647705, "shell_rel_l2": 0.028019534423947334}
+  [improved s0] ep 10: train 25.9723 val relL2 0.1122 node RMSE 0.991 mm (184s)
+  [improved s0] ep 20: train 21.9464 val relL2 0.1325 node RMSE 0.968 mm (368s)
+  [improved s0] ep 30: train 18.9210 val relL2 0.0958 node RMSE 1.025 mm (550s)
+  [improved s0] ep 40: train 7.5337 val relL2 0.0291 node RMSE 0.397 mm (735s)
+  [improved s0] ep 50: train 4.3775 val relL2 0.0329 node RMSE 0.279 mm (921s)
+  [improved s0] ep 60: train 3.7312 val relL2 0.0180 node RMSE 0.213 mm (1107s)
+  [improved s0] ep 70: train 4.0139 val relL2 0.0447 node RMSE 0.600 mm (1294s)
+  [improved s0] ep 80: train 2.2484 val relL2 0.0266 node RMSE 0.327 mm (1476s)
+  [improved s0] ep 90: train 2.3787 val relL2 0.0251 node RMSE 0.219 mm (1632s)
+  [improved s0] ep 100: train 2.0162 val relL2 0.0170 node RMSE 0.222 mm (1791s)
+  [improved s0] ep 110: train 1.5639 val relL2 0.0155 node RMSE 0.190 mm (1949s)
+  [improved s0] ep 120: train 1.2907 val relL2 0.0119 node RMSE 0.235 mm (2107s)
+  [improved s0] ep 130: train 1.9100 val relL2 0.0236 node RMSE 0.373 mm (2265s)
+  [improved s0] ep 140: train 1.1245 val relL2 0.0182 node RMSE 0.304 mm (2423s)
+  [improved s0] ep 150: train 1.3947 val relL2 0.0124 node RMSE 0.180 mm (2582s)
+  early stop at 154
+  [improved s1] ep 10: train 29.8245 val relL2 0.0549 node RMSE 0.465 mm (158s)
+  [improved s1] ep 20: train 17.1899 val relL2 0.0549 node RMSE 0.644 mm (318s)
+  [improved s1] ep 30: train 13.7148 val relL2 0.0581 node RMSE 0.791 mm (477s)
+  [improved s1] ep 40: train 6.3842 val relL2 0.0296 node RMSE 0.353 mm (635s)
+  [improved s1] ep 50: train 4.5798 val relL2 0.0258 node RMSE 0.286 mm (793s)
+  [improved s1] ep 60: train 3.3348 val relL2 0.0396 node RMSE 0.214 mm (955s)
+  [improved s1] ep 70: train 8.2530 val relL2 0.0199 node RMSE 0.236 mm (1113s)
+  [improved s1] ep 80: train 3.4764 val relL2 0.0306 node RMSE 0.282 mm (1272s)
+  [improved s1] ep 90: train 2.1966 val relL2 0.0379 node RMSE 0.321 mm (1433s)
+  [improved s1] ep 100: train 1.6700 val relL2 0.0417 node RMSE 0.366 mm (1592s)
+  [improved s1] ep 110: train 2.1429 val relL2 0.0200 node RMSE 0.230 mm (1752s)
+  [improved s1] ep 120: train 1.6754 val relL2 0.0202 node RMSE 0.164 mm (1912s)
+  [improved s1] ep 130: train 1.5306 val relL2 0.0128 node RMSE 0.200 mm (2071s)
+  [improved s1] ep 140: train 0.8570 val relL2 0.0101 node RMSE 0.164 mm (2231s)
+  [improved s1] ep 150: train 1.4247 val relL2 0.0131 node RMSE 0.179 mm (2392s)
+  [improved s1] ep 160: train 1.0564 val relL2 0.0243 node RMSE 0.271 mm (2550s)
+  [improved s1] ep 170: train 0.9124 val relL2 0.0107 node RMSE 0.282 mm (2710s)
+  [improved s1] ep 180: train 0.7870 val relL2 0.0095 node RMSE 0.164 mm (2870s)
+  [improved s1] ep 190: train 0.6793 val relL2 0.0095 node RMSE 0.231 mm (3030s)
+  [improved s1] ep 200: train 0.5297 val relL2 0.0091 node RMSE 0.200 mm (3190s)
+  [improved s1] ep 210: train 0.5033 val relL2 0.0099 node RMSE 0.210 mm (3350s)
+  [improved s1] ep 220: train 0.4511 val relL2 0.0099 node RMSE 0.171 mm (3509s)
+  [improved s1] ep 230: train 0.4529 val relL2 0.0085 node RMSE 0.158 mm (3670s)
+  early stop at 237
+  [improved s2] ep 10: train 32.0365 val relL2 0.0982 node RMSE 0.408 mm (158s)
+  [improved s2] ep 20: train 10.6751 val relL2 0.0348 node RMSE 0.466 mm (319s)
+  [improved s2] ep 30: train 7.2803 val relL2 0.0494 node RMSE 0.284 mm (479s)
+  [improved s2] ep 40: train 11.0192 val relL2 0.0240 node RMSE 0.381 mm (638s)
+  [improved s2] ep 50: train 5.4596 val relL2 0.0267 node RMSE 0.252 mm (802s)
+  [improved s2] ep 60: train 4.7963 val relL2 0.0238 node RMSE 0.245 mm (961s)
+  [improved s2] ep 70: train 3.1591 val relL2 0.0236 node RMSE 0.289 mm (1121s)
+  [improved s2] ep 80: train 2.1105 val relL2 0.0200 node RMSE 0.309 mm (1280s)
+  [improved s2] ep 90: train 2.3491 val relL2 0.0220 node RMSE 0.365 mm (1439s)
+  [improved s2] ep 100: train 2.1112 val relL2 0.0174 node RMSE 0.226 mm (1600s)
+  [improved s2] ep 110: train 2.9493 val relL2 0.0169 node RMSE 0.221 mm (1760s)
+  [improved s2] ep 120: train 1.5776 val relL2 0.0148 node RMSE 0.218 mm (1920s)
+  [improved s2] ep 130: train 1.1494 val relL2 0.0218 node RMSE 0.201 mm (2079s)
+  [improved s2] ep 140: train 1.1551 val relL2 0.0220 node RMSE 0.184 mm (2239s)
+  [improved s2] ep 150: train 1.4315 val relL2 0.0277 node RMSE 0.210 mm (2400s)
+  [improved s2] ep 160: train 1.2210 val relL2 0.0168 node RMSE 0.188 mm (2561s)
+  [improved s2] ep 170: train 1.2131 val relL2 0.0152 node RMSE 0.213 mm (2721s)
+  [improved s2] ep 180: train 0.8031 val relL2 0.0110 node RMSE 0.211 mm (2881s)
+  [improved s2] ep 190: train 0.6528 val relL2 0.0102 node RMSE 0.169 mm (3040s)
+  [improved s2] ep 200: train 0.7286 val relL2 0.0121 node RMSE 0.171 mm (3200s)
+  [improved s2] ep 210: train 0.6968 val relL2 0.0203 node RMSE 0.237 mm (3360s)
+  [improved s2] ep 220: train 0.5155 val relL2 0.0093 node RMSE 0.195 mm (3519s)
+  early stop at 221
+B: {"field_rel_l2": 0.017986226826906204, "field_rmse_mm": 2.1672773361206055, "node_rmse_mm": 0.46342933177948, "node_max_abs_mm": 3.1791505813598633, "node_r2": 0.9890843629837036, "node_peak_err_mm": 0.16166429221630096, "node_final_err_mm": 0.38107824325561523, "shell_rel_l2": 0.017404764890670776}
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k2__noise_level is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/_gpr.py:667: ConvergenceWarning: lbfgs failed to converge after 24 iteration(s) (status=2):
+ABNORMAL: 
+
+You might also want to scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+  _check_optimize_result("lbfgs", opt_res)
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:455: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified upper bound 100000.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/_gpr.py:667: ConvergenceWarning: lbfgs failed to converge after 23 iteration(s) (status=2):
+ABNORMAL: 
+
+You might also want to scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+  _check_optimize_result("lbfgs", opt_res)
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:455: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified upper bound 100000.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/_gpr.py:667: ConvergenceWarning: lbfgs failed to converge after 25 iteration(s) (status=2):
+ABNORMAL: 
+
+You might also want to scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+  _check_optimize_result("lbfgs", opt_res)
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/_gpr.py:667: ConvergenceWarning: lbfgs failed to converge after 23 iteration(s) (status=2):
+ABNORMAL: 
+
+You might also want to scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+  _check_optimize_result("lbfgs", opt_res)
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+/opt/homebrew/lib/python3.14/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 1 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C: 0.6225885258329903 0.4450763165950775
+PhysicsConfidenceScore report:
+  overall_score: 0.806  (coverage=0.20, i.e. 1/5 possible checks)
+  [benchmark_agreement] score=0.806 -- benchmark=openradioss_bumper_node1806_heldout, relative_l2_error=0.194, rmse=0.9679, n_compared_points=1010
+PhysicsConfidenceScore report:
+  overall_score: 0.9066  (coverage=0.40, i.e. 2/5 possible checks)
+  [uq_calibration] score=0.9061 -- ECE=0.09387, coverage=0.607 (target=0.9), sharpness=0.1082
+  [benchmark_agreement] score=0.9071 -- benchmark=openradioss_bumper_node1806_heldout, relative_l2_error=0.09287, rmse=0.4634, n_compared_points=1010
+PhysicsConfidenceScore report:
+  overall_score: 0.8915  (coverage=0.40, i.e. 2/5 possible checks)
+  [uq_calibration] score=0.9077 -- ECE=0.09227, coverage=0.793 (target=0.9), sharpness=0.2434
+  [benchmark_agreement] score=0.8752 -- benchmark=openradioss_bumper_node1806_heldout, relative_l2_error=0.1248, rmse=0.6226, n_compared_points=1010
+PhysicsConfidenceScore report:
+  overall_score: 0.9108  (coverage=0.20, i.e. 1/5 possible checks)
+  [benchmark_agreement] score=0.9108 -- benchmark=openradioss_bumper_node1806_heldout, relative_l2_error=0.08919, rmse=0.4451, n_compared_points=1010

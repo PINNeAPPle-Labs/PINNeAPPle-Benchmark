@@ -1,0 +1,303 @@
+audit: {
+ "preset_domain": {
+  "R1_Fx_at_s0_range_N": [
+   -4.197683420340577,
+   4.9933457361415945
+  ],
+  "R2_original_area_piBR_min_margin_N": 32.40674329649373,
+  "R2_original_area_ever_active": false,
+  "R2_arc_area_min_margin_N": 1.3287955232466622,
+  "R2_arc_violations": 0,
+  "R3_monotone_s_le_0.4_violations": 0,
+  "R4_min_margin_Nm": 0.010947864517798528,
+  "R4_violations": 0,
+  "R5_dFz_dz_violations": 0,
+  "Fz_range_N": [
+   1.2623032638398788,
+   229.6034005989006
+  ],
+  "n_points": 4332
+ },
+ "extended_z_to_0.1m": {
+  "R1_Fx_at_s0_range_N": [
+   -4.19957298457746,
+   14.894117286205654
+  ],
+  "R2_original_area_piBR_min_margin_N": 32.43470782971115,
+  "R2_original_area_ever_active": false,
+  "R2_arc_area_min_margin_N": 1.3287955232466622,
+  "R2_arc_violations": 0,
+  "R3_monotone_s_le_0.4_violations": 156,
+  "R4_min_margin_Nm": 0.010947864517798528,
+  "R4_violations": 0,
+  "R5_dFz_dz_violations": 0,
+  "Fz_range_N": [
+   1.2623032638398788,
+   535.4527212848756
+  ],
+  "n_points": 4332
+ },
+ "operating_sinkage_for_wheel_load_m": {
+  "W_N": 10.800000000000002,
+  "z_min": 0.007712768655556381,
+  "z_max": 0.0082815428415153
+ }
+}
+Device: cpu
+
+Step 1/4 — Generating Bekker-Wong reference dataset ...
+  Generated 2531 Bekker-Wong evaluations ...
+    F_x: [-4.20, 32.35] N
+    F_z: [1.26, 229.60] N
+    M_y: [0.0023, 14.3395] Nm
+    Train: 2,151  |  Val: 380
+
+Step 2/4 — Building TerraMechanicsPINN ...
+    Parameters: 170,755
+
+Step 3/4 — Training 4000 epochs ...
+    ep=  500 | total=1.015e-01 | data=4.669e-02 | val=4.923e-02 | r1=1.829e-02
+    ep= 1000 | total=6.097e-02 | data=2.465e-02 | val=2.375e-02 | r1=9.013e-03
+    ep= 1500 | total=8.379e-02 | data=1.907e-02 | val=1.913e-02 | r1=2.291e-02
+    ep= 2000 | total=3.969e-02 | data=1.677e-02 | val=1.843e-02 | r1=2.296e-03
+    ep= 2500 | total=3.424e-02 | data=1.718e-02 | val=1.781e-02 | r1=1.051e-03
+    ep= 3000 | total=3.239e-02 | data=1.618e-02 | val=1.636e-02 | r1=3.956e-04
+    ep= 3500 | total=3.294e-02 | data=1.638e-02 | val=1.664e-02 | r1=2.304e-05
+    ep= 4000 | total=3.252e-02 | data=1.620e-02 | val=1.722e-02 | r1=3.863e-06
+
+    Best val MSE: 1.6258e-02
+original: {
+ "train_seconds": 27554.99524617195,
+ "n_train_points": 2531,
+ "best_val_mse_normalised": 0.016258306801319122,
+ "test": {
+  "Fx": {
+   "RMSE": 1.2710613612448476,
+   "MAE": 1.0319707027240685,
+   "rel_L2": 0.0721310829303836,
+   "max_abs": 5.056811223126111
+  },
+  "Fz": {
+   "RMSE": 1.4119375806215206,
+   "MAE": 1.1580706353911916,
+   "rel_L2": 0.012663328635792885,
+   "max_abs": 5.963609119241795
+  },
+  "My": {
+   "RMSE": 1.4789593003131076,
+   "MAE": 1.176175263885373,
+   "rel_L2": 0.22082245441569417,
+   "max_abs": 2.721984072364754
+  }
+ },
+ "fx_at_zero_slip_pred_vs_solver": {
+  "pred_mean_abs": 0.010935774073004723,
+  "solver_mean_abs": 2.517744902444188,
+  "rmse": 2.8924182368816798
+ },
+ "final_physics_losses": {
+  "r1": 3.863409347104607e-06,
+  "r2": 0.0,
+  "r3": 5.0482931328588165e-06,
+  "r4": 0.05436244606971741
+ },
+ "constraint_violations": {
+  "R2_mohr_coulomb": 0.0,
+  "R3_monotone_slip": 0.025384615384615384,
+  "R4_torque": 0.0,
+  "R5_monotone_sinkage": 0.00065
+ }
+}
+  Data-only ML seed0 ep60: val rel-MSE 1.097e-01 (52s)
+  Data-only ML seed0 ep120: val rel-MSE 4.267e-03 (101s)
+  Data-only ML seed0 ep180: val rel-MSE 5.484e-04 (152s)
+  Data-only ML seed0 ep240: val rel-MSE 2.587e-04 (199s)
+  Data-only ML seed0 ep300: val rel-MSE 2.515e-04 (245s)
+  Data-only ML seed1 ep60: val rel-MSE 3.704e-02 (50s)
+  Data-only ML seed1 ep120: val rel-MSE 1.574e-03 (98s)
+  Data-only ML seed1 ep180: val rel-MSE 7.737e-05 (143s)
+  Data-only ML seed1 ep240: val rel-MSE 5.754e-05 (193s)
+  Data-only ML seed1 ep300: val rel-MSE 5.485e-05 (243s)
+  Data-only ML seed2 ep60: val rel-MSE 7.532e-02 (46s)
+  Data-only ML seed2 ep120: val rel-MSE 6.501e-03 (89s)
+  Data-only ML seed2 ep180: val rel-MSE 2.187e-04 (136s)
+  Data-only ML seed2 ep240: val rel-MSE 1.410e-04 (185s)
+  Data-only ML seed2 ep300: val rel-MSE 1.338e-04 (233s)
+  Data-only ML seed3 ep60: val rel-MSE 3.694e-02 (46s)
+  Data-only ML seed3 ep120: val rel-MSE 4.381e-03 (92s)
+  Data-only ML seed3 ep180: val rel-MSE 2.420e-04 (149s)
+  Data-only ML seed3 ep240: val rel-MSE 1.070e-04 (196s)
+  Data-only ML seed3 ep300: val rel-MSE 1.016e-04 (239s)
+  Data-only ML seed4 ep60: val rel-MSE 2.225e-02 (42s)
+  Data-only ML seed4 ep120: val rel-MSE 4.783e-03 (88s)
+  Data-only ML seed4 ep180: val rel-MSE 7.239e-05 (137s)
+  Data-only ML seed4 ep240: val rel-MSE 5.412e-05 (178s)
+  Data-only ML seed4 ep300: val rel-MSE 5.262e-05 (222s)
+Data-only MLP (ModifiedMLP) {"Fx": {"RMSE": 0.3873445374423324, "MAE": 0.18401604902956184, "rel_L2": 0.021981299884311318, "max_abs": 4.23136232355139}, "Fz": {"RMSE": 1.6874308323775042, "MAE": 0.5946761726768091, "rel_L2": 0.015134161363677054, "max_abs": 28.132215836944255}, "My": {"RMSE": 0.12100259189361155, "MAE": 0.04499724634336542, "rel_L2": 0.018066818557448485, "max_abs": 2.2097312263634237}} {'R2_mohr_coulomb': 0.0, 'R3_monotone_slip': 0.006153846153846154, 'R4_torque': 0.0007, 'R5_monotone_sinkage': 0.0276}
+  Robust PINN  seed0 ep60: val rel-MSE 6.606e-04 (118s)
+  Robust PINN  seed0 ep120: val rel-MSE 1.595e-04 (211s)
+  Robust PINN  seed0 ep180: val rel-MSE 9.732e-05 (309s)
+  Robust PINN  seed0 ep240: val rel-MSE 7.924e-05 (398s)
+  Robust PINN  seed0 ep300: val rel-MSE 7.603e-05 (477s)
+  Robust PINN  seed1 ep60: val rel-MSE 2.968e-04 (80s)
+  Robust PINN  seed1 ep120: val rel-MSE 9.476e-05 (167s)
+  Robust PINN  seed1 ep180: val rel-MSE 5.444e-05 (247s)
+  Robust PINN  seed1 ep240: val rel-MSE 4.334e-05 (319s)
+  Robust PINN  seed1 ep300: val rel-MSE 4.186e-05 (380s)
+  Robust PINN  seed2 ep60: val rel-MSE 6.154e-04 (54s)
+  Robust PINN  seed2 ep120: val rel-MSE 1.723e-04 (106s)
+  Robust PINN  seed2 ep180: val rel-MSE 9.660e-05 (156s)
+  Robust PINN  seed2 ep240: val rel-MSE 7.505e-05 (211s)
+  Robust PINN  seed2 ep300: val rel-MSE 7.195e-05 (265s)
+  Robust PINN  seed3 ep60: val rel-MSE 3.683e-03 (47s)
+  Robust PINN  seed3 ep120: val rel-MSE 9.386e-05 (95s)
+  Robust PINN  seed3 ep180: val rel-MSE 4.717e-05 (138s)
+  Robust PINN  seed3 ep240: val rel-MSE 3.653e-05 (184s)
+  Robust PINN  seed3 ep300: val rel-MSE 3.460e-05 (233s)
+  Robust PINN  seed4 ep60: val rel-MSE 5.307e-02 (50s)
+  Robust PINN  seed4 ep120: val rel-MSE 1.612e-04 (115s)
+  Robust PINN  seed4 ep180: val rel-MSE 8.716e-05 (186s)
+  Robust PINN  seed4 ep240: val rel-MSE 6.904e-05 (255s)
+  Robust PINN  seed4 ep300: val rel-MSE 6.606e-05 (326s)
+Robust PINN (hard R2,R4 + soft R3,R5) {"Fx": {"RMSE": 0.6617840471412283, "MAE": 0.26516191372973547, "rel_L2": 0.03755538594895066, "max_abs": 7.5154174800736655}, "Fz": {"RMSE": 0.7859529606162122, "MAE": 0.25357589405378994, "rel_L2": 0.0070490231077894846, "max_abs": 20.169279435577067}, "My": {"RMSE": 0.05273471312196767, "MAE": 0.023115483760564905, "rel_L2": 0.007873785831723072, "max_abs": 1.19689095536733}} {'R2_mohr_coulomb': 0.0, 'R3_monotone_slip': 0.0, 'R4_torque': 0.0, 'R5_monotone_sinkage': 0.00725}
+rover: {'Original PINN': (0.7160621918145431, 1.6019089523409964), 'Data-only MLP (ModifiedMLP)': (0.0153177252539356, 0.01794497896090719), 'Robust PINN (hard R2,R4 + soft R3,R5)': (0.04259753099976662, 0.03547336268975672)}
+speed: {'quad_adaptive': 1004.9104690551757, 'gauss_legendre_48_batched': 35.30706167221069, 'gauss_legendre_16_batched': 28.864991664886475, 'robust_ensemble5_batched': 98.3206033706665, 'robust_single_member_one_query': 486.3758087158203, 'original_pinn_batched': 14.63075876235962}
+PhysicsConfidenceScore report:
+  overall_score: 0.902  (coverage=0.80, i.e. 4/5 possible checks)
+  [physics_guardrail] score=0.6667 -- 2/3 guardrail checks passed (parameter_sanity=PASS, pde_residual=FAIL, reference_data_match=PASS); trustworthy=False
+  [numerical_convergence] score=1 -- observed_order=3.486, GCI_fine=7.3e-07, GCI_coarse=8.179e-06, asymptotic_ratio=1, asymptotic_tolerance=0.1, is_asymptotic=True
+  [uq_calibration] score=0.9503 -- ECE=0.04972, coverage=0.9014 (target=0.9), sharpness=0.35
+  [benchmark_agreement] score=0.9909 -- benchmark=bekker_wong_grc1_heldout_lhs, relative_l2_error=0.009098, rmse=0.594, n_compared_points=5000
+PhysicsConfidenceScore report:
+  overall_score: 0.8093  (coverage=0.80, i.e. 4/5 possible checks)
+  [physics_guardrail] score=0.3333 -- 1/3 guardrail checks passed (parameter_sanity=PASS, pde_residual=FAIL, reference_data_match=FAIL); trustworthy=False
+  [numerical_convergence] score=1 -- observed_order=3.486, GCI_fine=7.3e-07, GCI_coarse=8.179e-06, asymptotic_ratio=1, asymptotic_tolerance=0.1, is_asymptotic=True
+  [uq_calibration] score=0.9194 -- ECE=0.08061, coverage=0.9598 (target=0.9), sharpness=0.3351
+  [benchmark_agreement] score=0.9847 -- benchmark=bekker_wong_grc1_heldout_lhs, relative_l2_error=0.01535, rmse=1.002, n_compared_points=5000
+PhysicsConfidenceScore report:
+  overall_score: 0.7707  (coverage=0.60, i.e. 3/5 possible checks)
+  [physics_guardrail] score=0.3333 -- 1/3 guardrail checks passed (parameter_sanity=PASS, pde_residual=FAIL, reference_data_match=FAIL); trustworthy=False
+  [numerical_convergence] score=1 -- observed_order=3.486, GCI_fine=7.3e-07, GCI_coarse=8.179e-06, asymptotic_ratio=1, asymptotic_tolerance=0.1, is_asymptotic=True
+  [benchmark_agreement] score=0.9787 -- benchmark=bekker_wong_grc1_heldout_lhs, relative_l2_error=0.02129, rmse=1.39, n_compared_points=5000
+  label_nois seed0 ep60: val rel-MSE 1.537e-01 (27s)
+  label_nois seed0 ep120: val rel-MSE 4.736e-03 (63s)
+  label_nois seed0 ep180: val rel-MSE 4.310e-04 (93s)
+  label_nois seed0 ep240: val rel-MSE 3.186e-04 (127s)
+  label_nois seed0 ep300: val rel-MSE 3.119e-04 (159s)
+  label_nois seed1 ep60: val rel-MSE 2.222e-02 (29s)
+  label_nois seed1 ep120: val rel-MSE 1.467e-03 (59s)
+  label_nois seed1 ep180: val rel-MSE 1.660e-04 (87s)
+  label_nois seed1 ep240: val rel-MSE 1.266e-04 (117s)
+  label_nois seed1 ep300: val rel-MSE 1.246e-04 (147s)
+  label_nois seed2 ep60: val rel-MSE 2.956e-02 (29s)
+  label_nois seed2 ep120: val rel-MSE 4.604e-03 (60s)
+  label_nois seed2 ep180: val rel-MSE 2.666e-04 (89s)
+  label_nois seed2 ep240: val rel-MSE 2.092e-04 (117s)
+  label_nois seed2 ep300: val rel-MSE 2.013e-04 (146s)
+label_noise_3pct Data-only MLP {"Fx": {"RMSE": 0.48415546528209774, "MAE": 0.2673027432901418, "rel_L2": 0.027475194418040545, "max_abs": 4.9447942839782995}, "Fz": {"RMSE": 2.3681249509537023, "MAE": 1.1847563978965259, "rel_L2": 0.02123914322851798, "max_abs": 32.653272965850505}, "My": {"RMSE": 0.1508748664311463, "MAE": 0.07039950508763515, "rel_L2": 0.022527028504376267, "max_abs": 2.2816001228477987}}
+  label_nois seed0 ep60: val rel-MSE 5.859e-04 (65s)
+  label_nois seed0 ep120: val rel-MSE 2.211e-04 (135s)
+  label_nois seed0 ep180: val rel-MSE 1.690e-04 (203s)
+  label_nois seed0 ep240: val rel-MSE 1.565e-04 (272s)
+  label_nois seed0 ep300: val rel-MSE 1.536e-04 (342s)
+  label_nois seed1 ep60: val rel-MSE 4.138e-04 (66s)
+  label_nois seed1 ep120: val rel-MSE 1.819e-04 (135s)
+  label_nois seed1 ep180: val rel-MSE 1.425e-04 (219s)
+  label_nois seed1 ep240: val rel-MSE 1.303e-04 (292s)
+  label_nois seed1 ep300: val rel-MSE 1.302e-04 (359s)
+  label_nois seed2 ep60: val rel-MSE 1.505e-02 (76s)
+  label_nois seed2 ep120: val rel-MSE 2.530e-04 (145s)
+  label_nois seed2 ep180: val rel-MSE 1.752e-04 (220s)
+  label_nois seed2 ep240: val rel-MSE 1.560e-04 (294s)
+  label_nois seed2 ep300: val rel-MSE 1.522e-04 (366s)
+label_noise_3pct Robust PINN {"Fx": {"RMSE": 0.8673294163097197, "MAE": 0.3964484133724683, "rel_L2": 0.049219818935040585, "max_abs": 9.361722052807004}, "Fz": {"RMSE": 1.7307827583119175, "MAE": 0.9893579488070067, "rel_L2": 0.015522974362662726, "max_abs": 20.016233781280192}, "My": {"RMSE": 0.09576374776831867, "MAE": 0.05642431429565258, "rel_L2": 0.014298423101818038, "max_abs": 0.9505797676231893}}
+  small_data seed0 ep60: val rel-MSE 1.633e+00 (7s)
+  small_data seed0 ep120: val rel-MSE 1.855e+00 (15s)
+  small_data seed0 ep180: val rel-MSE 2.499e+00 (20s)
+  small_data seed0 ep240: val rel-MSE 2.801e+00 (27s)
+  small_data seed0 ep300: val rel-MSE 2.840e+00 (33s)
+  small_data seed1 ep60: val rel-MSE 1.068e+00 (7s)
+  small_data seed1 ep120: val rel-MSE 1.133e+00 (13s)
+  small_data seed1 ep180: val rel-MSE 1.034e+00 (19s)
+  small_data seed1 ep240: val rel-MSE 1.068e+00 (25s)
+  small_data seed1 ep300: val rel-MSE 1.080e+00 (31s)
+  small_data seed2 ep60: val rel-MSE 1.318e+00 (7s)
+  small_data seed2 ep120: val rel-MSE 2.307e+00 (13s)
+  small_data seed2 ep180: val rel-MSE 3.365e+00 (19s)
+  small_data seed2 ep240: val rel-MSE 3.836e+00 (25s)
+  small_data seed2 ep300: val rel-MSE 3.935e+00 (32s)
+small_data_150 Data-only MLP {"Fx": {"RMSE": 10.700113084518629, "MAE": 8.083807304989891, "rel_L2": 0.6072175331551285, "max_abs": 32.468481774578656}, "Fz": {"RMSE": 69.63605926804362, "MAE": 49.979210594157514, "rel_L2": 0.6245490703807297, "max_abs": 187.2414053659447}, "My": {"RMSE": 3.5602223962951083, "MAE": 2.4649647702677036, "rel_L2": 0.5315744981279539, "max_abs": 11.7024135697304}}
+  small_data seed0 ep60: val rel-MSE 8.292e-01 (11s)
+  small_data seed0 ep120: val rel-MSE 9.610e-01 (21s)
+  small_data seed0 ep180: val rel-MSE 9.379e-01 (33s)
+  small_data seed0 ep240: val rel-MSE 9.175e-01 (44s)
+  small_data seed0 ep300: val rel-MSE 9.145e-01 (56s)
+  small_data seed1 ep60: val rel-MSE 4.484e-01 (12s)
+  small_data seed1 ep120: val rel-MSE 4.145e-01 (23s)
+  small_data seed1 ep180: val rel-MSE 4.020e-01 (36s)
+  small_data seed1 ep240: val rel-MSE 4.002e-01 (50s)
+  small_data seed1 ep300: val rel-MSE 4.001e-01 (62s)
+  small_data seed2 ep60: val rel-MSE 2.813e+00 (11s)
+  small_data seed2 ep120: val rel-MSE 2.759e+00 (22s)
+  small_data seed2 ep180: val rel-MSE 2.719e+00 (33s)
+  small_data seed2 ep240: val rel-MSE 2.713e+00 (44s)
+  small_data seed2 ep300: val rel-MSE 2.707e+00 (55s)
+small_data_150 Robust PINN {"Fx": {"RMSE": 8.518480962629143, "MAE": 7.121519806156206, "rel_L2": 0.48341274110836124, "max_abs": 27.066946490123748}, "Fz": {"RMSE": 55.313940818360635, "MAE": 39.87118310419015, "rel_L2": 0.496097434006512, "max_abs": 170.62432007519962}, "My": {"RMSE": 2.7042087013847214, "MAE": 1.7982825973465846, "rel_L2": 0.4037636482394273, "max_abs": 10.391610873736916}}
+  extrapolat seed0 ep60: val rel-MSE 1.386e-01 (19s)
+  extrapolat seed0 ep120: val rel-MSE 1.198e-02 (40s)
+  extrapolat seed0 ep180: val rel-MSE 1.004e-03 (59s)
+  extrapolat seed0 ep240: val rel-MSE 2.178e-04 (79s)
+  extrapolat seed0 ep300: val rel-MSE 1.683e-04 (102s)
+  extrapolat seed1 ep60: val rel-MSE 1.475e-01 (22s)
+  extrapolat seed1 ep120: val rel-MSE 6.647e-03 (44s)
+  extrapolat seed1 ep180: val rel-MSE 8.341e-04 (64s)
+  extrapolat seed1 ep240: val rel-MSE 6.044e-05 (85s)
+  extrapolat seed1 ep300: val rel-MSE 5.662e-05 (106s)
+  extrapolat seed2 ep60: val rel-MSE 5.351e-02 (21s)
+  extrapolat seed2 ep120: val rel-MSE 1.098e-02 (42s)
+  extrapolat seed2 ep180: val rel-MSE 1.063e-03 (62s)
+  extrapolat seed2 ep240: val rel-MSE 2.752e-04 (89s)
+  extrapolat seed2 ep300: val rel-MSE 2.592e-04 (109s)
+extrapolate_sinkage_train_le_0.04_test_gt_0.045 Data-only MLP {"Fx": {"RMSE": 20.773840372378796, "MAE": 19.082079564832743, "rel_L2": 0.7939201500388078, "max_abs": 30.54374620038353}, "Fz": {"RMSE": 159.23372995248303, "MAE": 156.34149388448841, "rel_L2": 0.8588369591021289, "max_abs": 216.2098039665303}, "My": {"RMSE": 10.127814680017377, "MAE": 9.887426363622748, "rel_L2": 0.8900162958214527, "max_abs": 13.926300333243574}}
+  extrapolat seed0 ep60: val rel-MSE 4.390e-04 (49s)
+  extrapolat seed0 ep120: val rel-MSE 1.567e-04 (97s)
+  extrapolat seed0 ep180: val rel-MSE 9.193e-05 (153s)
+  extrapolat seed0 ep240: val rel-MSE 7.583e-05 (205s)
+  extrapolat seed0 ep300: val rel-MSE 7.280e-05 (259s)
+  extrapolat seed1 ep60: val rel-MSE 3.314e-04 (56s)
+  extrapolat seed1 ep120: val rel-MSE 1.162e-04 (114s)
+  extrapolat seed1 ep180: val rel-MSE 7.196e-05 (169s)
+  extrapolat seed1 ep240: val rel-MSE 5.647e-05 (229s)
+  extrapolat seed1 ep300: val rel-MSE 5.464e-05 (284s)
+  extrapolat seed2 ep60: val rel-MSE 3.914e-04 (52s)
+  extrapolat seed2 ep120: val rel-MSE 1.405e-04 (104s)
+  extrapolat seed2 ep180: val rel-MSE 8.151e-05 (155s)
+  extrapolat seed2 ep240: val rel-MSE 6.620e-05 (208s)
+  extrapolat seed2 ep300: val rel-MSE 6.343e-05 (262s)
+extrapolate_sinkage_train_le_0.04_test_gt_0.045 Robust PINN {"Fx": {"RMSE": 19.829364253179623, "MAE": 18.441444045094055, "rel_L2": 0.7578248201035842, "max_abs": 27.801971021078774}, "Fz": {"RMSE": 147.93655061359374, "MAE": 144.38148137341494, "rel_L2": 0.7979049244588509, "max_abs": 201.59040547138488}, "My": {"RMSE": 8.595689537060098, "MAE": 8.28762106338114, "rel_L2": 0.7553755675348042, "max_abs": 12.56652275654767}}
+  param-Data-o seed0 ep24: val rel-MSE 6.306e-01 (161s)
+  param-Data-o seed0 ep48: val rel-MSE 2.428e+00 (324s)
+  param-Data-o seed0 ep72: val rel-MSE 9.308e+00 (498s)
+  param-Data-o seed0 ep96: val rel-MSE 1.632e+01 (685s)
+  param-Data-o seed0 ep120: val rel-MSE 1.854e+01 (851s)
+  param-Data-o seed1 ep24: val rel-MSE 7.074e-01 (148s)
+  param-Data-o seed1 ep48: val rel-MSE 3.428e+00 (292s)
+  param-Data-o seed1 ep72: val rel-MSE 8.820e+00 (444s)
+  param-Data-o seed1 ep96: val rel-MSE 1.512e+01 (684s)
+  param-Data-o seed1 ep120: val rel-MSE 1.772e+01 (890s)
+  param-Data-o seed2 ep24: val rel-MSE 5.788e-01 (218s)
+  param-Data-o seed2 ep48: val rel-MSE 2.248e+00 (359s)
+  param-Data-o seed2 ep72: val rel-MSE 8.065e+00 (2616s)
+  param-Data-o seed2 ep96: val rel-MSE 1.531e+01 (2762s)
+  param-Data-o seed2 ep120: val rel-MSE 1.765e+01 (2838s)
+  param-Data-o seed3 ep24: val rel-MSE 5.687e-01 (83s)
+  param-Data-o seed3 ep48: val rel-MSE 2.974e+00 (165s)
+  param-Data-o seed3 ep72: val rel-MSE 9.516e+00 (258s)
+  param-Data-o seed3 ep96: val rel-MSE 1.787e+01 (350s)
+  param-Data-o seed3 ep120: val rel-MSE 2.084e+01 (444s)
+  param-Data-o seed4 ep24: val rel-MSE 6.467e-01 (85s)
+  param-Data-o seed4 ep48: val rel-MSE 2.710e+00 (179s)
+  param-Data-o seed4 ep72: val rel-MSE 8.628e+00 (277s)
+  param-Data-o seed4 ep96: val rel-MSE 1.779e+01 (409s)
+  param-Data-o seed4 ep120: val rel-MSE 2.058e+01 (654s)
+parametric Data-only MLP {"in_distribution": {"Fx": {"RMSE": 31.018909454345703, "MAE": 19.914840698242188, "rel_L2": 0.9516221880912781, "max_abs": 236.1681365966797}, "Fz": {"RMSE": 136.46205139160156, "MAE": 94.45016479492188, "rel_L2": 0.9703821539878845, "max_abs": 664.2196655273438}, "My": {"RMSE": 8.74125862121582, "MAE": 5.803106784820557, "rel_L2": 0.967995285987854, "max_abs": 53.367069244384766}}, "out_of_distribution": {"Fx": {"RMSE": 24.40254020690918, "MAE": 17.505035400390625, "rel_L2": 0.930828869342804, "max_abs": 90.6162338256836}, "Fz": {"RMSE": 76.03384399414062, "MAE": 56.5612907409668, "rel_L2": 0.9442737102508545, "max_abs": 231.69081115722656}, "My": {"RMSE": 5.922881603240967, "MAE": 4.308638572692871, "rel_L2": 0.9489713311195374, "max_abs": 20.771982192993164}}}

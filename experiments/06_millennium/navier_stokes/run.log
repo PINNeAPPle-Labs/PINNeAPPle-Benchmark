@@ -1,0 +1,14 @@
+/Users/yanbarros/Documents/GitHub/pinneapple-labs/PINNeAPPle-Climate/experiments/06_millennium/navier_stokes/ns_experiment.py:88: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:823.)
+  hist.append({"it": it, "loss": float(loss), "lambda": float(lam)})
+scan 0.2 0.0002941270321941076
+scan 0.25 0.00030525618787208004
+scan 0.3 0.0003681591682661718
+scan 0.4 0.0003995042836956364
+scan 0.5 0.0008048469695011593
+scan 0.6 0.001348491682890924
+scan 0.7 0.0024459051160267693
+0.41833428522699406 0.019056785908669844
+48 140.2997522354126 0.011479099190485289 10.001599999999925 0.0001904423268191414 17.355159285192325
+64 1243.7465879917145 0.013907901609219737 9.09999999999985 0.00022836289163940298 23.878645446133707
+96 40304.83808732033 0.01343222650136025 8.82440999999985 0.0002809402001953637 34.55527504421156

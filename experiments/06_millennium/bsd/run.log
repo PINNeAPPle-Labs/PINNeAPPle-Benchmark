@@ -1,0 +1,42 @@
+PARI stack size set to 2000000000 bytes, maximum size set to 2000011264
+  ***   Warning: new maximum stack size = 4000006144 (3814.703 Mbytes).
+100 151.319659948349
+200 260.78333711624146
+300 8400.062888145447
+400 14125.008526086807
+500 21581.600568056107
+600 24437.81690311432
+700 24467.195140123367
+800 24491.263238191605
+900 24510.089316129684
+1000 24527.57173013687
+1100 24544.082898139954
+1200 24562.663120031357
+1300 24580.455065965652
+{
+ "n_curves": 1328,
+ "n_errors": 0,
+ "n_rank_proven": 1328,
+ "rank_distribution_proven": [
+  499,
+  692,
+  134,
+  3
+ ],
+ "r_an_equals_rank_when_proven": 1328,
+ "r_an_disagrees_when_proven": [],
+ "undecided_rank_cases": 0,
+ "r_an_within_bounds_when_undecided": 0,
+ "sha_checked": 1191,
+ "sha_max_dist_to_square": 4.440892098500626e-16,
+ "sha_values_counts": {
+  "1": 1159,
+  "4": 27,
+  "9": 5
+ },
+ "conductor_range": [
+  17,
+  1248832
+ ],
+ "seconds": 24583.166927099228
+} {"n": 1325, "class_counts": [499, 692, 134], "mestre_nagao_accuracy": 0.7889447236180904, "majority_class_accuracy": 0.4723618090452261, "mlp_accuracy": 0.2864321608040201, "mlp_confusion": [[33, 15, 39], [32, 16, 46], [7, 3, 8]]}
