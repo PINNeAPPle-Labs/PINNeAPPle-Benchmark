@@ -1,19 +1,17 @@
 # TODO — PINNeAPPle-Benchmark
 
-## Near-term (mechanical, blocked on PINNeAPPle-Climate's running jobs)
+**Update 2026-10-02**: the "near-term, mechanical" section below is entirely done — all eight experiments
+are now here with final papers. The "real strategic work" section is unchanged and still fully open.
 
-- [ ] Once `02_physics_digital_twin`, `03_bumper_beam_transolver`, `04_terramechanics_robust` and
-  `06_millennium` (all of it, including the now-finished `p_vs_np`) are done in `PINNeAPPle-Climate`, move
-  them here the same way 05/07/08 were moved (see that move's PR #1 here, and
-  `PINNeAPPle-Climate/.agent/TODO.md` for the checklist on that side). Update `experiments/README.md`'s
-  table when each one lands.
-- [ ] `03_bumper_beam_transolver` is ~9.8 GB on disk in Climate — before moving, decide what's actually
-  worth committing (the packaged `training_data.hdf5` + small results, almost certainly not the raw
-  per-run OpenRadioss `runs/Exp_*/*.rst`/`.out` files) and extend `experiments/.gitignore` accordingly.
-- [ ] If `paperkit.py` gets improved in `PINNeAPPle-Climate`, copy the change here too (no sync exists —
-  see `DECISIONS.md`).
+## Near-term (done)
 
-## Real strategic work (not started)
+- [x] Moved `02`, `03` (code+papers; raw ~11 GB data stays local in `PINNeAPPle-Climate`, documented there),
+  `04`, and `06_millennium` (all of it, including the now-finished `p_vs_np`).
+- [x] `experiments/README.md`'s table updated with all eight experiments.
+- [x] Two RFF-bandwidth bugs (04, 06/p_vs_np) found and fixed; documented in `experiments/README.md` and
+  `.agent/DECISIONS.md`.
+
+## Real strategic work (not started — unchanged from before)
 
 - [ ] Build the actual benchmark protocol layer the strategy doc envisions: fixed train/val/test splits,
   standard metrics, a compute budget, and a single reproducible command per case (Benchmark 01: heat
@@ -24,3 +22,5 @@
   doc's own gap analysis).
 - [ ] Decide whether `PINNeAPPle-arena` (private) should read this repo's published results for a
   leaderboard, per the strategy doc — no integration exists yet.
+- [ ] Decide whether the eight experiments now here should eventually be restructured to fit that future
+  protocol layer, or kept as-is alongside it.
