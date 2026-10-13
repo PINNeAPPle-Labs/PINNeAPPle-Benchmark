@@ -57,6 +57,8 @@ SPACES = {
 R_FAR = 20.0
 RE = 4e6
 NU = 1 / RE
+RANS_MIX = 0.5                                                   # RANS PINN: fraction of collocation points even in log r
+RANS_FAR = "hard"                                                # RANS PINN far field: "hard" (exact) or "soft" (penalty)
 DELTA_W = 0.02                                                   # RANS PINN: no-slip factor tanh(d / DELTA_W)
 KUTTA_W, GAMMA_LR = 10.0, 1e-2                                   # fixed before the runs (see README)
 
@@ -330,11 +332,14 @@ class RansNet(nn.Module):
         w = torch.tensor(wall, dtype=torch.float32)
         self.register_buffer("p0", w)
         self.register_buffer("e", torch.roll(w, -1, 0) - w)
+        self.hard_far = cfg.get("far", RANS_FAR) == "hard"
 
     def forward(self, X):
         x, y = X[:, :1], X[:, 1:2]
-        feats, _ = _features(x, y)
+        feats, r2 = _features(x, y)
         n = self.mlp(feats)
+        if self.hard_far:   # free stream exact on the far circle: no zero-flow basin inside a soft far-field penalty
+            n = n * (1 - r2 / (R_FAR - 1) ** 2).clamp(min=0.0)
         damp = torch.tanh(wall_distance(x, y, self.p0, self.e) / DELTA_W)
         return torch.cat([damp * (math.cos(self.a) + n[:, :1]), damp * (math.sin(self.a) + n[:, 1:2]), n[:, 2:3]], 1)
 
@@ -447,8 +452,15 @@ def train_pinn(cfg: Dict, seed: int, budget: ComputeBudget, *, case: str, kind: 
         far = torch.stack([0.25 + (R_FAR - 1) * torch.cos(th), (R_FAR - 1) * torch.sin(th)], 1)
         special, lr_special = [], 0.0
 
+        mix = float(cfg.get("colloc_mix", RANS_MIX))
+
         def batch():
-            c = pool[torch.randint(0, len(pool), (cfg["n_colloc"],), generator=g)]
+            n_mix = int(mix * cfg["n_colloc"])
+            c = pool[torch.randint(0, len(pool), (cfg["n_colloc"] - n_mix,), generator=g)]
+            if n_mix:   # the wall-clustered O-grid leaves the outer flow almost unsampled: add points even in log r
+                rr = torch.exp(torch.empty(n_mix, 1).uniform_(math.log(0.55), math.log(R_FAR - 1), generator=g))
+                tt = torch.empty(n_mix, 1).uniform_(0, 2 * math.pi, generator=g)
+                c = torch.cat([c, torch.cat([0.25 + rr * torch.cos(tt), rr * torch.sin(tt)], 1)])
             f = (_req(far[:, :1]), _req(far[:, 1:]))
             return {"collocation": (_req(c[:, :1]), _req(c[:, 1:])), "conditions": [f, f, f]}
     loss_fn = PINNFactory(spec).generate_loss_function()
