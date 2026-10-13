@@ -1,0 +1,114 @@
+{
+ "spec": {
+  "id": "search__inverse_heat__mlp__1",
+  "problem": "inverse_heat",
+  "method": "mlp",
+  "cfg": {
+   "width": 128,
+   "depth": 3,
+   "lr": 0.001
+  },
+  "seed": 0,
+  "budget": {
+   "wall_s": 40.0
+  },
+  "stage": "search"
+ },
+ "result": {
+  "train": {
+   "steps": 6558,
+   "wall_s": 40.00510773803035,
+   "flops": 630306693120.0,
+   "flops_per_step": 96112640.0,
+   "stopped_by": "wall_s",
+   "budget": {
+    "wall_s": 40.0,
+    "flops": null,
+    "steps": null
+   },
+   "history": [
+    {
+     "step": 1,
+     "progress": 0.0,
+     "wall_s": 0.0,
+     "flops": 96112640.0,
+     "loss": 3.650235652923584
+    },
+    {
+     "step": 775,
+     "progress": 0.12507580890119244,
+     "wall_s": 5.003032356047697,
+     "flops": 74487296000.0,
+     "loss": 0.0004933482268825173
+    },
+    {
+     "step": 1557,
+     "progress": 0.2502130606263563,
+     "wall_s": 10.008522425054252,
+     "flops": 149647380480.0,
+     "loss": 4.481398354982957e-05
+    },
+    {
+     "step": 2395,
+     "progress": 0.37534436687587913,
+     "wall_s": 15.013774675035165,
+     "flops": 230189772800.0,
+     "loss": 3.639468195615336e-05
+    },
+    {
+     "step": 3199,
+     "progress": 0.5003956872758408,
+     "wall_s": 20.015827491033633,
+     "flops": 307464335360.0,
+     "loss": 0.0003180098719894886
+    },
+    {
+     "step": 4032,
+     "progress": 0.6254405552005664,
+     "wall_s": 25.017622208022658,
+     "flops": 387526164480.0,
+     "loss": 1.098813572752988e-05
+    },
+    {
+     "step": 4918,
+     "progress": 0.7505366081759348,
+     "wall_s": 30.021464327037393,
+     "flops": 472681963520.0,
+     "loss": 2.200074595748447e-05
+    },
+    {
+     "step": 5744,
+     "progress": 0.8756421068514101,
+     "wall_s": 35.0256842740564,
+     "flops": 552071004160.0,
+     "loss": 1.3123715689289384e-05
+    },
+    {
+     "step": 6558,
+     "progress": 1.0001276934507586,
+     "wall_s": 40.00510773803035,
+     "flops": 630306693120.0,
+     "loss": 5.151127334102057e-05,
+     "final": true
+    }
+   ],
+   "eval_wall_s": 0.0
+  },
+  "val_rel_l2": 0.008800762705504894,
+  "n_params": 807408
+ },
+ "ok": true,
+ "hardware": {
+  "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39",
+  "python": "3.13.16",
+  "logical_cpus": 4,
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "mem_gb": 15.7,
+  "torch": "2.14.1+cu130",
+  "torch_threads": 1,
+  "gpu": null,
+  "numpy": "2.5.3"
+ },
+ "job_wall_s": 41.703062534332275,
+ "finished": "2026-10-13 06:40:34"
+}
