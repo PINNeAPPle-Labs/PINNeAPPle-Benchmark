@@ -202,9 +202,15 @@ def airfoil_seed_metrics(method, level=1.0, cases=None):
 def airfoil_campaign():
     recs = [json.load(open(f)) for f in glob.glob(str(ROOT / "data" / "airfoil" / "runs" / "*.json"))]
     sec = [r["seconds"] for r in recs if r.get("seconds")]
-    return {"n_runs": len(recs), "mean_s_per_run": float(np.mean(sec)) if sec else None,
-            "total_core_s": float(np.sum(sec)) if sec else None,
-            "status": {s: sum(r.get("status") == s for r in recs) for s in {r.get("status") for r in recs}}}
+    clean_p = RES / "openfoam_clean_timing.json"
+    clean = load_json(clean_p)["mean_wall_s"] if clean_p.exists() else None
+    # the campaign shared the CPU with other jobs, so its recorded wall times are inflated; the per-design cost and
+    # the data cost used for amortisation come from the clean re-timing (4 runs alone on the machine)
+    return {"n_runs": len(recs), "recorded_mean_s_per_run": float(np.mean(sec)) if sec else None,
+            "recorded_total_s": float(np.sum(sec)) if sec else None, "clean_s_per_run": clean,
+            "mean_s_per_run": clean if clean else (float(np.mean(sec)) if sec else None),
+            "total_core_s": len(recs) * clean if clean else (float(np.sum(sec)) if sec else None),
+            "status": {s: sum(r.get("status") == s for r in recs) for s in sorted({r.get("status") for r in recs})}}
 
 
 def airfoil_table():
@@ -328,8 +334,11 @@ def write_tables(std, air, camp, heat, flo, hw):
                      f"{fmt_s(r['time_per_instance_s'])} | {'-' if be is None else f'{be:.1f}'} |")
         L.append("")
     L += [f"## {TITLE['airfoil']} (budget 900 s on one core per training run)", "",
-          f"OpenFOAM campaign: {camp['n_runs']} runs, {fmt_s(camp['mean_s_per_run'])} per run on one core, "
-          f"{camp['total_core_s'] / 3600 if camp['total_core_s'] else 0:.1f} core-hours in total; status {camp['status']}.",
+          f"OpenFOAM campaign: {camp['n_runs']} runs (status {camp['status']}). One run alone on one core: "
+          f"{fmt_s(camp['clean_s_per_run'])} (`openfoam_clean_timing.json`, 4 runs re-timed on the idle machine), so "
+          f"the data cost used below is {camp['n_runs']} x that = {camp['total_core_s'] / 3600:.1f} core-hours. The "
+          f"campaign's own recorded wall times sum to {camp['recorded_total_s'] / 3600:.1f} h of runs "
+          f"({fmt_s(camp['recorded_mean_s_per_run'])} per run) because it shared the CPU with other jobs.",
           "",
           "| Method | Cl abs. err (4 test runs) | Cd rel. err (4 test runs) | Velocity rel. L2 (4 test runs) | Pressure rel. L2 "
           "(4 test runs) | Cl abs. err (all test) | Cd rel. err (all test) | Cl abs. err, NACA 2412 α=4° | Cd rel. err, NACA 2412 α=4° "
