@@ -36,8 +36,8 @@ be a separate public repo rather than living inside the private core library or 
 
 ## Main technologies
 
-Same stack as every experiment: Python 3, PyTorch, NumPy/SciPy, `reportlab`+`matplotlib` (via the vendored
-`experiments/paperkit/paperkit.py`), plus whatever each individual experiment needs (`h5py`, `pysat`,
+Same stack as every experiment: Python 3, PyTorch, NumPy/SciPy, `reportlab`+`matplotlib` (via
+`pinneapple_tools.reporting.paperkit`, re-exported by `experiments/paperkit/paperkit.py`), plus whatever each individual experiment needs (`h5py`, `pysat`,
 Docker for OpenRadioss, etc. — see `PINNeAPPle-Climate/.agent/ARCHITECTURE.md` for the per-experiment
 detail, since the moved experiments' code is unchanged from there). Every experiment script imports the
 sibling `PINNeAPPle` repo from source via `sys.path.insert(..., ROOT.parents[N] / "PINNeAPPle")` — **this
@@ -52,7 +52,7 @@ PINNeAPPle-Benchmark/
 └── experiments/
     ├── .gitignore            ← excludes */data/, */results_smoke/, *.pt (see DECISIONS.md for why)
     ├── README.md              ← the actual index of what's here and what's still to come
-    ├── paperkit/paperkit.py   ← vendored copy (also exists, independently, in PINNeAPPle-Climate)
+    ├── paperkit/paperkit.py   ← shim over pinneapple_tools.reporting.paperkit (library)
     ├── 05_thermal_channel_twin/
     ├── 07_pdr_thesis_reproduction/
     └── 08_supersonic_shock_train/

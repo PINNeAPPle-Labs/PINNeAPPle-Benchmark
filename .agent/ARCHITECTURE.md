@@ -12,11 +12,9 @@ re-explained here to avoid drift between two copies of the same description.
   regenerates them), `*/results_smoke/` (smoke-test runs, not the reported results), `*.pt` (model
   checkpoints — not needed to rebuild a paper; every `make_paper.py` reads `results.json` and a handful of
   small `.npz` files, never a `.pt`), `__pycache__/`, `*.pyc`, `.DS_Store`.
-- **`experiments/paperkit/paperkit.py`** is a **vendored, independent copy** of the same file in
-  `PINNeAPPle-Climate/experiments/paperkit/`. Not a git submodule, not a package dependency — deliberately
-  duplicated so this public repo has zero dependency on the private `PINNeAPPle-Climate` repo (see
-  `DECISIONS.md`). If `paperkit.py` is improved in one place, it needs to be copied to the other by hand;
-  there is no sync mechanism.
+- **`experiments/paperkit/paperkit.py`** is a thin shim over `pinneapple_tools.reporting.paperkit` in the
+  public PINNeAPPle library (which the experiments already depend on). Change the figure style or the PDF
+  builder there, not here; `PINNeAPPle-Climate` uses the same shim, so the two can no longer drift.
 - **`experiments/README.md`** is the authoritative, human-maintained index of what's in this repo and what
   is still pending — check it (not this file) for the current list of moved-in vs. still-pending
   experiments, since that list changes as jobs finish elsewhere.
