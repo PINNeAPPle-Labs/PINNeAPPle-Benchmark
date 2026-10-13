@@ -33,21 +33,16 @@ def save():
 # ---------------------------------------------------------------------------
 
 def fit_dmdc(D, pod, runs, ridge=1e-3):
+    """Linear latent model a_{k+1} = A a_k + B u_k + c on POD coefficients (PINNeAPPle DMDc, ridge least squares)."""
+    from pinneapple_neural.architectures.rom import DMDc
     X, A, Y = D.pairs(runs)
-    a0, a1 = pod.encode(X), pod.encode(Y)
-    Z = np.concatenate([a0, A, np.ones((len(A), 1), np.float32)], 1)
-    W = np.linalg.solve(Z.T @ Z + ridge * np.eye(Z.shape[1]), Z.T @ a1)
-    return W
+    return DMDc(affine=True).fit(pod.encode(X), A, pod.encode(Y), ridge=ridge)
 
 
-def dmdc_roll(pod, W):
+def dmdc_roll(pod, model):
     def roll(x0, acts):
-        a = pod.encode(x0[None])
-        out = [x0]
-        for u in acts:
-            a = np.concatenate([a, u[None], np.ones((1, 1), np.float32)], 1) @ W
-            out.append(pod.decode(a)[0])
-        return np.stack(out)
+        a = model.rollout(pod.encode(x0[None])[0], acts)
+        return np.concatenate([x0[None], pod.decode(a[1:])])
     return roll
 
 
@@ -399,8 +394,8 @@ def main():
     models = {}
     # 1. POD + DMDc
     t0 = time.time()
-    W = fit_dmdc(D, pod, D.runs("train"))
-    models["POD + DMDc (linear latent)"] = (dmdc_roll(pod, W), {"train_s": time.time() - t0})
+    dmdc = fit_dmdc(D, pod, D.runs("train"))
+    models["POD + DMDc (linear latent)"] = (dmdc_roll(pod, dmdc), {"train_s": time.time() - t0})
     # 2. POD + MLP latent dynamics
     lat_m, sc, info = train_latent_mlp(D, pod, epochs=2 if SMOKE else 200)
     models["POD + MLP latent dynamics"] = (latent_mlp_roll(pod, lat_m, sc), info)
@@ -460,37 +455,21 @@ def main():
 
 def veriphysics(D, models):
     from pinneapple_analysis.verification.convergence import richardson_extrapolate
-    from pinneapple_analysis.verification.physics_confidence_score import compute_physics_confidence
-    from pinneapple_data.physics_case import PhysicsCase
-    from pinneapple_pdb.benchmarks import BenchmarkEntry, register_benchmark
+    from pinneapple_analysis.verification.physics_confidence_score import score_against_reference
     ver = json.loads((ROOT / "results" / "verification.json").read_text())
     gc = ver["grid_convergence"]["T_out"]
     conv = richardson_extrapolate(*gc["values"], r=2.0)
     runs = D.runs("test_unseen_sinusoid")
     xs = np.array([(r, k) for r in runs for k in range(1, D.F.shape[1])], np.float32)
     ys = np.concatenate([qois(D.F[r], D)["T_out"][1:] for r in runs]).astype(np.float32)[:, None]
-
-    @register_benchmark("heated_channel_Tout_unseen_sinusoid")
-    def _b():
-        return BenchmarkEntry(name="heated_channel_Tout_unseen_sinusoid", description="CFD outlet temperature, unseen actuator family",
-                              reference_source="PINNeAPPle ThermalChannel2D (verified: Poiseuille, Nu=5.385)",
-                              x_vars=("run", "frame"), y_vars=("T_out",), reference_x=xs, reference_y=ys)
-    out = {}
-    for name, (roll, _) in models.items():
-        yp = np.concatenate([qois(D.denorm(roll(D.Fn[r, 0], D.actn[r])), D)["T_out"][1:] for r in runs])
-        yp = yp.astype(np.float64)
-        if not np.isfinite(yp).all():   # a diverged rollout gets no score; reported as such
-            out[name] = {"overall_score": None, "coverage": 0.0, "note": "rollout produced non-finite values"}
-            continue
-        case = PhysicsCase(name=name, results={"run": xs[:, 0], "frame": xs[:, 1], "T_out": yp},
-                           reference_benchmark="heated_channel_Tout_unseen_sinusoid")
-        bench = case.validate_against_benchmark()
-        if not np.isfinite(bench.relative_l2_error):
-            out[name] = {"overall_score": None, "coverage": 0.0, "note": "rollout diverged (overflow in the error)"}
-            continue
-        sc = compute_physics_confidence(benchmark_comparison=bench, convergence_result=conv)
-        out[name] = {"overall_score": sc.overall_score, "coverage": sc.coverage, "components": [c.__dict__ for c in sc.components]}
-        log(sc.summary())
+    preds = {name: np.concatenate([qois(D.denorm(roll(D.Fn[r, 0], D.actn[r])), D)["T_out"][1:]
+                                   for r in runs]).astype(np.float64)
+             for name, (roll, _) in models.items()}
+    # a diverged rollout (non-finite prediction or error) gets no score and a note instead
+    out = score_against_reference("heated_channel_Tout_unseen_sinusoid", xs, ys, preds, x_vars=("run", "frame"),
+                                  y_vars=("T_out",), convergence=conv, log=log,
+                                  description="CFD outlet temperature, unseen actuator family",
+                                  reference_source="PINNeAPPle ThermalChannel2D (verified: Poiseuille, Nu=5.385)")
     out["note"] = ("numerical_convergence is the CFD reference's own 3-grid GCI on T_out (shared by all surrogates); "
                    "physics_guardrail not run: no compiled ProblemSpec for this time-dependent actuated NS+energy system; "
                    "uq_calibration not run: the surrogates are deterministic single models")

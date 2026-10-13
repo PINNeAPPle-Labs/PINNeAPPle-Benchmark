@@ -295,47 +295,31 @@ def main():
 
 
 def veriphysics(D, preds, members, Pg, Pgs):
-    import torch as T
-    from pinneapple_analysis.uncertainty.calibration import CalibrationMetrics
-    from pinneapple_analysis.verification.physics_confidence_score import CalibrationSummary, compute_physics_confidence
-    from pinneapple_data.physics_case import PhysicsCase
-    from pinneapple_pdb.benchmarks import BenchmarkEntry, register_benchmark
+    from pinneapple_analysis.verification.physics_confidence_score import (
+        CalibrationSummary,
+        score_against_reference,
+    )
 
     tr = np.arange(D.ux.shape[2], dtype=np.float32)
     xs = np.array([(D.ids[r], t) for r in D.test for t in tr], np.float32)
     ys = D.ux[D.test][:, D.ref].reshape(-1, 1).astype(np.float32)
 
-    @register_benchmark("openradioss_bumper_node1806_heldout")
-    def _b():
-        return BenchmarkEntry(name="openradioss_bumper_node1806_heldout",
-                              description="u_x(t) at node 1806, 10 held-out OpenRadioss runs (write-up test IDs)",
-                              reference_source="OpenRadioss latest-20260728, Bumper Beam example (Altair, CC BY-NC 4.0)",
-                              x_vars=("exp", "frame"), y_vars=("ux",), reference_x=xs, reference_y=ys)
-
-    out = {}
     sd_ens = np.std(members, 0) if len(members) > 1 else None
+    cal = {}
     for name, P in preds.items():
-        case = PhysicsCase(name=name, results={"exp": xs[:, 0], "frame": xs[:, 1], "ux": P[:, D.ref].reshape(-1)},
-                           reference_benchmark="openradioss_bumper_node1806_heldout")
-        b = case.validate_against_benchmark()
-        cal = None
         std = sd_ens if name.startswith("Improved") else (Pgs if name.startswith("POD") else None)
-        if std is not None:
-            yp, yt = T.tensor(P[:, D.ref, 1:].ravel()), T.tensor(D.ux[D.test][:, D.ref, 1:].ravel())
-            s = T.tensor(np.maximum(std[:, D.ref, 1:].ravel(), 1e-6))
-            ece = CalibrationMetrics.expected_calibration_error(yp, yt, s)
-            cov = CalibrationMetrics.coverage_at_level(yp, yt, s, alpha=0.1)
-            cal = CalibrationSummary(ece=ece, coverage=cov, target_coverage=0.9, sharpness=float(s.mean()))
-        sc = compute_physics_confidence(benchmark_comparison=b, calibration_metrics=cal)
-        out[name] = {"overall_score": sc.overall_score, "coverage": sc.coverage, "rel_l2": b.relative_l2_error,
-                     "components": [c.__dict__ for c in sc.components]}
-        log(sc.summary())
-    out["not_run"] = {"physics_guardrail": "no compiled PDE ProblemSpec exists for explicit shell-FE crash dynamics",
-                      "numerical_convergence": "single mesh supplied by the example; no refinement study was run",
-                      "geometry_ood": "geometry is identical across the DoE (only gauges vary)"}
-    OUT["veriphysics"] = out
+        if std is not None:  # calibration on frames 1.. (frame 0 is the undeformed state, zero spread)
+            cal[name] = CalibrationSummary.from_predictions(P[:, D.ref, 1:].ravel(), D.ux[D.test][:, D.ref, 1:].ravel(),
+                                                            np.maximum(std[:, D.ref, 1:].ravel(), 1e-6))
+    OUT["veriphysics"] = score_against_reference(
+        "openradioss_bumper_node1806_heldout", xs, ys, {k: P[:, D.ref].reshape(-1) for k, P in preds.items()},
+        x_vars=("exp", "frame"), y_vars=("ux",), sigma=cal, log=log,
+        description="u_x(t) at node 1806, 10 held-out OpenRadioss runs (write-up test IDs)",
+        reference_source="OpenRadioss latest-20260728, Bumper Beam example (Altair, CC BY-NC 4.0)",
+        not_run={"physics_guardrail": "no compiled PDE ProblemSpec exists for explicit shell-FE crash dynamics",
+                 "numerical_convergence": "single mesh supplied by the example; no refinement study was run",
+                 "geometry_ood": "geometry is identical across the DoE (only gauges vary)"})
     save()
-
 
 if __name__ == "__main__":
     main()
