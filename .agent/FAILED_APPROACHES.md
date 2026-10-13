@@ -48,3 +48,19 @@ attempt that didn't pan out, a data-inclusion decision that had to be reverted),
    - *"Did not learn" (loss not halved) flagged the 1/9-budget runs and the search runs* as errors. Those are short by
      design; the check now applies to the full-budget final and equal-FLOPs runs, and a loss that halves too slowly is
      a warning (the error item is "did not converge": an error no better than a trivial prediction).
+4. **Airfoil RANS PINN collapses to the zero-flow solution** (found in the 1 h budget-study runs, 2026-10-13). After
+   3600 s (2277 Adam steps) on NACA 2412 at 4 deg its velocity on the graph nodes is ~0.01 everywhere (true mean
+   0.71): velocity rel. L2 1.07, pressure 1.00, Cl from the wall 0.00 (OpenFOAM 0.66). The checkpoint of the 4 h run at
+   2.1 h is the same (mean Ux 0.013). Not a units bug: OpenFOAM's fields are U_inf = 1 and kinematic gauge pressure,
+   as the PINN's. u = v = 0, p = const satisfies the RANS equations exactly, and only the far-field penalty (256 points
+   at r = 19) opposes it. Two fixes tried, 300 s each on NACA 2412 at 4 deg (velocity rel. L2):
+   - far field exact (u = U_inf + (1 - r^2/19^2) N): 0.98 (lr 3e-3), 0.96 (lr 1e-3), 1.47 (lr 1e-2, diverged); PDE
+     loss falls to 1e-3, so the network finds a slowly varying near-solution instead, in the outer flow that the
+     wall-clustered O-grid collocation barely samples;
+   - plus half the collocation points even in log r over 0.55 < r < 19: 0.98 (lr 3e-3), 0.97 (lr 1e-3); 80 % of them:
+     1.02; with the soft far field: 0.96. Without either: 0.96.
+   Neither changes the outcome, so the reported runs keep the original formulation; both are options in the library
+   (`airfoil_impl.RANS_FAR`, `RANS_MIX`, or cfg `far`, `colloc_mix`), off by default. Literature on the same failure:
+   Krishnapriyan et al. 2021 (arXiv:2109.01050), Wang, Teng & Perdikaris 2021 (doi:10.1137/20M1318043); the RANS PINNs
+   that work (Eivazi et al. 2022, doi:10.1063/5.0095270) use data on the boundaries, which this benchmark's data-free
+   PINN does not have.
