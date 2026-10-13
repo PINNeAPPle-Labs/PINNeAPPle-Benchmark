@@ -9,7 +9,6 @@ training_data.hdf5
 from __future__ import annotations
 
 import csv
-import re
 import sys
 from pathlib import Path
 
@@ -18,15 +17,9 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT.parents[2] / "PINNeAPPle"))
-from pinneapple_simulation.external_solvers.openradioss import read_case_displacements, read_vtk_mesh  # noqa
+from pinneapple_simulation.external_solvers.openradioss import read_case_displacements, read_energy_error, read_vtk_mesh  # noqa
 
 REF_NODE = 1806
-
-
-def energy_error(case: Path):
-    """Largest |ERR| (energy balance error, %) printed by the engine during the run."""
-    errs = [float(x) for x in re.findall(r"ERR=\s*([-\d.]+)%", (case / "engine.log").read_text())]
-    return max(abs(e) for e in errs) if errs else float("nan")
 
 
 def main():
@@ -58,7 +51,7 @@ def main():
             go.create_dataset("displacement_field", data=disp.transpose(1, 0, 2), compression="gzip", compression_opts=4)
             go["node_history"] = disp[:, ref_idx, 0]
             go["time"] = t
-            go.attrs["energy_error_pct_max"] = energy_error(case)
+            go.attrs["energy_error_pct_max"] = read_energy_error(case)  # largest |ERR| (%) in engine.log
     print("packaged", len(runs), "runs")
 
 

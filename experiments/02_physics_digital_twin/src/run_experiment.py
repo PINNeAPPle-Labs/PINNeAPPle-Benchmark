@@ -89,17 +89,12 @@ def metrics(pred, w: Windows):
 
 
 def block_bootstrap_rmse(err, starts, n_boot=1000, block=24 * 7, seed=0):
-    """95% CI of RMSE with weekly block bootstrap (temporal autocorrelation)."""
-    rng = np.random.default_rng(seed)
-    b = (starts - starts.min()) // block
-    ub = np.unique(b)
-    groups = [np.where(b == u)[0] for u in ub]
-    vals = []
-    for _ in range(n_boot):
-        pick = rng.integers(0, len(groups), len(groups))
-        idx = np.concatenate([groups[i] for i in pick])
-        vals.append(np.sqrt((err[idx] ** 2).mean()))
-    return [float(np.percentile(vals, 2.5)), float(np.percentile(vals, 97.5))]
+    """95% CI of RMSE, resampling whole weeks (non-overlapping blocks of ``block`` hours: temporal autocorrelation)."""
+    from pinneapple_analysis.uncertainty.resampling import group_bootstrap
+
+    week = (starts - starts.min()) // block
+    _, lo, hi = group_bootstrap(err, week, stat=lambda e: np.sqrt((e ** 2).mean()), n=n_boot, seed=seed)
+    return [lo, hi]
 
 
 # ---------------------------------------------------------------------------
@@ -581,22 +576,15 @@ def anomaly_experiment(d, te_idx, va_idx, twin: PinnWrap, wva: Windows):
 
 
 def veriphysics_block(models, wva, wte, pm: PhysicsModel):
-    from pinneapple_analysis.uncertainty.calibration import CalibrationMetrics
     from pinneapple_analysis.verification.convergence import richardson_extrapolate
-    from pinneapple_analysis.verification.physics_confidence_score import CalibrationSummary, compute_physics_confidence
-    from pinneapple_data.physics_case import PhysicsCase
-    from pinneapple_pdb.benchmarks import BenchmarkEntry, register_benchmark
+    from pinneapple_analysis.verification.physics_confidence_score import (
+        CalibrationSummary,
+        score_against_reference,
+    )
 
     # held-out benchmark: observed 6-h temperature change on the test period
     xs = np.column_stack([wte.start, np.full(len(wte), 6)]).astype(np.float32)
     ys = (wte.Y[:, 5] - wte.T0).astype(np.float32)[:, None]
-
-    @register_benchmark("natal_thermal_mass_dT6h_2023_2024")
-    def _bench():
-        return BenchmarkEntry(name="natal_thermal_mass_dT6h_2023_2024",
-                              description="Observed 6-h change of soil_temperature_0_to_7cm, Natal, 2023-2024 (held-out test)",
-                              reference_source="Open-Meteo Historical Weather API (ERA5-Land)",
-                              x_vars=("window_start", "horizon_h"), y_vars=("dT",), reference_x=xs, reference_y=ys)
 
     # numerical convergence of the physics simulator used by the what-if engine (RK4 sub-steps 1,2,4)
     T0, Ta, W, S, dq, _ = to_t(wte.subset(np.arange(0, len(wte), 10)))
@@ -606,31 +594,29 @@ def veriphysics_block(models, wva, wte, pm: PhysicsModel):
 
     out = {"convergence": {"observed_order": conv.observed_order, "gci_fine": conv.gci_fine,
                            "asymptotic_ratio": conv.asymptotic_ratio, "is_asymptotic": conv.is_asymptotic}}
-    for name in ("PINN (PINNeAPPle)", "Physics ODE (identified)", "Gradient Boosting", "NN (no physics loss)"):
+    names = ("PINN (PINNeAPPle)", "Physics ODE (identified)", "Gradient Boosting", "NN (no physics loss)")
+    preds, cal, sig = {}, {}, {}
+    for name in names:
         m = models[name]
         pv, pt = m.predict(wva), m.predict(wte)
         sd = (pv - wva.Y).std(0)  # per-horizon Gaussian predictive std estimated on validation only
-        yt = torch.tensor(wte.Y[:, 5]); yp = torch.tensor(pt[:, 5]); ys_ = torch.full_like(yp, float(sd[5]))
-        ece = CalibrationMetrics.expected_calibration_error(yp, yt, ys_)
-        cov = CalibrationMetrics.coverage_at_level(yp, yt, ys_, alpha=0.1)
-        case = PhysicsCase(name=name, results={"window_start": xs[:, 0], "horizon_h": xs[:, 1],
-                                               "dT": pt[:, 5] - wte.T0}, reference_benchmark="natal_thermal_mass_dT6h_2023_2024")
-        bench = case.validate_against_benchmark()
-        score = compute_physics_confidence(calibration_metrics=CalibrationSummary(ece=ece, coverage=cov, target_coverage=0.9,
-                                                                                sharpness=float(sd[5])),
-                                           benchmark_comparison=bench,
-                                           convergence_result=conv if name in ("PINN (PINNeAPPle)", "Physics ODE (identified)") else None)
-        out[name] = {"overall_score": score.overall_score, "coverage": score.coverage,
-                     "components": [c.__dict__ for c in score.components], "summary": score.summary(),
-                     "ece": ece, "coverage_90": cov, "sigma_h6": float(sd[5]),
-                     "rel_l2_dT6": bench.relative_l2_error}
-        log(score.summary())
-    out["not_run"] = {"physics_guardrail": "PhysicsGuardrail requires a compiled PDE ProblemSpec; this ODE is forced by "
-                                           "external time series, which ProblemSpec cannot express. The physics residual is "
-                                           "reported separately on fresh collocation points.",
-                      "geometry_ood": "no geometry input in this problem"}
+        preds[name] = pt[:, 5] - wte.T0
+        cal[name] = CalibrationSummary.from_predictions(pt[:, 5], wte.Y[:, 5], np.full(len(wte), float(sd[5])))
+        sig[name] = float(sd[5])
+    vp = score_against_reference(
+        "natal_thermal_mass_dT6h_2023_2024", xs, ys, preds, x_vars=("window_start", "horizon_h"), y_vars=("dT",),
+        description="Observed 6-h change of soil_temperature_0_to_7cm, Natal, 2023-2024 (held-out test)",
+        reference_source="Open-Meteo Historical Weather API (ERA5-Land)", sigma=cal,
+        convergence={n: conv for n in ("PINN (PINNeAPPle)", "Physics ODE (identified)")}, log=log,
+        not_run={"physics_guardrail": "PhysicsGuardrail requires a compiled PDE ProblemSpec; this ODE is forced by "
+                                      "external time series, which ProblemSpec cannot express. The physics residual is "
+                                      "reported separately on fresh collocation points.",
+                 "geometry_ood": "no geometry input in this problem"})
+    for name in names:  # names used by the paper tables
+        vp[name].update({"ece": cal[name].ece, "coverage_90": cal[name].coverage, "sigma_h6": sig[name],
+                         "rel_l2_dT6": vp[name]["rel_l2"]})
+    out.update(vp)
     return out
-
 
 if __name__ == "__main__":
     main()

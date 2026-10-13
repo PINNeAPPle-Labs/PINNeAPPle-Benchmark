@@ -68,13 +68,11 @@ def solve2d(P):
 
 
 def metrics(Yp, Yt):
+    from pinneapple_physics.metrics import summary
     names = ("Fx", "Fz", "My")
-    out = {}
-    for j, n in enumerate(names):
-        e = Yp[:, j] - Yt[:, j]
-        out[n] = {"RMSE": float(np.sqrt((e ** 2).mean())), "MAE": float(np.abs(e).mean()),
-                  "rel_L2": float(np.linalg.norm(e) / np.linalg.norm(Yt[:, j])), "max_abs": float(np.abs(e).max())}
-    return out
+    m = summary(Yp, Yt, names, names=("rmse", "mae", "relative_l2", "max_abs"))
+    return {n: {"RMSE": m["rmse"][n], "MAE": m["mae"][n], "rel_L2": m["relative_l2"][n], "max_abs": m["max_abs"][n]}
+            for n in names}
 
 
 # ---------------------------------------------------------------------------
@@ -347,13 +345,13 @@ def stage_robust2d(test_P, test_Y, f_orig):
 
 
 def calibration(mu, sd, Y):
-    from pinneapple_analysis.uncertainty.calibration import CalibrationMetrics
+    from pinneapple_analysis.verification.physics_confidence_score import (
+        CalibrationSummary,
+    )
     out = {}
     for j, n in enumerate(("Fx", "Fz", "My")):
-        a, b, s = (torch.tensor(v[:, j]) for v in (mu, Y, sd))
-        out[n] = {"ece": CalibrationMetrics.expected_calibration_error(a, b, s),
-                  "coverage90": CalibrationMetrics.coverage_at_level(a, b, s, alpha=0.1),
-                  "mean_sigma": float(sd[:, j].mean())}
+        c = CalibrationSummary.from_predictions(mu[:, j], Y[:, j], sd[:, j], level=0.9)
+        out[n] = {"ece": c.ece, "coverage90": c.coverage, "mean_sigma": float(sd[:, j].mean())}
     return out
 
 
@@ -451,12 +449,8 @@ def stage_parametric():
 
 
 def auroc(neg, pos):
-    x = np.concatenate([neg, pos])
-    y = np.concatenate([np.zeros(len(neg)), np.ones(len(pos))])
-    order = np.argsort(x)
-    ranks = np.empty(len(x))
-    ranks[order] = np.arange(1, len(x) + 1)
-    return float((ranks[y == 1].sum() - len(pos) * (len(pos) + 1) / 2) / (len(pos) * len(neg)))
+    from pinneapple_security.cps import roc_auc
+    return roc_auc(np.concatenate([neg, pos]), np.concatenate([np.zeros(len(neg)), np.ones(len(pos))]))
 
 
 # ---------------------------------------------------------------------------
@@ -514,19 +508,12 @@ def stage_speed(models, f_orig):
 
 def stage_veriphysics(models, f_orig, test_P, test_Y):
     from pinneapple_analysis.verification.convergence import richardson_extrapolate
-    from pinneapple_analysis.verification.physics_confidence_score import CalibrationSummary, compute_physics_confidence
-    from pinneapple_data.physics_case import PhysicsCase
+    from pinneapple_analysis.verification.physics_confidence_score import (
+        CalibrationSummary,
+        score_against_reference,
+    )
     from pinneapple_llm.guardrail import PhysicsGuardrail
-    from pinneapple_pdb.benchmarks import BenchmarkEntry, register_benchmark
     from pinneapple_physics.pde_environment.presets.registry import get_preset
-
-    @register_benchmark("bekker_wong_grc1_heldout_lhs")
-    def _b():
-        return BenchmarkEntry(name="bekker_wong_grc1_heldout_lhs",
-                              description="Bekker-Wong (GRC-1, R=0.125 m, b=0.06 m) on an independent LHS test set",
-                              reference_source="pinneapple BekkerWongSolver (adaptive quad == GL48 to 1e-13)",
-                              x_vars=("slip", "sinkage"), y_vars=("Fx", "Fz", "My"),
-                              reference_x=test_P.astype(np.float32), reference_y=test_Y.astype(np.float32))
 
     # numerical convergence of the reference quadrature for a non-integer sinkage exponent
     sol = BekkerWongSolver(SoilParams(n=0.8), WHEEL)
@@ -561,27 +548,24 @@ def stage_veriphysics(models, f_orig, test_P, test_Y):
              "Data-only MLP (ModifiedMLP)": TorchWrap(models["Data-only MLP (ModifiedMLP)"])}
     if orig_mod is not None:
         cands["Original PINN"] = orig_mod
+    preds, guard, cal = {}, {}, {}
     for name, tm in cands.items():
         torch.manual_seed(0)
         np.random.seed(0)
-        g = PhysicsGuardrail(spec, residual_threshold=1e-2, n_check_points=4096).check(
+        guard[name] = PhysicsGuardrail(spec, residual_threshold=1e-2, n_check_points=4096).check(
             tm, reference_x=test_P, reference_y=test_Y, reference_rmse_threshold=1.0)
         with torch.no_grad():
-            Yp = tm(torch.tensor(test_P, dtype=torch.float32)).numpy()
-        case = PhysicsCase(name=name, results={"slip": test_P[:, 0], "sinkage": test_P[:, 1], "Fx": Yp[:, 0],
-                                               "Fz": Yp[:, 1], "My": Yp[:, 2]}, reference_benchmark="bekker_wong_grc1_heldout_lhs")
-        bench = case.validate_against_benchmark()
-        cal = None
+            preds[name] = tm(torch.tensor(test_P, dtype=torch.float32)).numpy()
         if name in OUT.get("robust2d", {}):
             c = OUT["robust2d"][name]["calibration"]["Fx"]
-            cal = CalibrationSummary(ece=c["ece"], coverage=c["coverage90"], target_coverage=0.9, sharpness=c["mean_sigma"])
-        sc = compute_physics_confidence(guardrail_report=g, convergence_result=conv, calibration_metrics=cal,
-                                        benchmark_comparison=bench)
-        out[name] = {"guardrail": [c.__dict__ for c in g.checks], "trustworthy": g.trustworthy,
-                     "overall_score": sc.overall_score, "coverage": sc.coverage,
-                     "components": [c.__dict__ for c in sc.components], "rel_l2": bench.relative_l2_error}
-        log(sc.summary())
-    out["not_run"] = {"geometry_ood": "no geometry input; the parametric OOD test (stage 5) covers input-space shift"}
+            cal[name] = CalibrationSummary(ece=c["ece"], coverage=c["coverage90"], target_coverage=0.9,
+                                           sharpness=c["mean_sigma"])
+    out.update(score_against_reference(
+        "bekker_wong_grc1_heldout_lhs", test_P.astype(np.float32), test_Y.astype(np.float32), preds,
+        x_vars=("slip", "sinkage"), y_vars=("Fx", "Fz", "My"), sigma=cal, guardrail=guard, convergence=conv, log=log,
+        description="Bekker-Wong (GRC-1, R=0.125 m, b=0.06 m) on an independent LHS test set",
+        reference_source="pinneapple BekkerWongSolver (adaptive quad == GL48 to 1e-13)",
+        not_run={"geometry_ood": "no geometry input; the parametric OOD test (stage 5) covers input-space shift"}))
     OUT["veriphysics"] = out
     save()
 

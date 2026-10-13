@@ -291,8 +291,7 @@ def rollout_field(model, x0, acts):
 
 
 def rollout_error(D, roll, runs):
-    errs = []
-    for r in runs:
-        P = roll(D.Fn[r, 0], D.actn[r])
-        errs.append(np.linalg.norm(P[1:] - D.Fn[r, 1:]) / np.linalg.norm(D.Fn[r, 1:]))
-    return float(np.mean(errs))
+    """Mean over runs of the whole-rollout relative L2 error ||P - F|| / ||F|| (initial state excluded)."""
+    from pinneapple_physics.metrics import rollout_relative_l2
+    return float(np.mean([rollout_relative_l2(roll(D.Fn[r, 0], D.actn[r])[1:], D.Fn[r, 1:], aggregate="trajectory")
+                          for r in runs]))
