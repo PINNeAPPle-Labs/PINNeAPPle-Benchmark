@@ -30,5 +30,12 @@ for p in burgers darcy navier_stokes; do python gen_data.py "$p"; done
 python inverse_heat.py
 # 3. search, final runs at three budget levels, equal-FLOPs arm
 python run_all.py all
-# 4. tables and figures
+# 4. airfoil additions: OOD OpenFOAM cases, RANS PINN, POD+MLP fields, OOD evaluation, PINN budget study, audit
+if [ "${EXP09_SMOKE:-0}" = "1" ]; then python run_all.py airfoil2; else bash ../airfoil2.sh; fi
+# 5. the library's benchmark on the same artifacts: prepare (hashes, solver verification, data checks, validation
+#    stack), correctness gates, determinism spot-check, tables, figures, diagnostics (runs are reused from the cache)
+#    (full mode only: the smoke sizes are not the library's; the library's own CI runs its smoke benchmark)
+if [ "${EXP09_SMOKE:-0}" != "1" ]; then python bench09.py prepare; python bench09.py run; fi
+# 6. this experiment's own figures and airfoil tables
 python report.py
+python report_airfoil.py
