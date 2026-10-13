@@ -35,7 +35,9 @@ recommendation and explicit user confirmation to create it.
   did not move) is presumably private/internal. A cross-repo import or submodule would make this public
   repo's build depend on a private sibling repo. Trade-off accepted: the two copies can drift; whoever
   improves `paperkit.py` in one place should manually copy the change to the other (there is no sync
-  mechanism — noted as a real, accepted downside, not solved).
+  mechanism — noted as a real, accepted downside, not solved). **Superseded:** paperkit moved into the
+  public PINNeAPPle library (`pinneapple_tools.reporting.paperkit`); both repos keep only a re-export shim,
+  so there is no private dependency and no drift.
 - **Conflict resolution on merge**: none needed for this repo specifically (it was brand new, so the PR
   merged cleanly) — contrast with `PINNeAPPle-CFD`, where the equivalent move-related PR did hit a real
   conflict; see that repo's own `DECISIONS.md` if relevant.
