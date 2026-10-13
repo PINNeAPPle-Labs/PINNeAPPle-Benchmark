@@ -11,9 +11,10 @@ Methods:
   fields p, Ux, Uy, nut and a pooled Cl, Cd, Cm head), loss as the app's.
 * MLP: pinneapple_design.aero.surrogate.MLPEnsemble (5 bootstrapped MLPs on shape + alpha -> Cl, log Cd, Cm).
 * PINN (per geometry, no data): the equations a PINN can be given here without a turbulence model or simulation
-  data: incompressible potential flow. Stream function psi = U(y cos a - x sin a) + Gamma/(2 pi) ln r + (1 - r^2/R^2)
-  N(x, y); lap psi = 0 (PINNFactory residual), psi = C on the wall (C trainable, PINNFactory condition with an
-  inverse parameter), Kutta condition |u| equal on both surfaces at x = 0.995 (extra loss), Gamma trainable.
+  data: incompressible potential flow. Stream function psi = uniform flow + Gamma/(2 pi) ln r + (1 - r^2/R^2) N(x, y)
+  (``PotentialNet``); lap psi = 0 (PINNFactory residual); psi = C on the wall (PINNFactory condition, C an inverse
+  parameter); Kutta condition as a second condition: psi = C on 8 points of the trailing-edge bisector, i.e. the
+  dividing streamline leaves at the trailing edge; Gamma trainable.
   Cl = 2 Gamma (Kutta-Joukowski); Cd from the wall-pressure integral (zero in exact potential flow, d'Alembert).
 """
 from __future__ import annotations
@@ -44,6 +45,7 @@ SPACES = {
     "pinn": {"width": [64, 128], "depth": [4, 6], "lr": [1e-3, 3e-3], "n_colloc": [2048, 4096]},
 }
 R_FAR = 20.0
+KUTTA_W, GAMMA_LR = 10.0, 1e-2                                   # fixed before the runs (see README)
 
 
 def splits():
@@ -195,6 +197,8 @@ def train_mgn(cfg: Dict, seed: int, budget: ComputeBudget, *, final: bool, batch
 
 # ------------------------------------------------------------------------------------------------- PINN
 class PotentialNet(nn.Module):
+    """psi = U (y cos a - x sin a) + Gamma/(4 pi) ln r^2 + (1 - r^2/R^2) N(features), Gamma trainable."""
+
     def __init__(self, cfg: Dict, alpha_deg: float):
         super().__init__()
         self.mlp = NeuralNetwork(num_inputs=3, num_outputs=1, num_layers=cfg["depth"], num_neurons=cfg["width"],
@@ -206,7 +210,8 @@ class PotentialNet(nn.Module):
         x, y = X[:, :1], X[:, 1:2]
         r2 = (x - 0.25) ** 2 + y ** 2
         base = y * math.cos(self.a) - x * math.sin(self.a) + self.gamma / (4 * math.pi) * torch.log(r2)
-        feats = torch.cat([x - 0.5, y, torch.log(r2) / 6], 1)
+        r = torch.sqrt(r2)
+        feats = torch.cat([2 * (x - 0.25) / (1 + r), 2 * y / (1 + r), torch.log(r2) / 6], 1)   # bounded, O(1) near the body
         return base + (1 - r2 / R_FAR ** 2) * self.mlp(feats)
 
 
@@ -228,29 +233,34 @@ def train_pinn(cfg: Dict, seed: int, budget: ComputeBudget, *, case: str) -> Dic
     pts = pts[np.linalg.norm(pts - [0.25, 0], axis=1) < R_FAR - 0.5]
     pool = torch.tensor(pts, dtype=torch.float32)
     wl = torch.tensor(wall_loop(shape, 200, 4).xy, dtype=torch.float32)
-    xk = np.array([0.995])
-    yu, yl = surfaces(shape, xk)
-    kutta = torch.tensor([[0.995, yu[0]], [0.995, yl[0]]], dtype=torch.float32)
+    # Kutta: the dividing streamline psi = C leaves the trailing edge along the bisector of its two surfaces
+    xs = np.array([0.98, 1.0])
+    yu, yl = surfaces(shape, xs)
+    te = np.array([1.0, 0.5 * (yu[1] + yl[1])])
+    tang = np.array([1.0, 0.5 * ((yu[1] - yu[0]) + (yl[1] - yl[0])) / 0.02])
+    tang /= np.linalg.norm(tang)
+    wake = torch.tensor(te + np.linspace(0.005, 0.1, 8)[:, None] * tang, dtype=torch.float32)
 
     spec = PINNProblemSpec(pde_residuals=["Derivative(psi(x, y), (x, 2)) + Derivative(psi(x, y), (y, 2))"],
-                           conditions=[{"name": "wall", "equation": "psi(x, y) - C", "weight": 10.0}],
+                           conditions=[{"name": "wall", "equation": "psi(x, y) - C", "weight": 10.0},
+                                       {"name": "kutta_wake", "equation": "psi(x, y) - C", "weight": KUTTA_W}],
                            independent_vars=["x", "y"], dependent_vars=["psi"], inverse_params=["C"])
     torch.manual_seed(seed)
     model = PINN(PotentialNet(cfg, alpha), inverse_params_names=["C"], initial_guesses={"C": 0.0})
     loss_fn = PINNFactory(spec).generate_loss_function()
-    opt = torch.optim.Adam(model.parameters(), lr=cfg["lr"])
+    gamma_p = [model.net.gamma]
+    rest = [p for p in model.parameters() if p is not model.net.gamma]
+    opt = torch.optim.Adam([{"params": rest, "lr": cfg["lr"]}, {"params": gamma_p, "lr": GAMMA_LR}])
     g = torch.Generator().manual_seed(1000 + seed)
 
     def step(progress):
-        set_lr(opt, cosine_lr(progress, cfg["lr"]))
+        f = cosine_lr(progress, 1.0)
+        opt.param_groups[0]["lr"], opt.param_groups[1]["lr"] = cfg["lr"] * f, GAMMA_LR * f
         c = pool[torch.randint(0, len(pool), (cfg["n_colloc"],), generator=g)]
         batch = {"collocation": (c[:, :1].clone().requires_grad_(True), c[:, 1:].clone().requires_grad_(True)),
-                 "conditions": [(wl[:, :1].clone().requires_grad_(True), wl[:, 1:].clone().requires_grad_(True))]}
+                 "conditions": [(wl[:, :1].clone().requires_grad_(True), wl[:, 1:].clone().requires_grad_(True)),
+                                (wake[:, :1].clone().requires_grad_(True), wake[:, 1:].clone().requires_grad_(True))]}
         loss, _ = loss_fn(model, batch)
-        kx, ky = kutta[:, :1].clone().requires_grad_(True), kutta[:, 1:].clone().requires_grad_(True)
-        u, v = _velocity(model, kx, ky)
-        q = u ** 2 + v ** 2
-        loss = loss + 10.0 * (q[0] - q[1]).pow(2).sum()
         opt.zero_grad(set_to_none=True)
         loss.backward()
         opt.step()
@@ -261,10 +271,11 @@ def train_pinn(cfg: Dict, seed: int, budget: ComputeBudget, *, case: str) -> Dic
     # wall pressure integral (as the app's forces(): p n over the wall faces); kinematic p = (1 - |u|^2) / 2
     loop = wall_loop(shape, 200, 4).xy
     a_, b_ = loop, np.roll(loop, -1, 0)
-    mid = torch.tensor(0.5 * (a_ + b_), dtype=torch.float32)
     e = b_ - a_
     L = np.linalg.norm(e, axis=1)
     n_body = np.stack([e[:, 1], -e[:, 0]], 1) / L[:, None]
+    # evaluated 1e-4 chord outside the wall: on it the distance function's gradient is undefined
+    mid = torch.tensor(0.5 * (a_ + b_) - 1e-4 * n_body, dtype=torch.float32)
     mx, my = mid[:, :1].clone().requires_grad_(True), mid[:, 1:].clone().requires_grad_(True)
     u, v = _velocity(model, mx, my)
     p = (0.5 * (1 - (u ** 2 + v ** 2))).detach().numpy().ravel()

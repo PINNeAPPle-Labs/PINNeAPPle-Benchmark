@@ -382,6 +382,10 @@ def write_tables(std, air, camp, heat, flo, hw):
 
 
 def style(ax):
+    from matplotlib.ticker import LogFormatterSciNotation, NullFormatter
+    ax.xaxis.set_major_formatter(LogFormatterSciNotation())
+    ax.xaxis.set_minor_formatter(NullFormatter())
+    ax.yaxis.set_minor_formatter(NullFormatter())
     ax.grid(True, color=GRID, lw=0.6)
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
@@ -475,15 +479,17 @@ def fig_summary(std, air, heat, hw):
             lines.append([TITLE["airfoil"], NAME[r["method"]], "Cd " + fmt(r["cd_sub"][0], digits=2, pct=True),
                           "NACA Cd " + fmt(r["cd_naca_case"][0], digits=2, pct=True), fmt_s(r["time_per_instance_s"])])
     for r in heat:
-        lines.append([TITLE["inverse_heat"], NAME[r["method"]], "h " + fmt(r["h_id"][0], digits=2, pct=True),
-                      "h " + fmt(r["h_ood"][0], digits=2, pct=True), fmt_s(r["time_per_instance_s"])])
-    fig, ax = plt.subplots(figsize=(9, 0.32 * len(lines) + 1.6))
+        lines.append([TITLE["inverse_heat"], NAME[r["method"]], "h " + fmt(r["h_id"][0], digits=3, pct=True),
+                      "h " + fmt(r["h_ood"][0], digits=3, pct=True), fmt_s(r["time_per_instance_s"])])
+    h = 0.26 * (len(lines) + 1) + 1.1
+    fig = plt.figure(figsize=(10, h))
+    ax = fig.add_axes([0.02, 0.45 / h, 0.96, 1 - 1.0 / h])
     ax.axis("off")
     tab = ax.table(cellText=lines, colLabels=["Problem", "Method", "Error, in distribution", "Error, out of distribution",
-                                              "Time per new instance"], loc="center", cellLoc="left", colLoc="left")
+                                              "Time per new instance"], cellLoc="left", colLoc="left",
+                   bbox=[0, 0, 1, 1], colWidths=[0.22, 0.2, 0.2, 0.22, 0.16])
     tab.auto_set_font_size(False)
     tab.set_fontsize(8.5)
-    tab.scale(1, 1.25)
     prev = None
     for (i, j), c in tab.get_celld().items():
         c.set_edgecolor(GRID)
@@ -491,13 +497,13 @@ def fig_summary(std, air, heat, hw):
             c.set_text_props(weight="bold", color=INK)
         elif j == 0 and lines[i - 1][0] == (lines[i - 2][0] if i > 1 else None):
             c.get_text().set_text("")
-    fig.text(0.02, 0.97, "PINN vs FNO vs DeepONet vs MeshGraphNet under the same compute budget", fontsize=11,
+    fig.text(0.02, 1 - 0.12 / h, "PINN vs FNO vs DeepONet vs MeshGraphNet under the same compute budget", fontsize=11,
              weight="bold", color=INK, va="top")
-    fig.text(0.02, 0.92, f"PINNeAPPle-Benchmark exp. 09 · 3 seeds (means) · one CPU core per run, no GPU · "
+    fig.text(0.02, 1 - 0.4 / h, f"PINNeAPPle-Benchmark exp. 09 · 3 seeds (means) · one CPU core per run, no GPU · "
                          f"{hw.get('cpu', '')}", fontsize=7.5, color=INK2, va="top")
-    fig.text(0.02, 0.02, "Errors: relative L2 of the field (standard problems), Cd relative error (airfoil), h relative "
+    fig.text(0.02, 0.12 / h, "Errors: relative L2 of the field (standard problems), Cd relative error (airfoil), h relative "
                          "error (inverse heat). PINN time per instance = its training.", fontsize=7, color=INK2)
-    fig.savefig(FIG / "fig0_summary_table.png", dpi=200, bbox_inches="tight")
+    fig.savefig(FIG / "fig0_summary_table.png", dpi=200)
     plt.close(fig)
 
 
