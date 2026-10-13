@@ -557,6 +557,54 @@
    }
   ]
  },
+ "airfoil/mlp_fields": {
+  "best_config": {
+   "modes": 32,
+   "width": 64,
+   "lr": 0.001
+  },
+  "best_score": 0.02578510297462344,
+  "n_trials": 4,
+  "seed": 0,
+  "trials": [
+   {
+    "config": {
+     "modes": 16,
+     "width": 128,
+     "lr": 0.001
+    },
+    "score": 0.031011375598609447,
+    "info": {}
+   },
+   {
+    "config": {
+     "modes": 32,
+     "width": 64,
+     "lr": 0.001
+    },
+    "score": 0.02578510297462344,
+    "info": {}
+   },
+   {
+    "config": {
+     "modes": 16,
+     "width": 128,
+     "lr": 0.003
+    },
+    "score": 0.042253089137375355,
+    "info": {}
+   },
+   {
+    "config": {
+     "modes": 32,
+     "width": 128,
+     "lr": 0.001
+    },
+    "score": 0.026255243457853794,
+    "info": {}
+   }
+  ]
+ },
  "airfoil/pinn": {
   "best_config": {
    "width": 64,
@@ -606,6 +654,59 @@
      "n_colloc": 2048
     },
     "score": 1.932254977819658,
+    "info": {}
+   }
+  ]
+ },
+ "airfoil/pinn_rans": {
+  "best_config": {
+   "width": 128,
+   "depth": 4,
+   "lr": 0.003,
+   "n_colloc": 4096
+  },
+  "best_score": 1.9355028020465792,
+  "n_trials": 4,
+  "seed": 0,
+  "trials": [
+   {
+    "config": {
+     "width": 64,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 2048
+    },
+    "score": 1.9825944067705552,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 128,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 4096
+    },
+    "score": 1.9355028020465792,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 64,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 4096
+    },
+    "score": 1.9825644338834012,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 128,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 2048
+    },
+    "score": 1.9823579807164178,
     "info": {}
    }
   ]
