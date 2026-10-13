@@ -7,3 +7,6 @@
 __pycache__/
 *.pyc
 .DS_Store
+# Smoke-test data and figures (EXP09_SMOKE=1): not part of the reported results.
+*/data_smoke/
+*/figures_smoke/
