@@ -34,6 +34,10 @@ SPACES = {
     "pinn": {"width": [64, 128], "depth": [4, 6], "lr": [1e-3, 3e-3], "n_colloc": [2048, 8192]},
 }
 BATCH = 20
+# No weight decay for the operators. The first attempt used Adam(weight_decay=1e-4) for FNO and DeepONet; it held the
+# FNO at the mean prediction on Navier-Stokes (validation rel. L2 0.185 for all 4 configurations, 0.010 without it in
+# the same time). That attempt is kept in results/first_attempt_wd1e-4/ and described in the README.
+OPERATOR_WD = 0.0
 
 
 def space(problem: str, method: str) -> Dict:
@@ -114,7 +118,7 @@ def train_operator(problem: str, method: str, cfg: Dict, seed: int, budget: Comp
     torch.manual_seed(seed)
     rng = np.random.default_rng(seed)
     model = OperatorModel(problem, method, cfg, D.shape)
-    opt = torch.optim.Adam(model.parameters(), lr=cfg["lr"], weight_decay=1e-4)
+    opt = torch.optim.Adam(model.parameters(), lr=cfg["lr"], weight_decay=OPERATOR_WD)
     Xtr, Ytr = D.x("train"), D.y("train")
     ym, ys = torch.from_numpy(D.ym), torch.from_numpy(D.ys)
     n = len(Xtr)

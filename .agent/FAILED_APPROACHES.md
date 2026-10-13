@@ -8,3 +8,26 @@ unchanged; not duplicated here to avoid two copies drifting apart).
 
 If real failures happen in *this* repo specifically going forward (a bad merge, a benchmark protocol
 attempt that didn't pan out, a data-inclusion decision that had to be reverted), record them here.
+
+## Experiment 09 (equal-budget PINN vs FNO vs DeepONet vs MeshGraphNet), 2026-10-13
+
+1. **Operators with Adam `weight_decay=1e-4`.** The first search stage used it for FNO and DeepONet on the three
+   standard problems. On Navier-Stokes every FNO configuration sat at the mean prediction (validation rel. L2
+   0.185, identical to three digits); the same FNO without weight decay reached 0.010 in 240 s (four-variant check:
+   no decay 0.010, MSE loss 0.018, no grid channels 0.208, with decay 0.185). Coupled L2 in Adam swamps the small
+   gradients of the FNO's spectral weights (initial scale 1/(width^2)). Fix: `OPERATOR_WD = 0.0` for both operators on
+   all three problems and their whole search re-run. The first attempt's 24 search runs are kept in
+   `experiments/09_equal_budget_pinn_fno_deeponet/results/first_attempt_wd1e-4/`.
+2. **Airfoil potential-flow PINN, three formulations before the one used.** All on NACA 2412 at 4 deg
+   (OpenFOAM Cl 0.66), checked before any reported run:
+   - raw (x, y) inputs over a 20-chord disc and a Kutta condition matching |u| on both surfaces: Cl 0.017 after
+     300 s. Two faults: tanh saturation on +-20 inputs, and |u| equality admits the zero-circulation flow (equal
+     speeds, opposite directions);
+   - bounded inputs and a vector Kutta condition: Gamma moved only with a separate learning rate (Cl 0.22 at 150 s,
+     0.38 at 600 s); the network met the condition with a local distortion near the trailing edge;
+   - wall condition made exact with a distance function: velocities evaluated on the wall are 0/eps there
+     (gradient of the distance undefined), so the Kutta points on the wall were trivially satisfied; Gamma stayed 0;
+   - used: soft wall condition (psi = C, C an inverse parameter) and the Kutta condition as a value condition,
+     psi = C on 8 points of the trailing-edge bisector (the dividing streamline leaves at the trailing edge):
+     Cl 0.43 at 300 s. The wall-pressure integral of the PINN does not converge in these budgets (blunt-TE corner
+     singularities), so Cl is reported from Kutta-Joukowski (2 Gamma).
