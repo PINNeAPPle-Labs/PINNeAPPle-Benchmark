@@ -1,0 +1,145 @@
+{
+ "spec": {
+  "problem": "inverse_heat",
+  "method": "deeponet",
+  "cfg": {
+   "hidden": 64,
+   "depth": 3,
+   "p": 64,
+   "lr": 0.003
+  },
+  "stage": "final",
+  "id": "final__inverse_heat__deeponet__L0.111__s0",
+  "seed": 0,
+  "budget": {
+   "wall_s": 13.333333333333332
+  },
+  "level": 0.1111111111111111
+ },
+ "result": {
+  "train": {
+   "steps": 808,
+   "wall_s": 13.345376014009162,
+   "flops": 398347878400.0,
+   "flops_per_step": 493004800.0,
+   "stopped_by": "wall_s",
+   "budget": {
+    "wall_s": 13.333333333333332,
+    "flops": null,
+    "steps": null
+   },
+   "history": [
+    {
+     "step": 1,
+     "progress": 0.0,
+     "wall_s": 0.0,
+     "flops": 493004800.0,
+     "loss": 3.792659044265747
+    },
+    {
+     "step": 292,
+     "progress": 0.3758649078000872,
+     "wall_s": 5.011532104001162,
+     "flops": 143957401600.0,
+     "loss": 0.002930609043687582
+    },
+    {
+     "step": 574,
+     "progress": 0.7510619339253709,
+     "wall_s": 10.014159119004944,
+     "flops": 282984755200.0,
+     "loss": 0.0018607472302392125
+    },
+    {
+     "step": 808,
+     "progress": 1.0009032010506873,
+     "wall_s": 13.345376014009162,
+     "flops": 398347878400.0,
+     "loss": 0.002142978133633733,
+     "final": true
+    }
+   ],
+   "eval_wall_s": 0.0
+  },
+  "val_rel_l2": 0.08144556730985641,
+  "n_params": 25345,
+  "cases": [
+   {
+    "kind": "id",
+    "power": 10.0,
+    "h_true": 25.0,
+    "h_hat": 25.62504365247802,
+    "h_rel_err": 0.025001746099120793,
+    "max_field_err_C": 8.081473838473443,
+    "hot_spot_err_C": 4.393679537482143,
+    "calibration_s": 0.7292459280006369,
+    "n_eval": 160
+   },
+   {
+    "kind": "id",
+    "power": 5.0,
+    "h_true": 60.0,
+    "h_hat": 64.31559661095906,
+    "h_rel_err": 0.07192661018265104,
+    "max_field_err_C": 3.8818142678120537,
+    "hot_spot_err_C": 2.3399247718325498,
+    "calibration_s": 0.5406048009999722,
+    "n_eval": 160
+   },
+   {
+    "kind": "id",
+    "power": 15.0,
+    "h_true": 10.0,
+    "h_hat": 10.224624439327322,
+    "h_rel_err": 0.022462443932732157,
+    "max_field_err_C": 11.941014274952977,
+    "hot_spot_err_C": 5.587315060364318,
+    "calibration_s": 0.49497356099982426,
+    "n_eval": 160
+   },
+   {
+    "kind": "ood",
+    "power": 10.0,
+    "h_true": 150.0,
+    "h_hat": 165.84890756816407,
+    "h_rel_err": 0.10565938378776044,
+    "max_field_err_C": 7.199726769847857,
+    "hot_spot_err_C": 5.0583207413437705,
+    "calibration_s": 0.5058411349991729,
+    "n_eval": 160
+   },
+   {
+    "kind": "ood",
+    "power": 10.0,
+    "h_true": 200.0,
+    "h_hat": 208.79985342908998,
+    "h_rel_err": 0.04399926714544989,
+    "max_field_err_C": 6.839882148951482,
+    "hot_spot_err_C": 4.871236238383659,
+    "calibration_s": 0.5651953729993693,
+    "n_eval": 160
+   }
+  ],
+  "infer_batch1": {
+   "median_s": 0.0030654669999421458,
+   "min_s": 0.0028846710001744214,
+   "p90_s": 0.0032550187997003378,
+   "repeats": 30,
+   "n_per_call": 1
+  }
+ },
+ "ok": true,
+ "hardware": {
+  "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39",
+  "python": "3.13.16",
+  "logical_cpus": 4,
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "mem_gb": 15.7,
+  "torch": "2.14.1+cu130",
+  "torch_threads": 1,
+  "gpu": null,
+  "numpy": "2.5.3"
+ },
+ "job_wall_s": 19.114989757537842,
+ "finished": "2026-10-13 12:53:54"
+}

@@ -1,0 +1,150 @@
+{
+ "problem": "navier_stokes",
+ "checks": [
+  {
+   "name": "Taylor-Green vortex decays exactly",
+   "stage": "problem",
+   "subject": "navier_stokes",
+   "passed": true,
+   "value": "1.7e-15",
+   "threshold": 1e-08,
+   "detail": "",
+   "severity": "error"
+  },
+  {
+   "name": "forced steady state is steady (this config)",
+   "stage": "problem",
+   "subject": "navier_stokes",
+   "passed": true,
+   "value": "3.5e-14",
+   "threshold": 1e-08,
+   "detail": "nu = 0.001, dt = 0.005, grid 64^2",
+   "severity": "error"
+  },
+  {
+   "name": "finite values",
+   "stage": "data",
+   "subject": "navier_stokes",
+   "passed": true,
+   "value": null,
+   "threshold": null,
+   "detail": "all arrays finite",
+   "severity": "error"
+  },
+  {
+   "name": "split sizes as configured",
+   "stage": "data",
+   "subject": "navier_stokes",
+   "passed": true,
+   "value": {
+    "train": 1000,
+    "val": 100,
+    "test": 200,
+    "ood": 100
+   },
+   "threshold": {
+    "train": 1000,
+    "val": 100,
+    "test": 200,
+    "ood": 100
+   },
+   "detail": "",
+   "severity": "error"
+  },
+  {
+   "name": "no duplicate inputs within a split",
+   "stage": "data",
+   "subject": "navier_stokes",
+   "passed": true,
+   "value": {
+    "train": 0,
+    "val": 0,
+    "test": 0,
+    "ood": 0
+   },
+   "threshold": 0,
+   "detail": "",
+   "severity": "error"
+  },
+  {
+   "name": "no input shared between splits (hashes)",
+   "stage": "data",
+   "subject": "navier_stokes",
+   "passed": true,
+   "value": {
+    "train&val": 0,
+    "train&test": 0,
+    "train&ood": 0,
+    "val&test": 0,
+    "val&ood": 0,
+    "test&ood": 0
+   },
+   "threshold": 0,
+   "detail": "",
+   "severity": "error"
+  },
+  {
+   "name": "OOD set outside the training distribution",
+   "stage": "data",
+   "subject": "navier_stokes",
+   "passed": true,
+   "value": 0.92,
+   "threshold": 0.5,
+   "detail": "fraction of OOD inputs beyond the test set's 99th percentile of the PCA(20) reconstruction error (0.507) or of the Mahalanobis distance in PCA space (6.05)",
+   "severity": "warning"
+  },
+  {
+   "name": "normalisation from the training split only",
+   "stage": "data",
+   "subject": "navier_stokes",
+   "passed": true,
+   "value": "train",
+   "threshold": null,
+   "detail": "FieldData computes means and standard deviations on train_x/train_y only",
+   "severity": "error"
+  }
+ ],
+ "validation": [
+  {
+   "name": "applicability: test inputs inside the training envelope",
+   "stage": "validation",
+   "subject": "navier_stokes",
+   "passed": true,
+   "value": "200/200",
+   "threshold": ">= 90 %",
+   "detail": "physics_audit.Envelope over amplitude, spectral_centroid",
+   "severity": "warning"
+  },
+  {
+   "name": "applicability: OOD inputs outside the training envelope",
+   "stage": "validation",
+   "subject": "navier_stokes",
+   "passed": false,
+   "value": "23/100",
+   "threshold": ">= 50 %",
+   "detail": "an 'OOD' set that sits inside the envelope tests interpolation, not extrapolation",
+   "severity": "warning"
+  },
+  {
+   "name": "grid convergence (GCI) of the enstrophy at T",
+   "stage": "validation",
+   "subject": "navier_stokes",
+   "passed": true,
+   "value": "spread 5.8e-05 across the 3 grids",
+   "threshold": "spread < 1e-3 or GCI <= 0.05",
+   "detail": "converged; values (fine to coarse) ['0.52366842', '0.52367235', '0.52364193']",
+   "severity": "error"
+  },
+  {
+   "name": "physics audit: 2-D incompressible Navier-Stokes",
+   "stage": "validation",
+   "subject": "navier_stokes",
+   "passed": true,
+   "value": "VALID",
+   "threshold": null,
+   "detail": "2-D incompressible Navier-Stokes: VALID (compatibility 1.00);   [VALID] laminar_periodic: Re <= 2.3e+03 (Re = 1e+03): VALID;   [VALID] continuum: Kn <= 0.01 (Kn = 0): VALID",
+   "severity": "warning"
+  }
+ ],
+ "status": "ok"
+}

@@ -1,0 +1,104 @@
+[
+ {
+  "name": "Taylor-Green vortex decays exactly",
+  "stage": "problem",
+  "subject": "navier_stokes",
+  "passed": true,
+  "value": "1.7e-15",
+  "threshold": 1e-08,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "forced steady state is steady (this config)",
+  "stage": "problem",
+  "subject": "navier_stokes",
+  "passed": true,
+  "value": "3.5e-14",
+  "threshold": 1e-08,
+  "detail": "nu = 0.001, dt = 0.005, grid 64^2",
+  "severity": "error"
+ },
+ {
+  "name": "finite values",
+  "stage": "data",
+  "subject": "navier_stokes",
+  "passed": true,
+  "value": null,
+  "threshold": null,
+  "detail": "all arrays finite",
+  "severity": "error"
+ },
+ {
+  "name": "split sizes as configured",
+  "stage": "data",
+  "subject": "navier_stokes",
+  "passed": true,
+  "value": {
+   "train": 1000,
+   "val": 100,
+   "test": 200,
+   "ood": 100
+  },
+  "threshold": {
+   "train": 1000,
+   "val": 100,
+   "test": 200,
+   "ood": 100
+  },
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "no duplicate inputs within a split",
+  "stage": "data",
+  "subject": "navier_stokes",
+  "passed": true,
+  "value": {
+   "train": 0,
+   "val": 0,
+   "test": 0,
+   "ood": 0
+  },
+  "threshold": 0,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "no input shared between splits (hashes)",
+  "stage": "data",
+  "subject": "navier_stokes",
+  "passed": true,
+  "value": {
+   "train&val": 0,
+   "train&test": 0,
+   "train&ood": 0,
+   "val&test": 0,
+   "val&ood": 0,
+   "test&ood": 0
+  },
+  "threshold": 0,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "OOD set outside the training distribution",
+  "stage": "data",
+  "subject": "navier_stokes",
+  "passed": true,
+  "value": 0.92,
+  "threshold": 0.5,
+  "detail": "fraction of OOD inputs beyond the test set's 99th percentile of the PCA(20) reconstruction error (0.507) or of the Mahalanobis distance in PCA space (6.05)",
+  "severity": "warning"
+ },
+ {
+  "name": "normalisation from the training split only",
+  "stage": "data",
+  "subject": "navier_stokes",
+  "passed": true,
+  "value": "train",
+  "threshold": null,
+  "detail": "FieldData computes means and standard deviations on train_x/train_y only",
+  "severity": "error"
+ }
+]

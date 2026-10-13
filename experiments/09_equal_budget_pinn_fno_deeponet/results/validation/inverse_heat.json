@@ -1,0 +1,124 @@
+{
+ "problem": "inverse_heat",
+ "checks": [
+  {
+   "name": "grid convergence (GCI) of the hot-spot temperature (h = 25, 10 W)",
+   "stage": "problem",
+   "subject": "inverse_heat",
+   "passed": true,
+   "value": "spread 3.4e-04 across the 3 grids",
+   "threshold": "spread < 1e-3 or GCI <= 0.02",
+   "detail": "converged; values (fine to coarse) ['69.962614', '69.95814', '69.938747']",
+   "severity": "error"
+  },
+  {
+   "name": "finite values",
+   "stage": "data",
+   "subject": "inverse_heat",
+   "passed": true,
+   "value": null,
+   "threshold": null,
+   "detail": "",
+   "severity": "error"
+  },
+  {
+   "name": "split sizes as configured",
+   "stage": "data",
+   "subject": "inverse_heat",
+   "passed": true,
+   "value": {
+    "train": 200,
+    "val": 40
+   },
+   "threshold": {
+    "train": 200,
+    "val": 40
+   },
+   "detail": "",
+   "severity": "error"
+  },
+  {
+   "name": "no (h, power) shared between train and val",
+   "stage": "data",
+   "subject": "inverse_heat",
+   "passed": true,
+   "value": 0,
+   "threshold": null,
+   "detail": "",
+   "severity": "error"
+  },
+  {
+   "name": "OOD cases outside the surrogates' h range",
+   "stage": "data",
+   "subject": "inverse_heat",
+   "passed": true,
+   "value": [
+    150.0,
+    200.0
+   ],
+   "threshold": [
+    5.0,
+    100.0
+   ],
+   "detail": "",
+   "severity": "error"
+  },
+  {
+   "name": "in-range cases inside the surrogates' h range",
+   "stage": "data",
+   "subject": "inverse_heat",
+   "passed": true,
+   "value": [
+    25.0,
+    60.0,
+    10.0
+   ],
+   "threshold": null,
+   "detail": "",
+   "severity": "error"
+  },
+  {
+   "name": "normalisation from the training split only",
+   "stage": "data",
+   "subject": "inverse_heat",
+   "passed": true,
+   "value": null,
+   "threshold": null,
+   "detail": "Data() scales by the training fields' standard deviation",
+   "severity": "error"
+  }
+ ],
+ "validation": [
+  {
+   "name": "applicability: test inputs inside the training envelope",
+   "stage": "validation",
+   "subject": "inverse_heat",
+   "passed": true,
+   "value": "3/3",
+   "threshold": ">= 90 %",
+   "detail": "physics_audit.Envelope over h, power",
+   "severity": "warning"
+  },
+  {
+   "name": "applicability: OOD inputs outside the training envelope",
+   "stage": "validation",
+   "subject": "inverse_heat",
+   "passed": true,
+   "value": "2/2",
+   "threshold": ">= 50 %",
+   "detail": "an 'OOD' set that sits inside the envelope tests interpolation, not extrapolation",
+   "severity": "warning"
+  },
+  {
+   "name": "physics audit: thin-plate conduction with face convection",
+   "stage": "validation",
+   "subject": "inverse_heat",
+   "passed": true,
+   "value": "VALID",
+   "threshold": null,
+   "detail": "thin-plate conduction with face convection: VALID (compatibility 1.00);   [VALID] continuum: Kn <= 0.01 (Kn = 0): VALID",
+   "severity": "warning"
+  }
+ ],
+ "status": "ok"
+}

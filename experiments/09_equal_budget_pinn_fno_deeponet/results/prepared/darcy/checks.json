@@ -1,0 +1,104 @@
+[
+ {
+  "name": "Darcy manufactured solution, observed order (max error)",
+  "stage": "problem",
+  "subject": "darcy",
+  "passed": true,
+  "value": 2.0,
+  "threshold": 1.8,
+  "detail": "max errors ['3.4e-03', '8.6e-04', '2.1e-04']",
+  "severity": "error"
+ },
+ {
+  "name": "Darcy grid convergence of the mean (Richardson / GCI)",
+  "stage": "problem",
+  "subject": "darcy",
+  "passed": true,
+  "value": "p = 2.01, GCI_fine = 4.77e-04",
+  "threshold": "p > 1.5",
+  "detail": "pinneapple_analysis.verification.richardson_extrapolate",
+  "severity": "error"
+ },
+ {
+  "name": "finite values",
+  "stage": "data",
+  "subject": "darcy",
+  "passed": true,
+  "value": null,
+  "threshold": null,
+  "detail": "all arrays finite",
+  "severity": "error"
+ },
+ {
+  "name": "split sizes as configured",
+  "stage": "data",
+  "subject": "darcy",
+  "passed": true,
+  "value": {
+   "train": 1000,
+   "val": 100,
+   "test": 200,
+   "ood": 100
+  },
+  "threshold": {
+   "train": 1000,
+   "val": 100,
+   "test": 200,
+   "ood": 100
+  },
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "no duplicate inputs within a split",
+  "stage": "data",
+  "subject": "darcy",
+  "passed": true,
+  "value": {
+   "train": 0,
+   "val": 0,
+   "test": 0,
+   "ood": 0
+  },
+  "threshold": 0,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "no input shared between splits (hashes)",
+  "stage": "data",
+  "subject": "darcy",
+  "passed": true,
+  "value": {
+   "train&val": 0,
+   "train&test": 0,
+   "train&ood": 0,
+   "val&test": 0,
+   "val&ood": 0,
+   "test&ood": 0
+  },
+  "threshold": 0,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "OOD set outside the training distribution",
+  "stage": "data",
+  "subject": "darcy",
+  "passed": false,
+  "value": 0.09,
+  "threshold": 0.5,
+  "detail": "fraction of OOD inputs beyond the test set's 99th percentile of the PCA(20) reconstruction error (0.715) or of the Mahalanobis distance in PCA space (5.74)",
+  "severity": "warning"
+ },
+ {
+  "name": "normalisation from the training split only",
+  "stage": "data",
+  "subject": "darcy",
+  "passed": true,
+  "value": "train",
+  "threshold": null,
+  "detail": "FieldData computes means and standard deviations on train_x/train_y only",
+  "severity": "error"
+ }
+]

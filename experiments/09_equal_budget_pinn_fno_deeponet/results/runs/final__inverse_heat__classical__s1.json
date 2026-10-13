@@ -1,0 +1,87 @@
+{
+ "spec": {
+  "id": "final__inverse_heat__classical__s1",
+  "problem": "inverse_heat",
+  "method": "classical",
+  "cfg": {},
+  "seed": 1,
+  "budget": {
+   "steps": 1
+  },
+  "stage": "final",
+  "level": 1.0
+ },
+ "result": {
+  "cases": [
+   {
+    "kind": "id",
+    "power": 10.0,
+    "h_true": 25.0,
+    "h_hat": 24.935301864724998,
+    "h_rel_err": 0.0025879254110000717,
+    "max_field_err_C": 0.0903296844974193,
+    "hot_spot_err_C": 0.08944580529653479,
+    "calibration_core_s": 8.733882202,
+    "n_eval": 160
+   },
+   {
+    "kind": "id",
+    "power": 5.0,
+    "h_true": 60.0,
+    "h_hat": 59.22945978794503,
+    "h_rel_err": 0.012842336867582797,
+    "max_field_err_C": 0.1039435224975449,
+    "hot_spot_err_C": 0.10142973373404374,
+    "calibration_core_s": 8.520770362,
+    "n_eval": 160
+   },
+   {
+    "kind": "id",
+    "power": 15.0,
+    "h_true": 10.0,
+    "h_hat": 9.993211189312055,
+    "h_rel_err": 0.0006788810687945457,
+    "max_field_err_C": 0.08570875228841146,
+    "hot_spot_err_C": 0.08550728894897475,
+    "calibration_core_s": 8.534441004999998,
+    "n_eval": 160
+   },
+   {
+    "kind": "ood",
+    "power": 10.0,
+    "h_true": 150.0,
+    "h_hat": 147.5143114076581,
+    "h_rel_err": 0.016571257282279248,
+    "max_field_err_C": 0.13007891469849397,
+    "hot_spot_err_C": 0.1275504482883818,
+    "calibration_core_s": 8.455046361000004,
+    "n_eval": 160
+   },
+   {
+    "kind": "ood",
+    "power": 10.0,
+    "h_true": 200.0,
+    "h_hat": 195.61967992472938,
+    "h_rel_err": 0.021901600376353088,
+    "max_field_err_C": 0.14104952462790266,
+    "hot_spot_err_C": 0.13913351680037067,
+    "calibration_core_s": 8.018030792999994,
+    "n_eval": 160
+   }
+  ]
+ },
+ "ok": true,
+ "hardware": {
+  "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39",
+  "python": "3.13.16",
+  "logical_cpus": 4,
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "mem_gb": 15.7,
+  "torch": "2.14.1+cu130",
+  "torch_threads": 1,
+  "gpu": null,
+  "numpy": "2.5.3"
+ },
+ "job_wall_s": 46.564876556396484,
+ "finished": "2026-10-13 12:55:57"
+}

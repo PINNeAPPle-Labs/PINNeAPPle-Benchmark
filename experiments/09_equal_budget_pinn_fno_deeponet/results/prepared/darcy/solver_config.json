@@ -1,0 +1,23 @@
+{
+ "n_train": 1000,
+ "n_val": 100,
+ "n_test": 200,
+ "n_ood": 100,
+ "pinn_test_ids": [
+  0,
+  1,
+  2
+ ],
+ "pinn_ood_ids": [
+  0,
+  1
+ ],
+ "pinn_val_id": 0,
+ "n_solve": 128,
+ "n_out": 64,
+ "alpha": 2.0,
+ "tau": 3.0,
+ "tau_ood": 6.0,
+ "high": 12.0,
+ "low": 3.0
+}

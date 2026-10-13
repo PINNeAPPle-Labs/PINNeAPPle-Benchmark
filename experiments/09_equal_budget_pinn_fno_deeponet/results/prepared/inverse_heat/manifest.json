@@ -1,0 +1,49 @@
+{
+ "problem": "inverse_heat",
+ "config_hash": "b84f3717c236f9af",
+ "solver_config": {
+  "n_train": 200,
+  "n_val": 40,
+  "reference_seeds": 3
+ },
+ "generated": true,
+ "adopted": true,
+ "files": [
+  "inverse_heat.npz",
+  "cost.json",
+  "reference.json"
+ ],
+ "cost": {
+  "problem": "inverse_heat",
+  "splits": {
+   "train": {
+    "n": 200,
+    "solver_core_s": 11.335185380000002
+   },
+   "val": {
+    "n": 40,
+    "solver_core_s": 2.2951057530000005
+   }
+  },
+  "solver_core_s_total": 13.630291133000004,
+  "solver_core_s_per_sample": 0.05679287972083335,
+  "train_set_core_s": 13.630291133000004,
+  "h_range": [
+   5.0,
+   100.0
+  ],
+  "p_range": [
+   2.0,
+   20.0
+  ],
+  "adopted_from": "results/datagen_inverse_heat.json"
+ },
+ "hashes": {
+  "inverse_heat.npz": "a80349836e44fe7b88dcb5041c813dc0dd3d0cae66dfbd93896a64057f8ee555",
+  "cost.json": "96062a214d556639ede93e835e66a1c2bdf88c7b0b8d0b403a124bfd6523912a",
+  "reference.json": "3ebac7088deb8eeca7d95062b794e25f987a7657fb643265a4d587b5706bd285"
+ },
+ "status": "ok",
+ "checked": "2026-10-13 13:23:25",
+ "blocking": []
+}

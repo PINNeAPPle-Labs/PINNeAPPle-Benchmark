@@ -1,0 +1,25 @@
+{
+ "problem": "inverse_heat",
+ "splits": {
+  "train": {
+   "n": 200,
+   "solver_core_s": 11.335185380000002
+  },
+  "val": {
+   "n": 40,
+   "solver_core_s": 2.2951057530000005
+  }
+ },
+ "solver_core_s_total": 13.630291133000004,
+ "solver_core_s_per_sample": 0.05679287972083335,
+ "train_set_core_s": 13.630291133000004,
+ "h_range": [
+  5.0,
+  100.0
+ ],
+ "p_range": [
+  2.0,
+  20.0
+ ],
+ "adopted_from": "results/datagen_inverse_heat.json"
+}

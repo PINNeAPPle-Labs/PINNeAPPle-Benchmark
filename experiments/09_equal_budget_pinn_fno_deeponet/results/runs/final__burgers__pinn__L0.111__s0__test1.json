@@ -1,0 +1,129 @@
+{
+ "spec": {
+  "problem": "burgers",
+  "method": "pinn",
+  "cfg": {
+   "width": 64,
+   "depth": 4,
+   "lr": 0.003,
+   "n_colloc": 2048
+  },
+  "stage": "final",
+  "id": "final__burgers__pinn__L0.111__s0__test1",
+  "seed": 0,
+  "budget": {
+   "wall_s": 33.33333333333333
+  },
+  "level": 0.1111111111111111,
+  "split": "test",
+  "instance": 1
+ },
+ "result": {
+  "train": {
+   "steps": 267,
+   "wall_s": 33.37784854099755,
+   "flops": 249383092224.0,
+   "flops_per_step": 934019072.0,
+   "stopped_by": "wall_s",
+   "budget": {
+    "wall_s": 33.33333333333333,
+    "flops": null,
+    "steps": null
+   },
+   "history": [
+    {
+     "step": 1,
+     "progress": 0.0,
+     "wall_s": 0.0,
+     "flops": 934019072.0,
+     "loss": 26.590229034423828
+    },
+    {
+     "step": 44,
+     "progress": 0.153513080249968,
+     "wall_s": 5.117102674998932,
+     "flops": 41096839168.0,
+     "loss": 22.40592384338379
+    },
+    {
+     "step": 86,
+     "progress": 0.30764493620992656,
+     "wall_s": 10.254831206997551,
+     "flops": 80325640192.0,
+     "loss": 22.152008056640625
+    },
+    {
+     "step": 129,
+     "progress": 0.46010251985988365,
+     "wall_s": 15.33675066199612,
+     "flops": 120488460288.0,
+     "loss": 19.591161727905273
+    },
+    {
+     "step": 169,
+     "progress": 0.6125106025499009,
+     "wall_s": 20.417020084996693,
+     "flops": 157849223168.0,
+     "loss": 20.293182373046875
+    },
+    {
+     "step": 207,
+     "progress": 0.7673756508298903,
+     "wall_s": 25.57918836099634,
+     "flops": 193341947904.0,
+     "loss": 21.056848526000977
+    },
+    {
+     "step": 245,
+     "progress": 0.9192347980499018,
+     "wall_s": 30.641159934996722,
+     "flops": 228834672640.0,
+     "loss": 19.468843460083008
+    },
+    {
+     "step": 267,
+     "progress": 1.0013354562299266,
+     "wall_s": 33.37784854099755,
+     "flops": 249383092224.0,
+     "loss": 20.491283416748047,
+     "final": true
+    }
+   ],
+   "eval_wall_s": 0.0
+  },
+  "n_params": 12929,
+  "test": {
+   "rel_l2": [
+    0.8198475140734587
+   ],
+   "rel_l2_mean": 0.8198475140734587,
+   "qoi_rel_err": [
+    0.3247084627336984
+   ],
+   "qoi_rel_err_mean": 0.3247084627336984
+  },
+  "split": "test",
+  "instance": 1,
+  "infer_eval_grid": {
+   "median_s": 0.003443424999659328,
+   "min_s": 0.0032888319992707693,
+   "p90_s": 0.003631401300299331,
+   "repeats": 10,
+   "n_per_call": 1
+  }
+ },
+ "ok": true,
+ "hardware": {
+  "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39",
+  "python": "3.13.16",
+  "logical_cpus": 4,
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "mem_gb": 15.7,
+  "torch": "2.14.1+cu130",
+  "torch_threads": 1,
+  "gpu": null,
+  "numpy": "2.5.3"
+ },
+ "job_wall_s": 35.45351576805115,
+ "finished": "2026-10-13 12:46:53"
+}

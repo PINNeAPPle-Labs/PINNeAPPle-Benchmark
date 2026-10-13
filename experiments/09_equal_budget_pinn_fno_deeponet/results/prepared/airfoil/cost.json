@@ -1,0 +1,9 @@
+{
+ "n_runs": 436,
+ "solver_s_total_recorded": 39288.7,
+ "solver_s_per_run_recorded": 90.11169724770642,
+ "solver_s_per_run": 56.18972581624985,
+ "train_set_core_s": 24498.720455884933,
+ "n_ood_runs": 0,
+ "timing": "data cost = runs x the clean per-run time (openfoam_clean_timing.json, 4 runs re-timed alone); the campaign's recorded wall times are inflated because it shared the CPU with other jobs"
+}
