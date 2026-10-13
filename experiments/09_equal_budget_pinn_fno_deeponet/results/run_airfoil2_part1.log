@@ -18,3 +18,9 @@
 16:41:32 [4/56] study__airfoil__pinn__B3600__NACA2412_a+04 ok
 /usr/lib/python3.13/multiprocessing/resource_tracker.py:479: UserWarning: resource_tracker: There appear to be 5 leaked semaphore objects to clean up at shutdown: {'/mp-2l29w4iq', '/mp-50mj84at', '/mp-bo0m_2hn', '/mp-8br_4mck', '/mp-6nih8qx2'}
   warnings.warn(
+17:06:50 20 jobs, 0 to run
+17:06:52 89 jobs, 52 to run
+17:16:56 [1/52] diag__airfoil__pinn__lbfgs__NACA2412_a+04 ok
+17:16:58 [2/52] diag__airfoil__pinn__lr1e-3__NACA2412_a+04 ok
+17:32:02 [3/52] diag__airfoil__pinn__weights_wall100_kutta100__NACA2412_a+04 ok
+17:32:04 [4/52] diag__airfoil__pinn__weights_wall1_kutta1__NACA2412_a+04 ok
