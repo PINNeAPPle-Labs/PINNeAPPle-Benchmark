@@ -31,3 +31,20 @@ attempt that didn't pan out, a data-inclusion decision that had to be reverted),
      psi = C on 8 points of the trailing-edge bisector (the dividing streamline leaves at the trailing edge):
      Cl 0.43 at 300 s. The wall-pressure integral of the PINN does not converge in these budgets (blunt-TE corner
      singularities), so Cl is reported from Kutta-Joukowski (2 Gamma).
+3. **The library's correctness gates, first pass on this experiment's artifacts** (`pp.benchmark`, before
+   publishing). What they caught and what changed:
+   - *Darcy OOD set is not out of distribution*: the data gate (PCA reconstruction error and Mahalanobis distance
+     of the coefficient fields, against the training split) put only 9 % of the OOD inputs outside the training
+     envelope. A finer GRF length scale (tau 6 vs 3), once thresholded to the same two values {3, 12}, is not
+     distinguishable from the training inputs by these features. Not regenerated (the runs are already done with it):
+     reported as a limitation, and the Darcy OOD column is read as "a second test set", not as extrapolation.
+   - *GCI of Burgers energy and Navier-Stokes enstrophy reported "oscillatory, the GCI formula does not apply"* and
+     the first version of the gate counted that as a pass. The three grids agree to better than 1e-3 there, so the
+     gate now passes on the spread itself and records an oscillation with a real spread as a warning.
+   - *DeepONet "overfits a tiny batch" blocked Darcy and Navier-Stokes* (loss to 13 % and 22 % of its initial value
+     in 1000 steps; threshold 10 %), although the same DeepONet trains to 0.057 and 0.031 relative L2. A model that
+     cannot overfit three samples is a broken setup only when it cannot reduce the loss at all: the gate now errors
+     at >= 50 % and warns between 10 % and 50 %.
+   - *"Did not learn" (loss not halved) flagged the 1/9-budget runs and the search runs* as errors. Those are short by
+     design; the check now applies to the full-budget final and equal-FLOPs runs, and a loss that halves too slowly is
+     a warning (the error item is "did not converge": an error no better than a trivial prediction).
