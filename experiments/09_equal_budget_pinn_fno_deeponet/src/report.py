@@ -17,6 +17,7 @@ import numpy as np  # noqa: E402
 
 from common import BUDGET_LEVELS, PROBLEMS, PINN_OOD_IDS, PINN_TEST_IDS, RES, ROOT, RUNS, SEEDS, load_json, save_json  # noqa: E402
 from pinneapple_analysis.cost import AmortizedCost  # noqa: E402
+import report_airfoil as RA  # noqa: E402
 
 FIG = ROOT / ("figures_smoke" if RES.name.endswith("smoke") else "figures")
 FIG.mkdir(exist_ok=True)
@@ -24,10 +25,13 @@ STD = ("burgers", "darcy", "navier_stokes")
 TITLE = {"burgers": "Burgers 1-D", "darcy": "Darcy 2-D", "navier_stokes": "Navier-Stokes 2-D",
          "airfoil": "Airfoil 2-D (RANS)", "inverse_heat": "Inverse heat (h)"}
 NAME = {"pinn": "PINN", "fno": "FNO", "deeponet": "DeepONet", "mgn": "MeshGraphNet", "mlp": "MLP",
+        "mlp_fields": "POD + MLP", "pinn_rans": "PINN (RANS)", "panel": "Panel method",
         "classical": "FV + calibration", "solver": "Reference solver"}
 # fixed colour per method (reference categorical palette, slots in order), and a marker as a second encoding
-COLOR = {"pinn": "#2a78d6", "fno": "#eb6834", "deeponet": "#1baf7a", "mgn": "#eda100", "mlp": "#e87ba4"}
-MARK = {"pinn": "o", "fno": "s", "deeponet": "^", "mgn": "D", "mlp": "v"}
+COLOR = {"pinn": "#2a78d6", "fno": "#eb6834", "deeponet": "#1baf7a", "mgn": "#eda100", "mlp": "#e87ba4",
+         "mlp_fields": "#008300", "pinn_rans": "#6250d6", "panel": "#52514e"}
+MARK = {"pinn": "o", "fno": "s", "deeponet": "^", "mgn": "D", "mlp": "v", "mlp_fields": "P", "pinn_rans": "X",
+        "panel": "*"}
 INK, INK2, GRID = "#0b0b0b", "#52514e", "#e4e3df"
 
 RUNS_ALL = {}
@@ -151,8 +155,9 @@ def std_table(problem):
 # ------------------------------------------------------------------------------------------------ airfoil
 def airfoil_cases():
     ids = sorted({r["spec"]["case"] for r in RUNS_ALL.values() if r["spec"].get("problem") == "airfoil"
-                  and r["spec"]["method"] == "pinn" and r["spec"]["stage"] == "final" and r["spec"]["level"] == 1.0})
-    naca = [c for c in ids if c.startswith("NACA")]
+                  and r["spec"]["method"] in ("pinn", "pinn_rans") and r["spec"]["stage"] == "final"
+                  and r["spec"]["level"] == 1.0})
+    naca = [c for c in ids if c == "NACA2412_a+04"]
     return [c for c in ids if not c.startswith("NACA")], naca
 
 
@@ -162,7 +167,7 @@ def airfoil_seed_metrics(method, level=1.0, cases=None):
     out = []
     for s in SEEDS:
         tag = f"final__airfoil__{method}__{lvl(level)}__s{s}"
-        if method != "pinn":
+        if method not in ("pinn", "pinn_rans"):
             r = get(tag)
             if not r:
                 continue
@@ -215,23 +220,27 @@ def airfoil_campaign():
 
 def airfoil_table():
     camp = airfoil_campaign()
+    A = RA.build(RUNS_ALL)
     rows = []
-    P = airfoil_seed_metrics("pinn")
-    pinn_cost = AmortizedCost(per_query_train_s=agg(P, "infer")[0] or 0.0)
-    for m in ("pinn", "mgn", "mlp"):
-        R = airfoil_seed_metrics(m)
-        if not R:
+    P = A["rows"].get("pinn")
+    pinn_cost = AmortizedCost(per_query_train_s=P["cost"]["infer"] if P else 0.0)
+    tup = lambda d: (d["mean"], d["std"], d["n_seeds"]) if d else (None, None, 0)  # noqa: E731
+    for m, r in A["rows"].items():
+        if m == "openfoam":
+            rows.append({"problem": "airfoil", "method": "solver", "time_per_instance_s": r["cost"]["infer"]})
             continue
-        infer = agg(R, "infer")[0]
-        cost = pinn_cost if m == "pinn" else AmortizedCost(data_s=camp["total_core_s"] or 0, train_s=agg(R, "wall")[0],
-                                                           infer_s=infer)
-        rows.append({"problem": "airfoil", "method": m, "n_seeds": len(R),
-                     **{k: agg(R, k) for k in ("cl_sub", "cd_sub", "u_sub", "p_sub", "cl_full", "cd_full", "cl_naca",
-                                               "cd_naca", "cl_naca_case", "cd_naca_case", "wall", "flops")},
-                     "data_core_s": None if m == "pinn" else camp["total_core_s"], "time_per_instance_s": infer,
-                     "break_even_queries": None if m == "pinn" else cost.break_even(pinn_cost)})
-    rows.append({"problem": "airfoil", "method": "solver", "time_per_instance_s": camp["mean_s_per_run"]})
-    return rows, camp
+        row = {"problem": "airfoil", "method": m, "n_seeds": r["n_seeds"], "time_per_instance_s": r["cost"]["infer"],
+               "wall": (r["cost"]["wall"], None, r["n_seeds"]), "n": r["n"]}
+        for set_ in RA.SETS:
+            for k in ("cl", "cd", "u", "p"):
+                row[f"{k}_{set_}"] = tup((r["sets"].get(set_) or {}).get(k))
+        row["cd_sub"], row["cl_sub"], row["u_sub"] = row["cd_test4"], row["cl_test4"], row["u_test4"]
+        if m in ("mgn", "mlp", "mlp_fields"):
+            row["data_core_s"] = camp["total_core_s"]
+            row["break_even_queries"] = AmortizedCost(data_s=camp["total_core_s"], train_s=r["cost"]["wall"] or 0,
+                                                      infer_s=r["cost"]["infer"]).break_even(pinn_cost)
+        rows.append(row)
+    return rows, camp, A
 
 
 # ------------------------------------------------------------------------------------------------ inverse heat
@@ -303,7 +312,7 @@ def flops_table():
 
 
 # ------------------------------------------------------------------------------------------------ writing
-def write_tables(std, air, camp, heat, flo, hw):
+def write_tables(std, air, camp, heat, flo, hw, A):
     L = []
     hw_line = (f"Hardware: {hw.get('cpu')} ({hw.get('logical_cpus')} logical CPUs, {hw.get('mem_gb')} GB), no GPU; "
                f"torch {hw.get('torch')}. **Every training run uses ONE CPU core** (torch.set_num_threads(1)); four "
@@ -319,7 +328,7 @@ def write_tables(std, air, camp, heat, flo, hw):
         rows = [r for r in std if r["problem"] == prob]
         B = next((r for r in rows if r["method"] != "solver"), None)
         L += [f"## {TITLE[prob]} (budget {PROBLEMS[prob]['budget_s']:g} s on one core per training run)", "",
-              "| Method | Rel. L2, test (3 inst.) | Rel. L2, test (all) | Rel. L2, OOD (2 inst.) | Integral QoI rel. err (3 inst.) "
+              "| Method | Rel. L2, test (n = 3) | Rel. L2, test, all (n = 200) | Rel. L2, OOD (n = 2) | Integral QoI rel. err (n = 3) "
               "| Training (s) | Training FLOPs | Simulation data (core-s) | Time per new instance | Break-even (queries) |",
               "|---|---|---|---|---|---|---|---|---|---|"]
         for r in rows:
@@ -336,26 +345,17 @@ def write_tables(std, air, camp, heat, flo, hw):
     L += [f"## {TITLE['airfoil']} (budget 900 s on one core per training run)", "",
           f"OpenFOAM campaign: {camp['n_runs']} runs (status {camp['status']}). One run alone on one core: "
           f"{fmt_s(camp['clean_s_per_run'])} (`openfoam_clean_timing.json`, 4 runs re-timed on the idle machine), so "
-          f"the data cost used below is {camp['n_runs']} x that = {camp['total_core_s'] / 3600:.1f} core-hours. The "
-          f"campaign's own recorded wall times sum to {camp['recorded_total_s'] / 3600:.1f} h of runs "
-          f"({fmt_s(camp['recorded_mean_s_per_run'])} per run) because it shared the CPU with other jobs.",
-          "",
-          "| Method | Cl abs. err (4 test runs) | Cd rel. err (4 test runs) | Velocity rel. L2 (4 test runs) | Pressure rel. L2 "
-          "(4 test runs) | Cl abs. err (all test) | Cd rel. err (all test) | Cl abs. err, NACA 2412 α=4° | Cd rel. err, NACA 2412 α=4° "
-          "| Training (s) | Time per new design | Break-even (queries) |", "|---|---|---|---|---|---|---|---|---|---|---|---|"]
-    for r in air:
-        if r["method"] == "solver":
-            L.append(f"| OpenFOAM (reference) | reference | reference | reference | reference | reference | reference "
-                     f"| reference | reference | - | {fmt_s(r['time_per_instance_s'])} | - |")
-            continue
-        be = r["break_even_queries"]
-        L.append(f"| {NAME[r['method']]} | {fmt(*r['cl_sub'][:2])} | {fmt(*r['cd_sub'][:2], pct=True)} | "
-                 f"{fmt(*r['u_sub'][:2])} | {fmt(*r['p_sub'][:2])} | {fmt(*r['cl_full'][:2])} | "
-                 f"{fmt(*r['cd_full'][:2], pct=True)} | {fmt(*r['cl_naca_case'][:2])} | {fmt(*r['cd_naca_case'][:2], pct=True)} | "
-                 f"{fmt_s(r['wall'][0])} | {fmt_s(r['time_per_instance_s'])} | {'-' if be is None else f'{be:.1f}'} |")
+          f"the data cost of the data-driven models is {camp['n_runs']} x that = {camp['total_core_s'] / 3600:.1f} "
+          f"core-hours (break-even against the potential-flow PINN: "
+          + ", ".join(f"{NAME[r['method']]} {r['break_even_queries']:.0f} queries" for r in air
+                      if r.get("break_even_queries") is not None)
+          + f"). The campaign's own recorded wall times sum to {camp['recorded_total_s'] / 3600:.1f} h because it shared "
+          f"the CPU with other jobs. OOD set: 12 extra OpenFOAM runs (`gen_airfoil_ood.py`): NACA 0021, 2421, 4418, 6409, "
+          f"6412 at 2° and 6° (CST weights outside the training box) and NACA 2412, 0012 at -4° (below the training "
+          f"angles).", "", RA.markdown(A, fmt_s)[0], "", RA.markdown_study(A, fmt_s)]
     L += ["", f"## {TITLE['inverse_heat']} (budget 120 s on one core per training run)", "",
-          "| Method | h rel. err, in range (3 cases) | h rel. err, out of range (2 cases) | Max field err °C, in range | "
-          "Max field err °C, out of range | Hot-spot err °C, in range | Training (s) | Simulation data (core-s) | "
+          "| Method | h rel. err, in range (n = 3) | h rel. err, out of range (n = 2) | Max field err °C, in range (n = 3) | "
+          "Max field err °C, out of range (n = 2) | Hot-spot err °C, in range (n = 3) | Training (s) | Simulation data (core-s) | "
           "Time per new inverse problem | Break-even (queries) |", "|---|---|---|---|---|---|---|---|---|---|"]
     for r in heat:
         be = r["break_even_queries"]
@@ -406,7 +406,7 @@ def style(ax):
 def fig_budget():
     fig, axes = plt.subplots(1, 5, figsize=(17, 3.6))
     for ax, prob in zip(axes, STD + ("airfoil", "inverse_heat")):
-        for m in (("pinn", "fno", "deeponet") if prob in STD else ("pinn", "mgn", "mlp") if prob == "airfoil"
+        for m in (("pinn", "fno", "deeponet") if prob in STD else ("pinn", "pinn_rans", "mgn", "mlp") if prob == "airfoil"
                   else ("pinn", "mlp", "deeponet")):
             xs, ys, es = [], [], []
             for lv in BUDGET_LEVELS:
@@ -481,22 +481,38 @@ def fig_summary(std, air, heat, hw):
     for prob in STD:
         for r in std:
             if r["problem"] == prob and r["method"] != "solver":
-                lines.append([TITLE[prob], NAME[r["method"]], fmt(r["rel_l2_sub"][0], digits=2),
-                              fmt(r["rel_l2_ood"][0], digits=2), fmt_s(r["time_per_instance_s"])])
-    for r in air:
-        if r["method"] != "solver":
-            lines.append([TITLE["airfoil"], NAME[r["method"]], "Cd " + fmt(r["cd_sub"][0], digits=2, pct=True),
-                          "NACA Cd " + fmt(r["cd_naca_case"][0], digits=2, pct=True), fmt_s(r["time_per_instance_s"])])
+                lines.append([TITLE[prob], NAME[r["method"]], fmt(r["rel_l2_sub"][0], digits=2) + " (n=3)",
+                              fmt(r["rel_l2_ood"][0], digits=2) + " (n=2)", fmt_s(r["time_per_instance_s"])])
+    by = {r["method"]: r for r in air}
+    nn = lambda r, k: r["n"].get(k, 0)                                     # noqa: E731
+    for m in ("pinn", "pinn_rans", "mgn", "mlp", "panel"):                  # integral quantities: Cd relative error
+        if m in by and by[m]["cd_test4"][0] is not None:
+            r = by[m]
+            ood = r["cd_ood"] if r["cd_ood"][0] is not None else r["cd_ood4"]
+            n_ood = nn(r, "ood") or nn(r, "ood4")
+            lines.append(["Airfoil, Cd (integral)", RA.NAME[m].replace(" (Cl, Cd only)", ""),
+                          f"{fmt(r['cd_test4'][0], digits=2, pct=True)} (n={nn(r, 'test4')})",
+                          f"{fmt(ood[0], digits=2, pct=True)} (n={n_ood})" if ood[0] is not None else "-",
+                          fmt_s(r["time_per_instance_s"])])
+    for m in ("pinn", "pinn_rans", "mgn", "mlp_fields", "panel"):           # fields: velocity relative L2
+        if m in by and by[m]["u_test4"][0] is not None:
+            r = by[m]
+            ood = r["u_ood"] if r["u_ood"][0] is not None else r["u_ood4"]
+            n_ood = nn(r, "ood") or nn(r, "ood4")
+            lines.append(["Airfoil, velocity (field)", RA.NAME[m].replace(" (fields only)", ""),
+                          f"{fmt(r['u_test4'][0], digits=2)} (n={nn(r, 'test4')})",
+                          f"{fmt(ood[0], digits=2)} (n={n_ood})" if ood[0] is not None else "-",
+                          fmt_s(r["time_per_instance_s"])])
     for r in heat:
-        lines.append([TITLE["inverse_heat"], NAME[r["method"]], "h " + fmt(r["h_id"][0], digits=3, pct=True),
-                      "h " + fmt(r["h_ood"][0], digits=3, pct=True), fmt_s(r["time_per_instance_s"])])
+        lines.append([TITLE["inverse_heat"], NAME[r["method"]], "h " + fmt(r["h_id"][0], digits=3, pct=True) + " (n=3)",
+                      "h " + fmt(r["h_ood"][0], digits=3, pct=True) + " (n=2)", fmt_s(r["time_per_instance_s"])])
     h = 0.26 * (len(lines) + 1) + 1.1
     fig = plt.figure(figsize=(10, h))
     ax = fig.add_axes([0.02, 0.45 / h, 0.96, 1 - 1.0 / h])
     ax.axis("off")
     tab = ax.table(cellText=lines, colLabels=["Problem", "Method", "Error, in distribution", "Error, out of distribution",
                                               "Time per new instance"], cellLoc="left", colLoc="left",
-                   bbox=[0, 0, 1, 1], colWidths=[0.22, 0.2, 0.2, 0.22, 0.16])
+                   bbox=[0, 0, 1, 1], colWidths=[0.24, 0.22, 0.19, 0.21, 0.14])
     tab.auto_set_font_size(False)
     tab.set_fontsize(8.5)
     prev = None
@@ -510,23 +526,26 @@ def fig_summary(std, air, heat, hw):
              weight="bold", color=INK, va="top")
     fig.text(0.02, 1 - 0.4 / h, f"PINNeAPPle-Benchmark exp. 09 · 3 seeds (means) · one CPU core per run, no GPU · "
                          f"{hw.get('cpu', '')}", fontsize=7.5, color=INK2, va="top")
-    fig.text(0.02, 0.12 / h, "Errors: relative L2 of the field (standard problems), Cd relative error (airfoil), h relative "
-                         "error (inverse heat). PINN time per instance = its training.", fontsize=7, color=INK2)
+    fig.text(0.02, 0.12 / h, "Errors: relative L2 of the field (standard problems, airfoil velocity), Cd relative error "
+                         "(airfoil), h relative error (inverse heat); n = instances. PINN time per instance = its training. "
+                         "The MLP predicts only Cl, Cd; POD + MLP only fields.", fontsize=7, color=INK2)
     fig.savefig(FIG / "fig0_summary_table.png", dpi=200)
     plt.close(fig)
 
 
 def main():
     std = [r for p in STD for r in std_table(p)]
-    air, camp = airfoil_table()
+    air, camp, A = airfoil_table()
     heat = heat_table()
     flo = flops_table()
     hw = next((r["hardware"] for r in RUNS_ALL.values()), {})
-    write_tables(std, air, camp, heat, flo, hw)
+    write_tables(std, air, camp, heat, flo, hw, A)
+    RA.fig_study(A, FIG / "fig3_airfoil_pinn_budget_study.png", COLOR, MARK, style)
     fig_budget()
     fig_pareto(std, air, heat)
     fig_summary(std, air, heat, hw)
-    save_json(RES / "summary.json", {"standard": std, "airfoil": air, "airfoil_campaign": camp, "inverse_heat": heat,
+    save_json(RES / "summary.json", {"standard": std, "airfoil": air, "airfoil_detail": A, "airfoil_campaign": camp,
+                                     "inverse_heat": heat,
                                      "equal_flops": flo, "hardware": hw, "failed_runs": failed(),
                                      "n_runs": len(RUNS_ALL)})
     print((RES / "table.md").read_text())

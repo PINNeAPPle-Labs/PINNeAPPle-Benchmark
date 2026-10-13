@@ -26,7 +26,7 @@ from pinneapple_analysis.cost import equal_budget_search
 
 AIRFOIL_BUDGET = 20.0 if SMOKE else 900.0
 HEAT_BUDGET = 6.0 if SMOKE else 120.0
-METHODS = {**{p: ("fno", "deeponet", "pinn") for p in STD}, "airfoil": ("mlp", "mgn", "pinn"),
+METHODS = {**{p: ("fno", "deeponet", "pinn") for p in STD}, "airfoil": ("mlp", "mgn", "mlp_fields", "pinn", "pinn_rans"),
            "inverse_heat": ("mlp", "deeponet", "pinn")}
 
 
@@ -51,7 +51,9 @@ def airfoil_cases():
     test_shapes = sorted({r["shape_id"] for r in S["test"]})[:2]
     test = [f"{s}_a{b}" for s in test_shapes for b in (1, 2)]
     val = sorted(r["id"] for r in S["val"] if r["id"].endswith("_a1"))[0]
-    return {"val": val, "test": test, "naca": "NACA2412_a+04"}
+    # four OOD cases for the per-geometry PINNs: one per kind of departure (thickness, camber, both, incidence)
+    ood = [c for c in ("NACA0021_a+02", "NACA6412_a+02", "NACA4418_a+02", "NACA2412_a-04") if c in {r["id"] for r in S.get("ood", [])}]
+    return {"val": val, "test": test, "naca": "NACA2412_a+04", "ood": ood}
 
 
 def search_configs(problem, method):
@@ -69,7 +71,7 @@ def search_jobs():
             for i, cfg in enumerate(search_configs(p, m)):
                 spec = {"id": f"search__{p}__{m}__{i}", "problem": p, "method": m, "cfg": cfg, "seed": 0,
                         "budget": b, "stage": "search"}
-                if m == "pinn":
+                if m in ("pinn", "pinn_rans"):
                     if p in STD:
                         spec.update(split="val", instance=PINN_VAL_ID)
                     elif p == "airfoil":
@@ -87,7 +89,9 @@ def search_score(res: dict, problem: str, method: str) -> float:
     if problem in STD:
         return r["val"]["rel_l2_mean"]
     if problem == "airfoil":
-        v = r["result"] if method == "pinn" else r["val"]
+        v = r["result"] if method in ("pinn", "pinn_rans") else r["val"]
+        if method == "mlp_fields":
+            return v["u_rel_l2_mean"] + v["p_rel_l2_mean"]
         return v["cl_abs_err_mean"] + v["cd_rel_err_mean"]
     return r["h_rel_err"] if method == "pinn" else r["val_rel_l2"]
 
@@ -111,7 +115,7 @@ def final_jobs():
                 b = {"wall_s": B * lv}
                 for s in SEEDS:
                     tag = f"final__{p}__{m}__L{lv:.3f}__s{s}"
-                    if m != "pinn":
+                    if m not in ("pinn", "pinn_rans"):
                         jobs.append({**base, "id": tag, "seed": s, "budget": b, "level": lv})
                     elif p in STD:
                         for i in PINN_TEST_IDS:
@@ -124,6 +128,8 @@ def final_jobs():
                     elif p == "airfoil":
                         cases = airfoil_cases()
                         sel = cases["test"] + [cases["naca"]] if lv == 1.0 else cases["test"][:1]
+                        if lv == 1.0 and s == 0:
+                            sel = sel + cases["ood"]                 # PINNs on 4 of the OOD cases, seed 0
                         for c in sel:
                             jobs.append({**base, "id": f"{tag}__{c}", "seed": s, "budget": b, "level": lv, "case": c})
                     else:
@@ -169,6 +175,31 @@ def flops_jobs():
     return jobs
 
 
+def study_jobs():
+    """PINN-only budget sensitivity on the airfoil (seed 0, one in-distribution test run and NACA 2412 at 4 deg),
+    and the setup audit runs (900 s each on NACA 2412 at 4 deg): learning rate, loss weights, Adam -> L-BFGS."""
+    cases = airfoil_cases()
+    inst = [cases["test"][0], cases["naca"]]
+    jobs = []
+    for m, budgets in (("pinn_rans", (3600.0, 14400.0)), ("pinn", (3600.0,))):
+        cfg = best_config("airfoil", m).best_config
+        for B in budgets:
+            for c in inst:
+                jobs.append({"id": f"study__airfoil__{m}__B{int(B)}__{c}", "problem": "airfoil", "method": m,
+                             "cfg": cfg, "seed": 0, "budget": {"wall_s": B}, "stage": "study", "case": c, "level": B / 900})
+    pot, rans = best_config("airfoil", "pinn").best_config, best_config("airfoil", "pinn_rans").best_config
+    diag = {"pinn": [("lr1e-3", {**pot, "lr": 1e-3}), ("lbfgs", {**pot, "lbfgs": 0.3}),
+                     ("weights_wall100_kutta100", {**pot, "wall_w": 100.0, "kutta_w": 100.0}),
+                     ("weights_wall1_kutta1", {**pot, "wall_w": 1.0, "kutta_w": 1.0})],
+            "pinn_rans": [("lbfgs", {**rans, "lbfgs": 0.3}), ("lr1e-3", {**rans, "lr": 1e-3})]}
+    for m, variants in diag.items():
+        for name, cfg in variants:
+            jobs.append({"id": f"diag__airfoil__{m}__{name}__{cases['naca']}", "problem": "airfoil", "method": m,
+                         "cfg": cfg, "seed": 0, "budget": {"wall_s": AIRFOIL_BUDGET}, "stage": "diag",
+                         "case": cases["naca"], "variant": name})
+    return jobs
+
+
 def execute(jobs, workers=4):
     todo = [j for j in jobs if result(j["id"]) is None]
     log(f"{len(jobs)} jobs, {len(todo)} to run")
@@ -190,6 +221,11 @@ def main():
         execute(final_jobs())
     if what in ("flops", "all"):
         execute(flops_jobs())
+    if what in ("airfoil2", "all"):
+        # the airfoil additions: RANS PINN, POD + MLP fields, OOD runs, budget study, setup audit
+        execute([j for j in search_jobs() if j["problem"] == "airfoil"])
+        save_json(RES / "search.json", {f"{p}/{m}": best_config(p, m).to_dict() for p, ms in METHODS.items() for m in ms})
+        execute(study_jobs() + [j for j in final_jobs() if j["problem"] == "airfoil"])
 
 
 if __name__ == "__main__":

@@ -33,10 +33,13 @@ def run_job(spec: dict) -> str:
                                        eval_splits=("val", "test", "ood") if final else ("val",))
         elif p == "airfoil":
             import airfoil as A
-            if m == "pinn":
-                res = A.train_pinn(cfg, seed, budget, case=spec["case"])
+            if m in ("pinn", "pinn_rans"):
+                res = A.train_pinn(cfg, seed, budget, case=spec["case"], kind="rans" if m == "pinn_rans" else "potential",
+                                   ckpt=str(RUNS / f"{spec['id']}.ckpt.pt"))
             elif m == "mlp":
                 res = A.train_mlp(cfg, seed, budget, final=final)
+            elif m == "mlp_fields":
+                res = A.train_mlp_fields(cfg, seed, budget, final=final)
             else:
                 res = A.train_mgn(cfg, seed, budget, final=final)
         elif p == "inverse_heat":

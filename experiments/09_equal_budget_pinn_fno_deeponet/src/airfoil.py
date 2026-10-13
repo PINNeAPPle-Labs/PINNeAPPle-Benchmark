@@ -10,16 +10,23 @@ Methods:
 * MeshGraphNet: pinneapple_design.aero.surrogate.AeroGNN (pinneapple_neural MeshGraphNet on the near-field cells,
   fields p, Ux, Uy, nut and a pooled Cl, Cd, Cm head), loss as the app's.
 * MLP: pinneapple_design.aero.surrogate.MLPEnsemble (5 bootstrapped MLPs on shape + alpha -> Cl, log Cd, Cm).
-* PINN (per geometry, no data): the equations a PINN can be given here without a turbulence model or simulation
-  data: incompressible potential flow. Stream function psi = uniform flow + Gamma/(2 pi) ln r + (1 - r^2/R^2) N(x, y)
-  (``PotentialNet``); lap psi = 0 (PINNFactory residual); psi = C on the wall (PINNFactory condition, C an inverse
-  parameter); Kutta condition as a second condition: psi = C on 8 points of the trailing-edge bisector, i.e. the
-  dividing streamline leaves at the trailing edge; Gamma trainable.
-  Cl = 2 Gamma (Kutta-Joukowski); Cd from the wall-pressure integral (zero in exact potential flow, d'Alembert).
+* MLP fields (POD + MLP): the field baseline, like-for-like with the MeshGraphNet on fields (``train_mlp_fields``).
+* PINN, potential flow (per geometry, no data): stream function psi = uniform flow + Gamma/(2 pi) ln r + (1 - r^2/R^2)
+  N(x, y) (``PotentialNet``); lap psi = 0 (PINNFactory residual); psi = C on the wall (C an inverse parameter); Kutta
+  condition: psi = C on 8 points of the trailing-edge bisector; Cl = 2 Gamma (Kutta-Joukowski); Cd from the wall
+  pressure (zero for exact potential flow, d'Alembert). Its exact counterpart is the panel method
+  (pinneapple_design.aero.panel), used to check that the PINN solved its own equations.
+* PINN, RANS (per geometry, no data): steady incompressible RANS at Re 4e6 with an algebraic closure (Prandtl mixing
+  length, van Driest damping, frozen each step: ``EddyViscosity``); outputs u, v, p with no-slip exact
+  (``RansNet``); continuity and both momentum equations as PINNFactory residuals; far-field u, v, p as conditions.
+  Cl, Cd from the wall pressure and shear.
+Both PINNs: collocation on the case's own O-grid cell centres (clustered at the wall, leading and trailing edges),
+optional Adam -> L-BFGS (``cfg["lbfgs"]``: fraction of the budget), checkpoints for long runs.
 """
 from __future__ import annotations
 
 import math
+import os
 import sys
 from typing import Dict, List
 
@@ -39,12 +46,18 @@ sys.path.insert(0, str(LIB / "apps" / "aero_optimizer" / "tools"))
 from train_surrogate import load_runs, split  # noqa: E402
 
 AIR = DATA / "airfoil"
+AIR_OOD = DATA / "airfoil_ood"
 SPACES = {
     "mlp": {"width": [64, 96, 128], "lr": [1e-3, 3e-3], "wd": [1e-6, 1e-4]},
     "mgn": {"hidden": [32, 48], "mp": [6, 8], "lr": [5e-4, 1e-3]},
     "pinn": {"width": [64, 128], "depth": [4, 6], "lr": [1e-3, 3e-3], "n_colloc": [2048, 4096]},
+    "pinn_rans": {"width": [64, 128], "depth": [4, 6], "lr": [1e-3, 3e-3], "n_colloc": [2048, 4096]},
+    "mlp_fields": {"modes": [16, 32], "width": [64, 128], "lr": [1e-3, 3e-3]},
 }
 R_FAR = 20.0
+RE = 4e6
+NU = 1 / RE
+DELTA_W = 0.02                                                   # RANS PINN: no-slip factor tanh(d / DELTA_W)
 KUTTA_W, GAMMA_LR = 10.0, 1e-2                                   # fixed before the runs (see README)
 
 
@@ -54,8 +67,15 @@ def splits():
     shapes = sorted({r["shape_id"] for r in tr})
     rng = np.random.default_rng(5)
     val_shapes = set(rng.choice(shapes, 10, replace=False))
-    return {"train": [r for r in tr if r["shape_id"] not in val_shapes],
-            "val": [r for r in tr if r["shape_id"] in val_shapes], "train_all": tr, "test": te, "naca": ref}
+    out = {"train": [r for r in tr if r["shape_id"] not in val_shapes],
+           "val": [r for r in tr if r["shape_id"] in val_shapes], "train_all": tr, "test": te, "naca": ref}
+    if (AIR_OOD / "runs").exists():                               # gen_airfoil_ood.py: never used for training
+        out["ood"] = sorted(load_runs([str(AIR_OOD)]), key=lambda r: r["id"])
+    return out
+
+
+def eval_splits(final: bool, S: dict):
+    return tuple(k for k in ("test", "naca", "ood") if k in S) if final else ("val",)
 
 
 def coefs(recs):
@@ -114,7 +134,7 @@ def train_mlp(cfg: Dict, seed: int, budget: ComputeBudget, *, final: bool) -> Di
 
     out = {"train": run.to_dict(), "n_params": sum(p.numel() for p in model.parameters()),
            "n_train_runs": len(tr)}
-    for name in (("test", "naca") if final else ("val",)):
+    for name in eval_splits(final, S):
         out[name] = coef_scores(coefs(S[name]), predict(S[name]))
         out[name]["ids"] = [r["id"] for r in S[name]]
     x1 = torch.from_numpy(MLPEnsemble.inputs(np.array([S["val"][0]["shape"]]), np.array([S["val"][0]["alpha"]])))
@@ -171,7 +191,7 @@ def train_mgn(cfg: Dict, seed: int, budget: ComputeBudget, *, final: bool, batch
     run = train_within_budget(step, budget)
     model.eval()
     out = {"train": run.to_dict(), "n_params": sum(p.numel() for p in model.parameters()), "n_train_runs": len(tr)}
-    for name in (("test", "naca") if final else ("val",)):
+    for name in eval_splits(final, S):
         Xq, Eq, Yfq, _ = graph_data(lay, S[name])
         C, F = [], []
         with torch.no_grad():
@@ -195,7 +215,85 @@ def train_mgn(cfg: Dict, seed: int, budget: ComputeBudget, *, final: bool, batch
     return out
 
 
-# ------------------------------------------------------------------------------------------------- PINN
+# ------------------------------------------------------------------------------------------------- POD + MLP fields
+def train_mlp_fields(cfg: Dict, seed: int, budget: ComputeBudget, *, final: bool) -> Dict:
+    """Field baseline for a like-for-like field comparison with the MeshGraphNet: POD of the training fields (p, Ux,
+    Uy on the same graph nodes), and an MLP from the shape parameters and the angle to the POD coefficients."""
+    S = splits()
+    tr = S["train_all"] if final else S["train"]
+    lay = Layout()
+
+    def fields(recs):
+        return np.stack([np.stack([np.load(r["npz"])[k] for k in ("p", "Ux", "Uy")], 1)[lay.cell_index]
+                         for r in recs]).astype(np.float32)               # (n, nodes, 3)
+    Y = fields(tr)
+    fm, fs = Y.mean(0), Y.reshape(-1, 3).std(0)
+    Z = ((Y - fm) / fs).reshape(len(Y), -1)
+    _, sv, Vt = np.linalg.svd(Z, full_matrices=False)
+    K = min(cfg["modes"], len(Z))
+    basis = Vt[:K]
+    coef = Z @ basis.T
+    cm_, cs = coef.mean(0), coef.std(0) + 1e-8
+    X = torch.from_numpy(MLPEnsemble.inputs(np.array([r["shape"] for r in tr]), np.array([r["alpha"] for r in tr])))
+    T = torch.from_numpy(((coef - cm_) / cs).astype(np.float32))
+    torch.manual_seed(seed)
+    w = cfg["width"]
+    net = nn.Sequential(nn.Linear(8, w), nn.SiLU(), nn.Linear(w, w), nn.SiLU(), nn.Linear(w, w), nn.SiLU(),
+                        nn.Linear(w, K))
+    opt = torch.optim.Adam(net.parameters(), lr=cfg["lr"])
+    wts = torch.from_numpy((sv[:K] / sv[0]).astype(np.float32))          # weight coefficients by their energy
+
+    def step(progress):
+        set_lr(opt, cosine_lr(progress, cfg["lr"]))
+        loss = (((net(X) - T) ** 2) * wts).mean()
+        opt.zero_grad(set_to_none=True)
+        loss.backward()
+        opt.step()
+        return loss.detach()
+
+    run = train_within_budget(step, budget)
+    basis_t = torch.from_numpy(basis.astype(np.float32))
+
+    def predict(recs):
+        Xq = torch.from_numpy(MLPEnsemble.inputs(np.array([r["shape"] for r in recs]), np.array([r["alpha"] for r in recs])))
+        with torch.no_grad():
+            c = net(Xq).numpy() * cs + cm_
+        return (c @ basis).reshape(len(recs), -1, 3) * fs + fm
+
+    out = {"train": run.to_dict(), "n_params": sum(p.numel() for p in net.parameters()) + basis.size,
+           "n_train_runs": len(tr), "pod_energy_kept": float((sv[:K] ** 2).sum() / (sv ** 2).sum())}
+    for name in eval_splits(final, S):
+        out[name] = field_scores(fields(S[name]), predict(S[name]))
+        out[name]["ids"] = [r["id"] for r in S[name]]
+    r0 = S["val"][0]
+    x1 = torch.from_numpy(MLPEnsemble.inputs(np.array([r0["shape"]]), np.array([r0["alpha"]])))
+    out["infer_batch1"] = time_per_query(lambda: (net(x1) @ basis_t), repeats=50, warmup=5)
+    return out
+
+
+# ------------------------------------------------------------------------------------------------- PINNs
+def find_case(case: str) -> dict:
+    S = splits()
+    return next(r for k in ("val", "test", "naca", "ood") for r in S.get(k, []) if r["id"] == case)
+
+
+def collocation_pool(shape, d_min: float) -> torch.Tensor:
+    """Cell centres of the case's own O-grid (clustered at the wall, leading and trailing edges) inside r < R."""
+    P = grid_points(shape, GridSpec())
+    cc = cell_centres(P)                                          # (nj, ni, 2)
+    d = _distances(GridSpec().first, GridSpec().radius, GridSpec().nj)
+    dc = 0.5 * (d[:-1] + d[1:])
+    pts = cc[(dc > d_min) & (dc < R_FAR - 1)].reshape(-1, 2)
+    pts = pts[np.linalg.norm(pts - [0.25, 0], axis=1) < R_FAR - 0.5]
+    return torch.tensor(pts, dtype=torch.float32)
+
+
+def _features(x, y):
+    r2 = (x - 0.25) ** 2 + y ** 2
+    r = torch.sqrt(r2)
+    return torch.cat([2 * (x - 0.25) / (1 + r), 2 * y / (1 + r), torch.log(r2) / 6], 1), r2   # bounded, O(1) near the body
+
+
 class PotentialNet(nn.Module):
     """psi = U (y cos a - x sin a) + Gamma/(4 pi) ln r^2 + (1 - r^2/R^2) N(features), Gamma trainable."""
 
@@ -208,100 +306,237 @@ class PotentialNet(nn.Module):
 
     def forward(self, X):
         x, y = X[:, :1], X[:, 1:2]
-        r2 = (x - 0.25) ** 2 + y ** 2
+        feats, r2 = _features(x, y)
         base = y * math.cos(self.a) - x * math.sin(self.a) + self.gamma / (4 * math.pi) * torch.log(r2)
-        r = torch.sqrt(r2)
-        feats = torch.cat([2 * (x - 0.25) / (1 + r), 2 * y / (1 + r), torch.log(r2) / 6], 1)   # bounded, O(1) near the body
         return base + (1 - r2 / R_FAR ** 2) * self.mlp(feats)
 
 
-def _velocity(model, x, y):
-    psi = model(x, y)
-    gx, gy = torch.autograd.grad(psi.sum(), (x, y), create_graph=True)
-    return gy, -gx                                                # u = psi_y, v = -psi_x
+def wall_distance(x, y, p0: torch.Tensor, e: torch.Tensor):
+    """Distance to the wall polygon (segments p0 -> p0 + e), differentiable almost everywhere."""
+    px, py = x - p0[:, 0], y - p0[:, 1]
+    t = ((px * e[:, 0] + py * e[:, 1]) / (e[:, 0] ** 2 + e[:, 1] ** 2)).clamp(0, 1)
+    dx, dy = px - t * e[:, 0], py - t * e[:, 1]
+    return torch.sqrt(dx * dx + dy * dy + 1e-14).min(dim=1, keepdim=True).values
 
 
-def train_pinn(cfg: Dict, seed: int, budget: ComputeBudget, *, case: str) -> Dict:
-    S = splits()
-    rec = next(r for k in ("val", "test", "naca") for r in S[k] if r["id"] == case)
+class RansNet(nn.Module):
+    """(u, v, p) with no-slip exact on the wall: u = tanh(d / DELTA_W) (cos a + N_u), v likewise, p = N_p."""
+
+    def __init__(self, cfg: Dict, alpha_deg: float, wall: np.ndarray):
+        super().__init__()
+        self.mlp = NeuralNetwork(num_inputs=3, num_outputs=3, num_layers=cfg["depth"], num_neurons=cfg["width"],
+                                 activation=nn.Tanh())
+        self.a = math.radians(alpha_deg)
+        w = torch.tensor(wall, dtype=torch.float32)
+        self.register_buffer("p0", w)
+        self.register_buffer("e", torch.roll(w, -1, 0) - w)
+
+    def forward(self, X):
+        x, y = X[:, :1], X[:, 1:2]
+        feats, _ = _features(x, y)
+        n = self.mlp(feats)
+        damp = torch.tanh(wall_distance(x, y, self.p0, self.e) / DELTA_W)
+        return torch.cat([damp * (math.cos(self.a) + n[:, :1]), damp * (math.sin(self.a) + n[:, 1:2]), n[:, 2:3]], 1)
+
+
+class EddyViscosity:
+    """Prandtl mixing length with van Driest damping, evaluated from the current network and frozen (detached) for the
+    step (a Picard linearisation): nu_t = l^2 |S|, l = min(kappa d (1 - exp(-d+/26)), 0.085 delta), with the friction
+    velocity and the boundary-layer thickness of a turbulent flat plate at the chord Reynolds number."""
+
+    def __init__(self, model, p0, e):
+        self.model, self.p0, self.e = model, p0, e
+        cf = 0.0576 * RE ** -0.2
+        self.u_tau, self.delta = math.sqrt(cf / 2), 0.37 * RE ** -0.2
+        self._key, self._val = None, None
+
+    def _eval(self, x, y):
+        key = (x.data_ptr(), x.shape[0])
+        if key != self._key:
+            xx, yy = x.detach().clone().requires_grad_(True), y.detach().clone().requires_grad_(True)
+            out = self.model(xx, yy)
+            u, v = out[:, :1], out[:, 1:2]
+            ux, uy = torch.autograd.grad(u.sum(), (xx, yy), create_graph=True)
+            vx, vy = torch.autograd.grad(v.sum(), (xx, yy), create_graph=True)
+            s = torch.sqrt(2 * ux ** 2 + 2 * vy ** 2 + (uy + vx) ** 2 + 1e-12)
+            with torch.no_grad():
+                d = wall_distance(xx, yy, self.p0, self.e)
+                lm = torch.minimum(0.41 * d * (1 - torch.exp(-d * self.u_tau / NU / 26)),
+                                   torch.full_like(d, 0.085 * self.delta))
+            nut = lm ** 2 * s
+            gx, gy = torch.autograd.grad(nut.sum(), (xx, yy))
+            self._key, self._val = key, (nut.detach(), gx.detach(), gy.detach())
+        return self._val
+
+    def nut(self, x, y):
+        return self._eval(x, y)[0]
+
+    def nutx(self, x, y):
+        return self._eval(x, y)[1]
+
+    def nuty(self, x, y):
+        return self._eval(x, y)[2]
+
+
+def _velocity(model, x, y, kind="potential"):
+    out = model(x, y)
+    if kind == "rans":
+        return out[:, :1], out[:, 1:2], out[:, 2:3]
+    gx, gy = torch.autograd.grad(out.sum(), (x, y), create_graph=True)
+    return gy, -gx, 0.5 * (1 - (gy ** 2 + gx ** 2))               # u = psi_y, v = -psi_x, Bernoulli
+
+
+def _req(t):
+    return t.clone().requires_grad_(True)
+
+
+def train_pinn(cfg: Dict, seed: int, budget: ComputeBudget, *, case: str, kind: str = "potential",
+               ckpt: str | None = None) -> Dict:
+    """A PINN for one airfoil at one angle, no simulation data. kind = "potential" or "rans" (see module docstring).
+
+    ``ckpt``: path for checkpoints every 5 minutes of training; an existing checkpoint is resumed (same budget)."""
+    rec = find_case(case)
     shape, alpha = np.array(rec["shape"]), float(rec["alpha"])
-    P = grid_points(shape, GridSpec())
-    cc = cell_centres(P)                                          # (nj, ni, 2)
-    d = _distances(GridSpec().first, GridSpec().radius, GridSpec().nj)
-    dc = 0.5 * (d[:-1] + d[1:])
-    pts = cc[(dc > 1e-3) & (dc < R_FAR - 1)].reshape(-1, 2)
-    pts = pts[np.linalg.norm(pts - [0.25, 0], axis=1) < R_FAR - 0.5]
-    pool = torch.tensor(pts, dtype=torch.float32)
-    wl = torch.tensor(wall_loop(shape, 200, 4).xy, dtype=torch.float32)
-    # Kutta: the dividing streamline psi = C leaves the trailing edge along the bisector of its two surfaces
-    xs = np.array([0.98, 1.0])
-    yu, yl = surfaces(shape, xs)
-    te = np.array([1.0, 0.5 * (yu[1] + yl[1])])
-    tang = np.array([1.0, 0.5 * ((yu[1] - yu[0]) + (yl[1] - yl[0])) / 0.02])
-    tang /= np.linalg.norm(tang)
-    wake = torch.tensor(te + np.linspace(0.005, 0.1, 8)[:, None] * tang, dtype=torch.float32)
-
-    spec = PINNProblemSpec(pde_residuals=["Derivative(psi(x, y), (x, 2)) + Derivative(psi(x, y), (y, 2))"],
-                           conditions=[{"name": "wall", "equation": "psi(x, y) - C", "weight": 10.0},
-                                       {"name": "kutta_wake", "equation": "psi(x, y) - C", "weight": KUTTA_W}],
-                           independent_vars=["x", "y"], dependent_vars=["psi"], inverse_params=["C"])
+    a = math.radians(alpha)
     torch.manual_seed(seed)
-    model = PINN(PotentialNet(cfg, alpha), inverse_params_names=["C"], initial_guesses={"C": 0.0})
-    loss_fn = PINNFactory(spec).generate_loss_function()
-    gamma_p = [model.net.gamma]
-    rest = [p for p in model.parameters() if p is not model.net.gamma]
-    opt = torch.optim.Adam([{"params": rest, "lr": cfg["lr"]}, {"params": gamma_p, "lr": GAMMA_LR}])
     g = torch.Generator().manual_seed(1000 + seed)
+    if kind == "potential":
+        pool = collocation_pool(shape, 1e-3)
+        wl = torch.tensor(wall_loop(shape, 200, 4).xy, dtype=torch.float32)
+        # Kutta: the dividing streamline psi = C leaves the trailing edge along the bisector of its two surfaces
+        xs = np.array([0.98, 1.0])
+        yu, yl = surfaces(shape, xs)
+        te = np.array([1.0, 0.5 * (yu[1] + yl[1])])
+        tang = np.array([1.0, 0.5 * ((yu[1] - yu[0]) + (yl[1] - yl[0])) / 0.02])
+        tang /= np.linalg.norm(tang)
+        wake = torch.tensor(te + np.linspace(0.005, 0.1, 8)[:, None] * tang, dtype=torch.float32)
+        spec = PINNProblemSpec(pde_residuals=["Derivative(psi(x, y), (x, 2)) + Derivative(psi(x, y), (y, 2))"],
+                               conditions=[{"name": "wall", "equation": "psi(x, y) - C", "weight": cfg.get("wall_w", 10.0)},
+                                           {"name": "kutta_wake", "equation": "psi(x, y) - C",
+                                            "weight": cfg.get("kutta_w", KUTTA_W)}],
+                               independent_vars=["x", "y"], dependent_vars=["psi"], inverse_params=["C"])
+        model = PINN(PotentialNet(cfg, alpha), inverse_params_names=["C"], initial_guesses={"C": 0.0})
+        special = [model.net.gamma]
+        lr_special = GAMMA_LR
+
+        def batch():
+            c = pool[torch.randint(0, len(pool), (cfg["n_colloc"],), generator=g)]
+            return {"collocation": (_req(c[:, :1]), _req(c[:, 1:])),
+                    "conditions": [(_req(wl[:, :1]), _req(wl[:, 1:])), (_req(wake[:, :1]), _req(wake[:, 1:]))]}
+    else:
+        pool = collocation_pool(shape, 0.0)
+        wall = wall_loop(shape, 100, 4).xy
+        model = PINN(RansNet(cfg, alpha, wall))
+        nut = EddyViscosity(model, model.net.p0, model.net.e)
+        u, v, p = "u(x, y)", "v(x, y)", "p(x, y)"
+        D = lambda f, *w: f"Derivative({f}, {', '.join(w)})"          # noqa: E731
+        ux, uy, vx, vy = D(u, "x"), D(u, "y"), D(v, "x"), D(v, "y")
+        lap = lambda f: f"({D(f, '(x, 2)')} + {D(f, '(y, 2)')})"     # noqa: E731
+        spec = PINNProblemSpec(
+            pde_residuals=[f"{ux} + {vy}",
+                           f"{u}*{ux} + {v}*{uy} + {D(p, 'x')} - (nu + nut(x, y))*{lap(u)} - 2*nutx(x, y)*{ux}"
+                           f" - nuty(x, y)*({uy} + {vx})",
+                           f"{u}*{vx} + {v}*{vy} + {D(p, 'y')} - (nu + nut(x, y))*{lap(v)} - nutx(x, y)*({uy} + {vx})"
+                           f" - 2*nuty(x, y)*{vy}"],
+            conditions=[{"name": "far_u", "equation": f"{u} - ca"}, {"name": "far_v", "equation": f"{v} - sa"},
+                        {"name": "far_p", "equation": f"{p}"}],
+            independent_vars=["x", "y"], dependent_vars=["u", "v", "p"],
+            constants={"nu": NU, "ca": math.cos(a), "sa": math.sin(a)},
+            exogenous={"nut": nut.nut, "nutx": nut.nutx, "nuty": nut.nuty})
+        th = torch.linspace(0, 2 * math.pi, 257)[:-1]
+        far = torch.stack([0.25 + (R_FAR - 1) * torch.cos(th), (R_FAR - 1) * torch.sin(th)], 1)
+        special, lr_special = [], 0.0
+
+        def batch():
+            c = pool[torch.randint(0, len(pool), (cfg["n_colloc"],), generator=g)]
+            f = (_req(far[:, :1]), _req(far[:, 1:]))
+            return {"collocation": (_req(c[:, :1]), _req(c[:, 1:])), "conditions": [f, f, f]}
+    loss_fn = PINNFactory(spec).generate_loss_function()
+    rest = [q for q in model.parameters() if all(q is not t for t in special)]
+    groups = [{"params": rest, "lr": cfg["lr"]}] + ([{"params": special, "lr": lr_special}] if special else [])
+    opt = torch.optim.Adam(groups)
+    lbfgs_from = 1.0 - float(cfg.get("lbfgs", 0.0))
+    state = {"lbfgs": None}
+    resume = None
+    if ckpt and os.path.exists(ckpt):
+        st = torch.load(ckpt, weights_only=False)
+        model.load_state_dict(st["model"])
+        opt.load_state_dict(st["opt"])
+        g.set_state(st["gen"])
+        resume = st["run"]
 
     def step(progress):
-        f = cosine_lr(progress, 1.0)
-        opt.param_groups[0]["lr"], opt.param_groups[1]["lr"] = cfg["lr"] * f, GAMMA_LR * f
-        c = pool[torch.randint(0, len(pool), (cfg["n_colloc"],), generator=g)]
-        batch = {"collocation": (c[:, :1].clone().requires_grad_(True), c[:, 1:].clone().requires_grad_(True)),
-                 "conditions": [(wl[:, :1].clone().requires_grad_(True), wl[:, 1:].clone().requires_grad_(True)),
-                                (wake[:, :1].clone().requires_grad_(True), wake[:, 1:].clone().requires_grad_(True))]}
-        loss, _ = loss_fn(model, batch)
+        b = batch()
+        if progress >= lbfgs_from:                                # optional L-BFGS phase at the end of the budget
+            if state["lbfgs"] is None:
+                state["lbfgs"] = torch.optim.LBFGS(model.parameters(), lr=1.0, max_iter=1, history_size=50,
+                                                   line_search_fn="strong_wolfe")
+
+            def closure():
+                state["lbfgs"].zero_grad(set_to_none=True)
+                lo, _ = loss_fn(model, b)
+                lo.backward()
+                return lo
+            return state["lbfgs"].step(closure).detach()
+        f = cosine_lr(progress / lbfgs_from if lbfgs_from < 1 else progress, 1.0)
+        opt.param_groups[0]["lr"] = cfg["lr"] * f
+        if special:
+            opt.param_groups[1]["lr"] = lr_special * f
+        loss, _ = loss_fn(model, b)
         opt.zero_grad(set_to_none=True)
         loss.backward()
         opt.step()
         return loss.detach()
 
-    run = train_within_budget(step, budget)
-    gamma = float(model.net.gamma.detach())
-    # wall pressure integral (as the app's forces(): p n over the wall faces); kinematic p = (1 - |u|^2) / 2
+    def save(run_state):
+        if ckpt:
+            torch.save({"model": model.state_dict(), "opt": opt.state_dict(), "gen": g.get_state(), "run": run_state},
+                       ckpt + ".tmp")
+            os.replace(ckpt + ".tmp", ckpt)
+
+    run = train_within_budget(step, budget, checkpoint=save if ckpt else None, checkpoint_every_s=300.0, resume=resume)
+    # loss components at the end (for the audit of the loss balance)
+    comps = loss_fn(model, batch())[1]
+    # forces from the wall: pressure, and for RANS the viscous shear, 1e-5 chord outside each wall face
     loop = wall_loop(shape, 200, 4).xy
     a_, b_ = loop, np.roll(loop, -1, 0)
     e = b_ - a_
     L = np.linalg.norm(e, axis=1)
     n_body = np.stack([e[:, 1], -e[:, 0]], 1) / L[:, None]
-    # evaluated 1e-4 chord outside the wall: on it the distance function's gradient is undefined
-    mid = torch.tensor(0.5 * (a_ + b_) - 1e-4 * n_body, dtype=torch.float32)
-    mx, my = mid[:, :1].clone().requires_grad_(True), mid[:, 1:].clone().requires_grad_(True)
-    u, v = _velocity(model, mx, my)
-    p = (0.5 * (1 - (u ** 2 + v ** 2))).detach().numpy().ravel()
-    F = ((p[:, None] * n_body) * L[:, None]).sum(0)
-    a = math.radians(alpha)
-    cd_p = float(F @ np.array([math.cos(a), math.sin(a)]) / 0.5)
-    cl_p = float(F @ np.array([-math.sin(a), math.cos(a)]) / 0.5)
+    mid = torch.tensor(0.5 * (a_ + b_) - 1e-5 * n_body, dtype=torch.float32)
+    mx, my = _req(mid[:, :1]), _req(mid[:, 1:])
+    uw, vw, pw = _velocity(model, mx, my, kind)
+    F = (pw.detach().numpy() * n_body * L[:, None]).sum(0)
+    if kind == "rans":
+        t_hat = torch.tensor(e / L[:, None], dtype=torch.float32)
+        ut = uw * t_hat[:, :1] + vw * t_hat[:, 1:]
+        gx, gy = torch.autograd.grad(ut.sum(), (mx, my))
+        dn = -(gx.numpy().ravel() * n_body[:, 0] + gy.numpy().ravel() * n_body[:, 1])   # derivative along the outward normal
+        tau = NU * dn                                             # nu_t = 0 at the wall
+        F = F + (tau[:, None] * e / L[:, None] * L[:, None]).sum(0)
+    cd_w = float(F @ np.array([math.cos(a), math.sin(a)]) / 0.5)
+    cl_w = float(F @ np.array([-math.sin(a), math.cos(a)]) / 0.5)
     # fields on the same graph nodes as the MeshGraphNet
     lay = Layout()
     pos = torch.tensor(lay.positions(shape), dtype=torch.float32)
-    px, py = pos[:, :1].clone().requires_grad_(True), pos[:, 1:].clone().requires_grad_(True)
-    u, v = _velocity(model, px, py)
-    u, v = u.detach().numpy().ravel(), v.detach().numpy().ravel()
-    pf = 0.5 * (1 - (u ** 2 + v ** 2))
+    px, py = _req(pos[:, :1]), _req(pos[:, 1:])
+    u, v, pf = (t.detach().numpy().ravel() for t in _velocity(model, px, py, kind))
     z = np.load(rec["npz"])
     true_f = np.stack([z["p"], z["Ux"], z["Uy"]], 1)[lay.cell_index][None]
     pred_f = np.stack([pf, u, v], 1)[None]
     true_c = coefs([rec])
-    pred_c = np.array([[2 * gamma, max(cd_p, 1e-12), np.nan]])
-    out = {"train": run.to_dict(), "n_params": sum(p.numel() for p in model.parameters()), "case": case,
-           "gamma": gamma, "cl_kutta_joukowski": 2 * gamma, "cl_pressure_integral": cl_p, "cd_pressure_integral": cd_p,
-           "wall_constant": float(model.inverse_params["C"].detach()), "true": true_c[0].tolist(),
-           "result": {**coef_scores(true_c, pred_c), **field_scores(true_f, pred_f)}}
-
-    def eval_fields():
-        xx, yy = pos[:, :1].clone().requires_grad_(True), pos[:, 1:].clone().requires_grad_(True)
-        return _velocity(model, xx, yy)
-    out["infer_eval_fields"] = time_per_query(eval_fields, repeats=5, no_grad=False)
+    if kind == "potential":
+        gamma = float(model.net.gamma.detach())
+        cl, extra = 2 * gamma, {"gamma": gamma, "cl_kutta_joukowski": 2 * gamma,
+                                "wall_constant": float(model.inverse_params["C"].detach())}
+    else:
+        cl, extra = cl_w, {}
+    pred_c = np.array([[cl, max(cd_w, 1e-12), np.nan]])
+    out = {"train": run.to_dict(), "n_params": sum(q.numel() for q in model.parameters()), "case": case, "kind": kind,
+           "cl_wall_integral": cl_w, "cd_wall_integral": cd_w, "true": true_c[0].tolist(), "loss_components": comps,
+           "result": {**coef_scores(true_c, pred_c), **field_scores(true_f, pred_f)}, **extra}
+    out["infer_eval_fields"] = time_per_query(lambda: _velocity(model, _req(pos[:, :1]), _req(pos[:, 1:]), kind),
+                                              repeats=5, no_grad=False)
+    if ckpt and os.path.exists(ckpt):
+        os.remove(ckpt)
     return out
