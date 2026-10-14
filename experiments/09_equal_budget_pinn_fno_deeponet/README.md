@@ -13,7 +13,23 @@ PINN vs FNO vs DeepONet (plus MeshGraphNet, MLP and POD + MLP where they apply) 
 
 ## Headline
 
-<!-- HEADLINE -->
+With simulation data available, a data-driven model trained once beat the per-instance PINN on every problem here,
+under the same training budget, by a factor of 10 to 300 in error, and answered each new query in milliseconds
+instead of a new training. The PINN's place in these results is where data is absent; even there, the classical solver
+was faster and more accurate on every problem we could solve with one.
+
+| Problem (n test / n OOD instances) | Best data-driven model, error in / out of distribution | PINN, same instances | Reference solver per instance |
+|---|---|---|---|
+| Burgers 1-D, rel. L2 (3 / 2) | FNO 0.00168 / 0.0393 | 0.246 / 0.592 | 1 s |
+| Darcy 2-D, rel. L2 (3 / 2) | FNO 0.0167 / 0.0138 | 0.873 / 0.891 | 63 ms |
+| Navier–Stokes 2-D, rel. L2 (3 / 2) | FNO 0.0068 / 0.0107 | 0.16 / 0.507 | 3 s |
+| Airfoil, Cd rel. error (4 / 12; PINN 4 / 4) | MLP 0.295 % / 0.739 % | RANS PINN 89.8 % / 87.7 % (INVALID) | OpenFOAM 56 s |
+| Airfoil, velocity rel. L2 (4 / 12; PINN 4 / 4) | POD + MLP 0.00383 / 0.0179 | potential 0.833 / 0.856, RANS 0.96 / 0.98 | OpenFOAM 56 s |
+| Inverse heat, h rel. error (3 / 2) | MLP or DeepONet + calibration 1.01 % / 2.06–4.48 % | 11.4 % / 39.3 % | FV + calibration 9 s: 0.946 % / 3.31 % |
+
+Mean over 3 seeds (± std in the tables below). The data cost is counted separately: it is repaid after 1–28 queries
+(break-even column). "INVALID": the library's training gates found the RANS PINN's loss diverging in 2 of its 29
+runs; it also did not converge (error no better than predicting nothing).
 
 ## Problems
 
@@ -164,7 +180,55 @@ The break-even counts the operator's data **and** training against the PINN's tr
 more accurate. Against the classical solver itself, the PINN is not competitive on any of them in these budgets: the
 reference solver is faster (63 ms to 3 s) and exact to its discretisation.
 
-<!-- AIRFOIL -->
+### Airfoil (RANS, Re 4·10⁶, 900 s per run)
+
+Integral quantities. **The MLP predicts only Cl, Cd and Cm** from the shape parameters and the angle ("integrals
+only" in the field table): a scalar regressor trained directly on the scalars is expected to beat any field model on
+them, so compare field models with each other on fields, and read the integral columns with that in mind.
+
+| Method | Cl abs. err, test (n = 4) | Cd rel. err, test (n = 4) | Cl abs. err, all test (n = 60) | Cd rel. err, all test (n = 60) | Cd rel. err, NACA polars (n = 36) | Cl abs. err, OOD (n = 12) | Cd rel. err, OOD (n = 12) |
+|---|---|---|---|---|---|---|---|
+| MLP (integrals only) | **0.00107 ± 0.00031** | **0.295 % ± 0.15 %** | 0.00227 ± 0.00038 | 0.566 % ± 0.21 % | 0.456 % ± 0.013 % | 0.00462 ± 0.00095 | 0.739 % ± 0.25 % |
+| MeshGraphNet | 0.0342 ± 0.016 | 1.87 % ± 0.55 % | 0.0333 ± 0.0039 | 2.16 % ± 0.31 % | 2.95 % ± 0.82 % | 0.0839 ± 0.032 | 6.1 % ± 0.85 % |
+| PINN, potential flow | 0.78 ± 0.099 | 98.7 % (zero drag by construction) | – | – | – | 0.376 (n = 4, seed 0) | 99 % |
+| PINN, RANS | 0.875 ± 0.0013 | 89.8 % ± 4.2 % | – | – | – | 0.48 (n = 4, seed 0) | 87.7 % |
+| Panel method (inviscid reference, no data) | 0.144 | 100 % | 0.124 | 100 % | 100 % | 0.126 | 100 % |
+
+Fields on the near-field graph nodes:
+
+| Method | Velocity rel. L2, test (n = 4) | Pressure rel. L2, test (n = 4) | Velocity, all test (n = 60) | Velocity, NACA polars (n = 36) | Velocity, OOD (n = 12) | Pressure, OOD (n = 12) |
+|---|---|---|---|---|---|---|
+| POD + MLP | **0.00383 ± 0.0003** | **0.00929 ± 0.0015** | 0.00496 ± 0.00033 | 0.00466 ± 0.00021 | 0.0179 ± 0.0035 | 0.0581 ± 0.019 |
+| MeshGraphNet | 0.169 ± 0.049 | 0.479 ± 0.15 | 0.169 ± 0.047 | 0.177 ± 0.047 | 0.211 ± 0.023 | 0.724 ± 0.049 |
+| PINN, potential flow | 0.833 ± 0.012 | 1.98 ± 0.009 | – | 0.78 (n = 1) | 0.856 (n = 4, seed 0) | 2.84 |
+| PINN, RANS | 0.96 ± 0.0043 | 1.02 ± 0.017 | – | 0.959 (n = 1) | 0.98 (n = 4, seed 0) | 1.03 |
+| Panel method (inviscid reference) | 0.651 | 0.435 | 0.65 | 0.652 | 0.624 | 0.358 |
+
+OOD: 12 OpenFOAM cases outside the training design space (NACA 0021, 2421, 4418, 6409, 6412 at 2° and 6°, and NACA 2412
+and 0012 at −4°, below the −2° to 14° range); the per-geometry PINNs on 4 of them (one per kind of departure). The
+data cost is the 436-run campaign at its clean timing (6.8 core-hours); the surrogates repay it after 28 queries
+against the PINN (900 s each), and OpenFOAM itself takes 56 s per design.
+
+**Why the PINNs failed here, and what was checked.** Both PINNs need no data and solve one geometry per training run.
+- *The equations are right.* The library's gate evaluates each PINN's own residuals on exact solutions that exercise
+  every term (a harmonic stream function; Kovasznay flow with an eddy viscosity) and on sign-flipped copies: residuals
+  0 and 2e-30, flipped 16 and 2.2. The potential-flow PINN's lift misses the panel method's (the exact solution of the
+  same inviscid equations) by 0.78 ± 0.31 over 35 runs, so it did not solve its own equations either.
+- *Not the budget.* PINN-only budget study (seed 0, `figures/fig3_airfoil_pinn_budget_study.png`): the RANS PINN's
+  velocity error is 0.96–0.99 at 100 s, 900 s, 1 h and 4 h; the potential PINN's gets worse from 100 s (0.59) to 1 h
+  (0.90) while its circulation drifts (Cl error 0.63 → 1.12).
+- *Partly the setup* (900 s on NACA 2412 at 4°, seed 0): for the potential PINN, wall and Kutta weights of 1 instead of
+  10 lower the velocity error from 0.81 to 0.51 and a learning rate of 1e-3 the Cl error from 0.44 to 0.24, so a wider
+  search would have helped it; Adam → L-BFGS for the last 30 % changes little. For the RANS PINN nothing moved the
+  velocity error (0.94–0.97).
+- *The RANS PINN collapses to zero flow.* u = v = 0, p = constant satisfies the RANS equations exactly; the network
+  reaches it near the body (mean velocity 0.01 where OpenFOAM has 0.71). An exact far field and collocation even in log
+  r did not prevent it (300 s tests, `.agent/FAILED_APPROACHES.md` at the repository root). The 45 % of collocation
+  points within 0.01 c of the wall come from the O-grid itself.
+These are known failure modes of PINNs: the loss terms' gradients are badly balanced (Wang, Teng & Perdikaris 2021)
+and the optimisation, not the representation, fails on stiff or multi-scale problems (Krishnapriyan et al. 2021).
+RANS PINNs that work (Eivazi et al. 2022) use data on the boundaries, which a data-free PINN does not have.
+
 
 ### Inverse heat (h from 8 sensors, 120 s per run)
 
@@ -183,15 +247,65 @@ the budget, 0.114 at the full budget).
 
 ## Where each method wins and where it loses
 
-<!-- WINS -->
+| Method | Wins | Loses |
+|---|---|---|
+| FNO | the three operator-learning problems, in and out of distribution, at equal wall clock and at equal FLOPs; 2–15 ms per query | needs a regular grid and simulation data; still improving at the full budget on Burgers, Darcy and Navier–Stokes |
+| DeepONet | 2–7 ms per query; second on every operator problem; best h out of range in the inverse heat problem (2.06 %) | 3–9× the FNO's error; out of distribution on Burgers it degrades most (0.228) |
+| MeshGraphNet | fields and integrals on any mesh from one model | on this low-dimensional (CST) design space, the POD + MLP field baseline is about 40× more accurate and 2000× faster per query |
+| MLP (integrals) | the airfoil integrals: Cd 0.3 % in distribution, 0.7 % out of it | gives no fields |
+| POD + MLP | the airfoil fields: velocity 0.4 % in distribution, 1.8 % out of it | relies on the shapes having a low-dimensional parametrisation |
+| PINN | needs no simulation data; the Navier–Stokes PINN reached 0.16 and was still improving | every problem here: 1–3 orders of magnitude behind the data-driven models, 300–900 s per new instance, and slower and less accurate than the reference solver; the airfoil PINNs did not learn the flow |
+| Surrogate + calibration (inverse heat) | the classical calibration's accuracy at 1–7 % of its cost per case, also out of the training range | needs the forward model's runs (14 core-s here) |
+
+The classical solver was never beaten on its own ground: for one new instance it was faster than training any model
+here and exact to its discretisation. The learned models pay off when many queries follow (break-even 1–28).
 
 ## What the library's gates and advisor said
 
-<!-- DIAGNOSTICS -->
+`pp.benchmark` ran its gates and advisor on this experiment (full output: `results/table.md`, sections Diagnostics,
+Validation, Trust card and Checks; `results/summary.json`). What they caught, and what changed (details in
+`.agent/FAILED_APPROACHES.md` at the repository root):
+
+- **Errors.** The airfoil RANS PINN: did not converge (velocity error 0.96 ≥ 0.9) and its loss diverged in 2 of 29
+  runs (to 10–20× its minimum): the row is INVALID. Nothing else failed an error-level gate.
+- **Budget-limited.** FNO (Burgers, Darcy, Navier–Stokes), DeepONet (Burgers), MeshGraphNet (airfoil) and the PINNs on
+  Navier–Stokes and the inverse heat problem were still improving at the full budget (36–94 % lower error for 3× the
+  budget), with the exact configuration edit to try (e.g. `budget.wall_s: 300 → 900`).
+- **OOD sets that are not OOD.** Darcy's OOD inputs are inside the training distribution (9 % outside by PCA and
+  Mahalanobis distance; 1 of 100 outside the applicability envelope); Burgers' and Navier–Stokes' OOD sets are only
+  partly outside (20 and 23 of 100). Read those OOD columns as a second test set.
+- **Learning-rate symptoms.** Loss spikes in the second half (MeshGraphNet, RANS PINN, the inverse-heat MLP) and no
+  early progress (Navier–Stokes FNO, RANS PINN), with the suggested grid.
+- **Bugs the gates found before publishing:** an over-strict "overfits a tiny batch" gate that blocked DeepONet, a
+  "did not learn" gate that judged the short runs, an oscillating grid-convergence index counted as a pass, a y+ check
+  that returned NaN, a preflight that did not recognise `freestreamPressure`, and an airfoil convergence metric (Cd)
+  that a potential-flow PINN fails by construction. All were fixed in the library with tests; none changed a training
+  run.
+- **Validation (library stack).** Solver verification passed on all five problems: Burgers against Cole–Hopf (2.96e-13)
+  with ETDRK4 order 3.99; the manufactured Darcy solution (order 2.0); a Taylor–Green vortex (1.7e-15); the airfoil
+  campaign (93 % of 436 runs converged; NACA 0012 Cd 0.00871 against the NASA Turbulence Modeling Resource; lift slope
+  6.37 /rad, 93 % of the panel method's 6.84); grid convergence of every reference solver (airfoil Cd: p = 2.79,
+  GCI 1.2 %). The airfoil case passes preflight (warnings: 4 faces above 70° non-orthogonality, k fixed at the wall,
+  which suits the resolved wall: first-cell y+ 0.6), mesh quality and y+; the physics
+  audit warns that 14° is outside the attached-flow assumption of the RANS model.
 
 ## Limitations
 
-<!-- LIMITATIONS -->
+- **CPU-only, small budgets.** One core per run, 120–900 s. Several methods were still improving; a GPU and longer
+  budgets would change the absolute numbers and possibly the margins, not, on this evidence, the ranking.
+- **Few PINN instances.** Per-instance PINNs ran on 3 test and 2 OOD instances per standard problem (4 + 1 + 4 for the
+  airfoil); the tables show every method on those same instances next to the operators on the full sets.
+- **OOD sets** for Darcy (and partly Burgers and Navier–Stokes) are not out of distribution (above). The airfoil OOD
+  set (12 cases outside the design space) and the inverse heat out-of-range cases are.
+- **Search breadth.** Four configurations per method. The setup audit shows the potential-flow PINN would gain from
+  other loss weights and a lower learning rate; its result is not the best a PINN can do on this problem.
+- **The airfoil PINNs** are data-free and one geometry per run; a RANS PINN with boundary data or a better closure is a
+  different method, not tested here.
+- **Weight decay.** The first operator search used Adam weight decay 1e-4, which froze the Navier–Stokes FNO at the
+  mean; it was re-run without (the first attempt is kept in `results/first_attempt_wd1e-4/`).
+- **Timing.** The OpenFOAM campaign shared the CPU with other jobs; its cost is the clean per-run time (56 s, 4 runs
+  re-timed alone). Interrupted runs (container restarts) resumed from checkpoints with their budget accounting.
+- **FLOP counts** include PyTorch's per-operator formulas and FFTs but not elementwise operations.
 
 ## Reproduce
 
@@ -213,10 +327,8 @@ cd src && python bench09.py prepare && python bench09.py run    # results/table.
 
 | Path | Content |
 |---|---|
-| `src/bench09.py` | this experiment as a `pp.benchmark` configuration (prepare, run, report) |
-| `src/run_all.py`, `src/jobs.py`, `src/methods_std.py`, `src/airfoil.py`, `src/inverse_heat.py` | the job runner and trainers used for the runs (the library's built-ins were moved from them) |
-| `src/gen_data.py`, `src/gen_airfoil_ood.py` | data generation with measured cost |
-| `src/report.py`, `src/report_airfoil.py` | this experiment's figures and airfoil tables |
+| `src/bench09.py` | the whole experiment as a `pp.benchmark` configuration (prepare, run, report); everything else is library code |
+| `src/common.py` | paths |
 | `results/runs/` | one JSON per training job (spec, result, hardware, wall time) |
 | `results/table.md`, `table.csv`, `summary.json` | the library's report |
 | `results/prepared/`, `results/validation/` | artifact manifests (hashes, cost), checks and validation |

@@ -1,4 +1,57 @@
 {
+ "burgers/pinn": {
+  "best_config": {
+   "width": 64,
+   "depth": 4,
+   "lr": 0.003,
+   "n_colloc": 2048
+  },
+  "best_score": 0.18574808817203614,
+  "n_trials": 4,
+  "seed": 0,
+  "trials": [
+   {
+    "config": {
+     "width": 64,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 2048
+    },
+    "score": 0.18574808817203614,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 128,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 8192
+    },
+    "score": 0.23495459254857542,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 64,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 8192
+    },
+    "score": 0.43630730791247513,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 128,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 2048
+    },
+    "score": 0.2306038445758685,
+    "info": {}
+   }
+  ]
+ },
  "burgers/fno": {
   "best_config": {
    "width": 32,
@@ -100,14 +153,14 @@
    }
   ]
  },
- "burgers/pinn": {
+ "darcy/pinn": {
   "best_config": {
-   "width": 64,
+   "width": 128,
    "depth": 4,
    "lr": 0.003,
    "n_colloc": 2048
   },
-  "best_score": 0.18574808817203614,
+  "best_score": 0.9068978425920807,
   "n_trials": 4,
   "seed": 0,
   "trials": [
@@ -118,7 +171,7 @@
      "lr": 0.003,
      "n_colloc": 2048
     },
-    "score": 0.18574808817203614,
+    "score": 0.9117349440316154,
     "info": {}
    },
    {
@@ -128,7 +181,7 @@
      "lr": 0.003,
      "n_colloc": 8192
     },
-    "score": 0.23495459254857542,
+    "score": 0.9196262400587453,
     "info": {}
    },
    {
@@ -138,7 +191,7 @@
      "lr": 0.003,
      "n_colloc": 8192
     },
-    "score": 0.43630730791247513,
+    "score": 0.9122148024204276,
     "info": {}
    },
    {
@@ -148,7 +201,7 @@
      "lr": 0.003,
      "n_colloc": 2048
     },
-    "score": 0.2306038445758685,
+    "score": 0.9068978425920807,
     "info": {}
    }
   ]
@@ -254,14 +307,14 @@
    }
   ]
  },
- "darcy/pinn": {
+ "navier_stokes/pinn": {
   "best_config": {
-   "width": 128,
+   "width": 64,
    "depth": 4,
    "lr": 0.003,
    "n_colloc": 2048
   },
-  "best_score": 0.9068978425920807,
+  "best_score": 0.7312243564414552,
   "n_trials": 4,
   "seed": 0,
   "trials": [
@@ -272,7 +325,7 @@
      "lr": 0.003,
      "n_colloc": 2048
     },
-    "score": 0.9117349440316154,
+    "score": 0.7312243564414552,
     "info": {}
    },
    {
@@ -282,7 +335,7 @@
      "lr": 0.003,
      "n_colloc": 8192
     },
-    "score": 0.9196262400587453,
+    "score": 0.9768738622845773,
     "info": {}
    },
    {
@@ -292,7 +345,7 @@
      "lr": 0.003,
      "n_colloc": 8192
     },
-    "score": 0.9122148024204276,
+    "score": 0.9752126949219398,
     "info": {}
    },
    {
@@ -302,7 +355,7 @@
      "lr": 0.003,
      "n_colloc": 2048
     },
-    "score": 0.9068978425920807,
+    "score": 0.8459918656724636,
     "info": {}
    }
   ]
@@ -408,14 +461,14 @@
    }
   ]
  },
- "navier_stokes/pinn": {
+ "airfoil/pinn": {
   "best_config": {
    "width": 64,
    "depth": 4,
    "lr": 0.003,
-   "n_colloc": 2048
+   "n_colloc": 4096
   },
-  "best_score": 0.7312243564414552,
+  "best_score": 1.8265222557849372,
   "n_trials": 4,
   "seed": 0,
   "trials": [
@@ -426,7 +479,7 @@
      "lr": 0.003,
      "n_colloc": 2048
     },
-    "score": 0.7312243564414552,
+    "score": 1.885567678166242,
     "info": {}
    },
    {
@@ -434,9 +487,9 @@
      "width": 128,
      "depth": 4,
      "lr": 0.003,
-     "n_colloc": 8192
+     "n_colloc": 4096
     },
-    "score": 0.9768738622845773,
+    "score": 1.8487239279813255,
     "info": {}
    },
    {
@@ -444,9 +497,9 @@
      "width": 64,
      "depth": 4,
      "lr": 0.003,
-     "n_colloc": 8192
+     "n_colloc": 4096
     },
-    "score": 0.9752126949219398,
+    "score": 1.8265222557849372,
     "info": {}
    },
    {
@@ -456,55 +509,7 @@
      "lr": 0.003,
      "n_colloc": 2048
     },
-    "score": 0.8459918656724636,
-    "info": {}
-   }
-  ]
- },
- "airfoil/mlp": {
-  "best_config": {
-   "width": 96,
-   "lr": 0.001,
-   "wd": 1e-06
-  },
-  "best_score": 0.007856937979477287,
-  "n_trials": 4,
-  "seed": 0,
-  "trials": [
-   {
-    "config": {
-     "width": 128,
-     "lr": 0.001,
-     "wd": 0.0001
-    },
-    "score": 0.011364227557538086,
-    "info": {}
-   },
-   {
-    "config": {
-     "width": 64,
-     "lr": 0.003,
-     "wd": 1e-06
-    },
-    "score": 0.008520258208127901,
-    "info": {}
-   },
-   {
-    "config": {
-     "width": 96,
-     "lr": 0.003,
-     "wd": 0.0001
-    },
-    "score": 0.011322739212958887,
-    "info": {}
-   },
-   {
-    "config": {
-     "width": 96,
-     "lr": 0.001,
-     "wd": 1e-06
-    },
-    "score": 0.007856937979477287,
+    "score": 1.932254977819658,
     "info": {}
    }
   ]
@@ -557,6 +562,54 @@
    }
   ]
  },
+ "airfoil/mlp": {
+  "best_config": {
+   "width": 96,
+   "lr": 0.001,
+   "wd": 1e-06
+  },
+  "best_score": 0.007856937979477287,
+  "n_trials": 4,
+  "seed": 0,
+  "trials": [
+   {
+    "config": {
+     "width": 128,
+     "lr": 0.001,
+     "wd": 0.0001
+    },
+    "score": 0.011364227557538086,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 64,
+     "lr": 0.003,
+     "wd": 1e-06
+    },
+    "score": 0.008520258208127901,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 96,
+     "lr": 0.003,
+     "wd": 0.0001
+    },
+    "score": 0.011322739212958887,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 96,
+     "lr": 0.001,
+     "wd": 1e-06
+    },
+    "score": 0.007856937979477287,
+    "info": {}
+   }
+  ]
+ },
  "airfoil/mlp_fields": {
   "best_config": {
    "modes": 32,
@@ -601,59 +654,6 @@
      "lr": 0.001
     },
     "score": 0.026255243457853794,
-    "info": {}
-   }
-  ]
- },
- "airfoil/pinn": {
-  "best_config": {
-   "width": 64,
-   "depth": 4,
-   "lr": 0.003,
-   "n_colloc": 4096
-  },
-  "best_score": 1.8265222557849372,
-  "n_trials": 4,
-  "seed": 0,
-  "trials": [
-   {
-    "config": {
-     "width": 64,
-     "depth": 4,
-     "lr": 0.003,
-     "n_colloc": 2048
-    },
-    "score": 1.885567678166242,
-    "info": {}
-   },
-   {
-    "config": {
-     "width": 128,
-     "depth": 4,
-     "lr": 0.003,
-     "n_colloc": 4096
-    },
-    "score": 1.8487239279813255,
-    "info": {}
-   },
-   {
-    "config": {
-     "width": 64,
-     "depth": 4,
-     "lr": 0.003,
-     "n_colloc": 4096
-    },
-    "score": 1.8265222557849372,
-    "info": {}
-   },
-   {
-    "config": {
-     "width": 128,
-     "depth": 4,
-     "lr": 0.003,
-     "n_colloc": 2048
-    },
-    "score": 1.932254977819658,
     "info": {}
    }
   ]
@@ -711,50 +711,55 @@
    }
   ]
  },
- "inverse_heat/mlp": {
+ "inverse_heat/pinn": {
   "best_config": {
-   "width": 64,
-   "depth": 4,
-   "lr": 0.003
+   "width": 32,
+   "depth": 3,
+   "n_colloc": 2500,
+   "lr": 0.001
   },
-  "best_score": 0.005806653294712305,
+  "best_score": 0.005510139465332031,
   "n_trials": 4,
   "seed": 0,
   "trials": [
    {
     "config": {
-     "width": 64,
-     "depth": 4,
-     "lr": 0.001
-    },
-    "score": 0.011858846060931683,
-    "info": {}
-   },
-   {
-    "config": {
-     "width": 128,
+     "width": 32,
      "depth": 3,
+     "n_colloc": 2500,
      "lr": 0.001
     },
-    "score": 0.008800762705504894,
+    "score": 0.005510139465332031,
     "info": {}
    },
    {
     "config": {
-     "width": 64,
-     "depth": 4,
-     "lr": 0.003
+     "width": 48,
+     "depth": 3,
+     "n_colloc": 2500,
+     "lr": 0.002
     },
-    "score": 0.005806653294712305,
+    "score": 0.09505643844604492,
     "info": {}
    },
    {
     "config": {
-     "width": 128,
-     "depth": 4,
+     "width": 32,
+     "depth": 3,
+     "n_colloc": 2500,
+     "lr": 0.002
+    },
+    "score": 0.05120573043823242,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 48,
+     "depth": 3,
+     "n_colloc": 2500,
      "lr": 0.001
     },
-    "score": 0.007388846483081579,
+    "score": 0.16024770736694335,
     "info": {}
    }
   ]
@@ -812,55 +817,50 @@
    }
   ]
  },
- "inverse_heat/pinn": {
+ "inverse_heat/mlp": {
   "best_config": {
-   "width": 32,
-   "depth": 3,
-   "n_colloc": 2500,
-   "lr": 0.001
+   "width": 64,
+   "depth": 4,
+   "lr": 0.003
   },
-  "best_score": 0.005510139465332031,
+  "best_score": 0.005806653294712305,
   "n_trials": 4,
   "seed": 0,
   "trials": [
    {
     "config": {
-     "width": 32,
-     "depth": 3,
-     "n_colloc": 2500,
+     "width": 64,
+     "depth": 4,
      "lr": 0.001
     },
-    "score": 0.005510139465332031,
+    "score": 0.011858846060931683,
     "info": {}
    },
    {
     "config": {
-     "width": 48,
+     "width": 128,
      "depth": 3,
-     "n_colloc": 2500,
-     "lr": 0.002
-    },
-    "score": 0.09505643844604492,
-    "info": {}
-   },
-   {
-    "config": {
-     "width": 32,
-     "depth": 3,
-     "n_colloc": 2500,
-     "lr": 0.002
-    },
-    "score": 0.05120573043823242,
-    "info": {}
-   },
-   {
-    "config": {
-     "width": 48,
-     "depth": 3,
-     "n_colloc": 2500,
      "lr": 0.001
     },
-    "score": 0.16024770736694335,
+    "score": 0.008800762705504894,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 64,
+     "depth": 4,
+     "lr": 0.003
+    },
+    "score": 0.005806653294712305,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 128,
+     "depth": 4,
+     "lr": 0.001
+    },
+    "score": 0.007388846483081579,
     "info": {}
    }
   ]

@@ -1,0 +1,12 @@
+[
+ {
+  "name": "determinism (same seed, same steps, same loss)",
+  "stage": "training",
+  "subject": "burgers/pinn",
+  "passed": true,
+  "value": "17.4283 vs 17.4283",
+  "threshold": 1e-05,
+  "detail": "20 steps, seed 0, in-process",
+  "severity": "error"
+ }
+]

@@ -1,0 +1,66 @@
+problems:
+- burgers
+- darcy
+- navier_stokes
+- airfoil
+- inverse_heat
+methods:
+- pinn
+- fno
+- deeponet
+- mgn
+- mlp
+- mlp_fields
+- pinn_rans
+budget:
+  wall_s: 300.0
+problem_budgets:
+  airfoil:
+    wall_s: 900.0
+  inverse_heat:
+    wall_s: 120.0
+budget_levels:
+- 0.1111111111111111
+- 0.3333333333333333
+- 1.0
+seeds: 3
+n_trials: 4
+search_fraction: 0.3333333333333333
+equal_flops:
+- burgers
+- darcy
+- navier_stokes
+n_workers: 4
+threads_per_run: 1
+smoke: false
+skip_checks: false
+allow_failed_validation: false
+problem_options:
+  airfoil:
+    gci_study: true
+method_options: {}
+budget_study:
+  airfoil:
+    pinn_rans:
+    - 3600.0
+    - 14400.0
+    pinn:
+    - 3600.0
+ablations:
+  airfoil:
+    pinn:
+      lr1e-3:
+        lr: 0.001
+      lbfgs:
+        lbfgs: 0.3
+      weights_wall100_kutta100:
+        wall_w: 100.0
+        kutta_w: 100.0
+      weights_wall1_kutta1:
+        wall_w: 1.0
+        kutta_w: 1.0
+    pinn_rans:
+      lbfgs:
+        lbfgs: 0.3
+      lr1e-3:
+        lr: 0.001

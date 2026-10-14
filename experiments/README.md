@@ -13,6 +13,7 @@ climate work; `01_sst_satellite_forecasting`, the one that is, stays in `PINNeAP
 | 06 | Millennium Prize problems (Riemann, Yang–Mills, BSD, Hodge, Poincaré, Navier–Stokes, P vs NP) | see `06_millennium/*/Millennium_*.pdf` |
 | 07 | Pedestrian dead reckoning (reproduction + improvement of Ligthart, 2025) | [PDR_Reproduction_PINNeAPPle.pdf](07_pdr_thesis_reproduction/paper/PDR_Reproduction_PINNeAPPle.pdf), [PDR_Improvement_PINNeAPPle.pdf](07_pdr_thesis_reproduction/paper/PDR_Improvement_PINNeAPPle.pdf), plus a plain-language [PDR_Stakeholder_Report_PINNeAPPle.pdf](07_pdr_thesis_reproduction/paper/PDR_Stakeholder_Report_PINNeAPPle.pdf) |
 | 08 | Supersonic shock train in a duct with a fixed-pressure outlet | [Supersonic_ShockTrain_PINNeAPPle.pdf](08_supersonic_shock_train/paper/Supersonic_ShockTrain_PINNeAPPle.pdf) |
+| 09 | When PINNs, when data-driven surrogates: equal-budget PINN vs FNO vs DeepONet vs MeshGraphNet vs MLP on Burgers, Darcy, Navier–Stokes, the RANS airfoil and an inverse heat problem, through `pp.benchmark` | [README](09_equal_budget_pinn_fno_deeponet/README.md) (results, method, limitations; no PDF) |
 
 All eight experiments are now finished and moved here. Only `01_sst_satellite_forecasting` stays in
 `PINNeAPPle-Climate` permanently (it is climate work).
