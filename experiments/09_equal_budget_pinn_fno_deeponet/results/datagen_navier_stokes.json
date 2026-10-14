@@ -1,0 +1,35 @@
+{
+ "problem": "navier_stokes",
+ "settings": {
+  "nu": 0.001,
+  "t_end": 10.0,
+  "n": 64,
+  "dt": 0.005,
+  "alpha": 2.5,
+  "tau": 7.0,
+  "tau_ood": 14.0
+ },
+ "splits": {
+  "train": {
+   "n": 1000,
+   "solver_core_s": 3494.499491726
+  },
+  "val": {
+   "n": 100,
+   "solver_core_s": 348.22185260699996
+  },
+  "test": {
+   "n": 200,
+   "solver_core_s": 659.0299023490002
+  },
+  "ood": {
+   "n": 100,
+   "solver_core_s": 339.344565911
+  }
+ },
+ "solver_core_s_total": 4841.095812593,
+ "solver_core_s_per_sample": 3.4579255804235713,
+ "train_set_core_s": 3842.721344333,
+ "wall_s_4_workers": 2796.2379610538483,
+ "timing": "time.process_time() of the solver call, summed over samples (CPU core-seconds, one thread)"
+}

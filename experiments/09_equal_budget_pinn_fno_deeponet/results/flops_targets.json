@@ -1,0 +1,26 @@
+{
+ "burgers": {
+  "flops": 2164122189824.0,
+  "median_flops_used_in_full_wall_budget": {
+   "pinn": 2164122189824.0,
+   "fno": 2677083340800.0,
+   "deeponet": 10788057907200.0
+  }
+ },
+ "darcy": {
+  "flops": 2100764344320.0,
+  "median_flops_used_in_full_wall_budget": {
+   "pinn": 10374900350976.0,
+   "fno": 2100764344320.0,
+   "deeponet": 15728073375744.0
+  }
+ },
+ "navier_stokes": {
+  "flops": 2202815692800.0,
+  "median_flops_used_in_full_wall_budget": {
+   "pinn": 3625848815616.0,
+   "fno": 2202815692800.0,
+   "deeponet": 15758500298752.0
+  }
+ }
+}

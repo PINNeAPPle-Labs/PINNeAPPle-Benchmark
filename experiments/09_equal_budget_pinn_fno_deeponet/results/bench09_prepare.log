@@ -1,0 +1,12 @@
+prepare burgers: verification, data checks, validation
+prepare darcy: verification, data checks, validation
+prepare navier_stokes: verification, data checks, validation
+prepare airfoil: adopting 449 existing artifacts
+prepare airfoil: verification, data checks, validation
+prepare inverse_heat: verification, data checks, validation
+burgers ok []
+darcy ok []
+navier_stokes ok []
+airfoil failed ['simulation preflight (pinneapple_data.preflight)']
+inverse_heat ok []
+EXIT 0

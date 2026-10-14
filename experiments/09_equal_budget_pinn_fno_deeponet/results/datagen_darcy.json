@@ -1,0 +1,35 @@
+{
+ "problem": "darcy",
+ "settings": {
+  "n_solve": 128,
+  "n_out": 64,
+  "alpha": 2.0,
+  "tau": 3.0,
+  "tau_ood": 6.0,
+  "high": 12.0,
+  "low": 3.0
+ },
+ "splits": {
+  "train": {
+   "n": 1000,
+   "solver_core_s": 62.92533207900001
+  },
+  "val": {
+   "n": 100,
+   "solver_core_s": 6.262658579
+  },
+  "test": {
+   "n": 200,
+   "solver_core_s": 12.614762943000002
+  },
+  "ood": {
+   "n": 100,
+   "solver_core_s": 6.585015681999998
+  }
+ },
+ "solver_core_s_total": 88.38776928300001,
+ "solver_core_s_per_sample": 0.06313412091642857,
+ "train_set_core_s": 69.187990658,
+ "wall_s_4_workers": 71.6760926246643,
+ "timing": "time.process_time() of the solver call, summed over samples (CPU core-seconds, one thread)"
+}

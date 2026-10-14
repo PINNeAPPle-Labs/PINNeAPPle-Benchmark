@@ -1,0 +1,14 @@
+{
+ "n_compared": 436,
+ "missing": 0,
+ "status": {
+  "converged": 330,
+  "steady-ish": 74,
+  "unsteady": 32
+ },
+ "max_abs_cl_diff": 1.6317252452102693e-05,
+ "median_abs_cl_diff": 0.0,
+ "max_rel_cd_diff": 0.0005388251522339915,
+ "median_rel_cd_diff": 0.0,
+ "note": "Cl and Cd of every regenerated run compared with the value stored for the same run id in apps/aero_optimizer/model/dataset.json"
+}

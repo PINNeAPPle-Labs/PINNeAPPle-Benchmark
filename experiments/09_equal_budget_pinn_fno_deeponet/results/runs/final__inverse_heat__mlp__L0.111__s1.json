@@ -1,0 +1,144 @@
+{
+ "spec": {
+  "problem": "inverse_heat",
+  "method": "mlp",
+  "cfg": {
+   "width": 64,
+   "depth": 4,
+   "lr": 0.003
+  },
+  "stage": "final",
+  "id": "final__inverse_heat__mlp__L0.111__s1",
+  "seed": 1,
+  "budget": {
+   "wall_s": 13.333333333333332
+  },
+  "level": 0.1111111111111111
+ },
+ "result": {
+  "train": {
+   "steps": 2070,
+   "wall_s": 13.337551712015738,
+   "flops": 98459136000.0,
+   "flops_per_step": 47564800.0,
+   "stopped_by": "wall_s",
+   "budget": {
+    "wall_s": 13.333333333333332,
+    "flops": null,
+    "steps": null
+   },
+   "history": [
+    {
+     "step": 1,
+     "progress": 0.0,
+     "wall_s": 0.0,
+     "flops": 47564800.0,
+     "loss": 0.945781946182251
+    },
+    {
+     "step": 706,
+     "progress": 0.37520082622622797,
+     "wall_s": 5.002677683016373,
+     "flops": 33580748800.0,
+     "loss": 0.00022944508236832917
+    },
+    {
+     "step": 1569,
+     "progress": 0.7502918858263229,
+     "wall_s": 10.003891811017638,
+     "flops": 74629171200.0,
+     "loss": 3.1961386412149295e-05
+    },
+    {
+     "step": 2070,
+     "progress": 1.0003163784011804,
+     "wall_s": 13.337551712015738,
+     "flops": 98459136000.0,
+     "loss": 2.9945416827104054e-05,
+     "final": true
+    }
+   ],
+   "eval_wall_s": 0.0
+  },
+  "val_rel_l2": 0.019592056050896645,
+  "n_params": 402672,
+  "cases": [
+   {
+    "kind": "id",
+    "power": 10.0,
+    "h_true": 25.0,
+    "h_hat": 24.980348547970898,
+    "h_rel_err": 0.0007860580811640716,
+    "max_field_err_C": 0.8364928627449828,
+    "hot_spot_err_C": 0.40436275988113835,
+    "calibration_s": 0.29002633199979755,
+    "n_eval": 160
+   },
+   {
+    "kind": "id",
+    "power": 5.0,
+    "h_true": 60.0,
+    "h_hat": 58.313409048622916,
+    "h_rel_err": 0.028109849189618074,
+    "max_field_err_C": 0.7092094317760598,
+    "hot_spot_err_C": 0.5876264976987002,
+    "calibration_s": 0.11537830199995369,
+    "n_eval": 160
+   },
+   {
+    "kind": "id",
+    "power": 15.0,
+    "h_true": 10.0,
+    "h_hat": 9.957064032435063,
+    "h_rel_err": 0.004293596756493656,
+    "max_field_err_C": 0.8192168871831029,
+    "hot_spot_err_C": 0.5399127228388068,
+    "calibration_s": 0.18108615100027237,
+    "n_eval": 160
+   },
+   {
+    "kind": "ood",
+    "power": 10.0,
+    "h_true": 150.0,
+    "h_hat": 144.7791423774098,
+    "h_rel_err": 0.03480571748393459,
+    "max_field_err_C": 1.8779373112222046,
+    "hot_spot_err_C": 0.622083921742167,
+    "calibration_s": 0.08323759999984759,
+    "n_eval": 160
+   },
+   {
+    "kind": "ood",
+    "power": 10.0,
+    "h_true": 200.0,
+    "h_hat": 202.8583383137448,
+    "h_rel_err": 0.014291691568724047,
+    "max_field_err_C": 2.8234705873092807,
+    "hot_spot_err_C": 1.5824304486280596,
+    "calibration_s": 0.12041763900015212,
+    "n_eval": 160
+   }
+  ],
+  "infer_batch1": {
+   "median_s": 0.00029896349951741286,
+   "min_s": 0.00014296299923444167,
+   "p90_s": 0.0008680799003741415,
+   "repeats": 30,
+   "n_per_call": 1
+  }
+ },
+ "ok": true,
+ "hardware": {
+  "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39",
+  "python": "3.13.16",
+  "logical_cpus": 4,
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "mem_gb": 15.7,
+  "torch": "2.14.1+cu130",
+  "torch_threads": 1,
+  "gpu": null,
+  "numpy": "2.5.3"
+ },
+ "job_wall_s": 18.409712553024292,
+ "finished": "2026-10-13 12:53:32"
+}

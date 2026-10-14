@@ -1,0 +1,647 @@
+[
+ {
+  "name": "autograd derivatives match finite differences",
+  "stage": "architecture",
+  "subject": "burgers/pinn",
+  "passed": true,
+  "value": "7.93e-03",
+  "threshold": 0.01,
+  "detail": "float32, central differences, h = 1e-3",
+  "severity": "error"
+ },
+ {
+  "name": "PDE residual of an exact solution ~ 0",
+  "stage": "architecture",
+  "subject": "burgers/pinn",
+  "passed": true,
+  "value": "3.64e-18",
+  "threshold": 1e-06,
+  "detail": "mean squared residual of the same compiled PDE on a known solution",
+  "severity": "error"
+ },
+ {
+  "name": "overfits a tiny batch",
+  "stage": "architecture",
+  "subject": "burgers/pinn",
+  "passed": true,
+  "value": 0.09929,
+  "threshold": "< 0.1 (error at >= 0.5)",
+  "detail": "loss 26.5 -> 2.63 in 361 Adam steps (at most 1000, stops once below)",
+  "severity": "warning"
+ },
+ {
+  "name": "forward shape and dtype",
+  "stage": "architecture",
+  "subject": "burgers/pinn",
+  "passed": true,
+  "value": "(256,) vs data (256,)",
+  "threshold": null,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "parameter count",
+  "stage": "architecture",
+  "subject": "burgers/pinn",
+  "passed": true,
+  "value": 12929,
+  "threshold": null,
+  "detail": "",
+  "severity": "warning"
+ },
+ {
+  "name": "forward shape and dtype",
+  "stage": "architecture",
+  "subject": "burgers/fno",
+  "passed": true,
+  "value": "(4, 256) -> (4, 256) torch.float32",
+  "threshold": null,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "parameter count",
+  "stage": "architecture",
+  "subject": "burgers/fno",
+  "passed": true,
+  "value": 102657,
+  "threshold": null,
+  "detail": "",
+  "severity": "warning"
+ },
+ {
+  "name": "retained Fourier modes <= Nyquist",
+  "stage": "architecture",
+  "subject": "burgers/fno",
+  "passed": true,
+  "value": 24,
+  "threshold": 129,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "output invariant to input resolution (2x grid, untrained)",
+  "stage": "architecture",
+  "subject": "burgers/fno",
+  "passed": true,
+  "value": 0.0001,
+  "threshold": 0.1,
+  "detail": "the grid channel spans [0, 1] inclusive, so node positions differ slightly",
+  "severity": "warning"
+ },
+ {
+  "name": "overfits a tiny batch",
+  "stage": "architecture",
+  "subject": "burgers/fno",
+  "passed": true,
+  "value": 0.08453,
+  "threshold": "< 0.1 (error at >= 0.5)",
+  "detail": "loss 0.952 -> 0.0805 in 29 Adam steps (at most 1000, stops once below)",
+  "severity": "warning"
+ },
+ {
+  "name": "forward shape and dtype",
+  "stage": "architecture",
+  "subject": "burgers/deeponet",
+  "passed": true,
+  "value": "(4, 256) -> (4, 256) torch.float32",
+  "threshold": null,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "parameter count",
+  "stage": "architecture",
+  "subject": "burgers/deeponet",
+  "passed": true,
+  "value": 132225,
+  "threshold": null,
+  "detail": "",
+  "severity": "warning"
+ },
+ {
+  "name": "branch/trunk shapes",
+  "stage": "architecture",
+  "subject": "burgers/deeponet",
+  "passed": true,
+  "value": "branch 256->(3, 128), trunk 1->(256, 128)",
+  "threshold": null,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "p >= rank of the training outputs (99 % energy)",
+  "stage": "architecture",
+  "subject": "burgers/deeponet",
+  "passed": true,
+  "value": 128,
+  "threshold": 8,
+  "detail": "",
+  "severity": "warning"
+ },
+ {
+  "name": "overfits a tiny batch",
+  "stage": "architecture",
+  "subject": "burgers/deeponet",
+  "passed": true,
+  "value": 0.09837,
+  "threshold": "< 0.1 (error at >= 0.5)",
+  "detail": "loss 0.949 -> 0.0933 in 238 Adam steps (at most 1000, stops once below)",
+  "severity": "warning"
+ },
+ {
+  "name": "autograd derivatives match finite differences",
+  "stage": "architecture",
+  "subject": "darcy/pinn",
+  "passed": true,
+  "value": "8.37e-05",
+  "threshold": 0.01,
+  "detail": "float32, central differences, h = 1e-3",
+  "severity": "error"
+ },
+ {
+  "name": "overfits a tiny batch",
+  "stage": "architecture",
+  "subject": "darcy/pinn",
+  "passed": true,
+  "value": 0.0956,
+  "threshold": "< 0.1 (error at >= 0.5)",
+  "detail": "loss 6.86 -> 0.656 in 29 Adam steps (at most 1000, stops once below)",
+  "severity": "warning"
+ },
+ {
+  "name": "forward shape and dtype",
+  "stage": "architecture",
+  "subject": "darcy/pinn",
+  "passed": true,
+  "value": "(64, 64) vs data (64, 64)",
+  "threshold": null,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "parameter count",
+  "stage": "architecture",
+  "subject": "darcy/pinn",
+  "passed": true,
+  "value": 12737,
+  "threshold": null,
+  "detail": "",
+  "severity": "warning"
+ },
+ {
+  "name": "PDE residual of an exact solution ~ 0",
+  "stage": "architecture",
+  "subject": "darcy/pinn",
+  "passed": true,
+  "value": "5.62e-16",
+  "threshold": 1e-06,
+  "detail": "a = 3 everywhere, u = x(1 - x)/(2a)",
+  "severity": "error"
+ },
+ {
+  "name": "forward shape and dtype",
+  "stage": "architecture",
+  "subject": "darcy/fno",
+  "passed": true,
+  "value": "(4, 64, 64) -> (4, 64, 64) torch.float32",
+  "threshold": null,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "parameter count",
+  "stage": "architecture",
+  "subject": "darcy/fno",
+  "passed": true,
+  "value": 1182169,
+  "threshold": null,
+  "detail": "",
+  "severity": "warning"
+ },
+ {
+  "name": "retained Fourier modes <= Nyquist",
+  "stage": "architecture",
+  "subject": "darcy/fno",
+  "passed": true,
+  "value": 16,
+  "threshold": 32,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "overfits a tiny batch",
+  "stage": "architecture",
+  "subject": "darcy/fno",
+  "passed": true,
+  "value": 0.09749,
+  "threshold": "< 0.1 (error at >= 0.5)",
+  "detail": "loss 1.17 -> 0.114 in 56 Adam steps (at most 1000, stops once below)",
+  "severity": "warning"
+ },
+ {
+  "name": "forward shape and dtype",
+  "stage": "architecture",
+  "subject": "darcy/deeponet",
+  "passed": true,
+  "value": "(4, 64, 64) -> (4, 64, 64) torch.float32",
+  "threshold": null,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "parameter count",
+  "stage": "architecture",
+  "subject": "darcy/deeponet",
+  "passed": true,
+  "value": 623873,
+  "threshold": null,
+  "detail": "",
+  "severity": "warning"
+ },
+ {
+  "name": "branch/trunk shapes",
+  "stage": "architecture",
+  "subject": "darcy/deeponet",
+  "passed": true,
+  "value": "branch 4096->(3, 128), trunk 2->(4096, 128)",
+  "threshold": null,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "p >= rank of the training outputs (99 % energy)",
+  "stage": "architecture",
+  "subject": "darcy/deeponet",
+  "passed": true,
+  "value": 128,
+  "threshold": 45,
+  "detail": "",
+  "severity": "warning"
+ },
+ {
+  "name": "overfits a tiny batch",
+  "stage": "architecture",
+  "subject": "darcy/deeponet",
+  "passed": false,
+  "value": 0.12748,
+  "threshold": "< 0.1 (error at >= 0.5)",
+  "detail": "loss 1.18 -> 0.151 in 1000 Adam steps (at most 1000, stops once below)",
+  "severity": "warning"
+ },
+ {
+  "name": "autograd derivatives match finite differences",
+  "stage": "architecture",
+  "subject": "navier_stokes/pinn",
+  "passed": true,
+  "value": "1.02e-03",
+  "threshold": 0.01,
+  "detail": "float32, central differences, h = 1e-3",
+  "severity": "error"
+ },
+ {
+  "name": "PDE residual of an exact solution ~ 0",
+  "stage": "architecture",
+  "subject": "navier_stokes/pinn",
+  "passed": true,
+  "value": "4.78e-14",
+  "threshold": 1e-06,
+  "detail": "mean squared residual of the same compiled PDE on a known solution",
+  "severity": "error"
+ },
+ {
+  "name": "overfits a tiny batch",
+  "stage": "architecture",
+  "subject": "navier_stokes/pinn",
+  "passed": true,
+  "value": 0.09296,
+  "threshold": "< 0.1 (error at >= 0.5)",
+  "detail": "loss 0.0783 -> 0.00728 in 135 Adam steps (at most 1000, stops once below)",
+  "severity": "warning"
+ },
+ {
+  "name": "forward shape and dtype",
+  "stage": "architecture",
+  "subject": "navier_stokes/pinn",
+  "passed": true,
+  "value": "(64, 64) vs data (64, 64)",
+  "threshold": null,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "parameter count",
+  "stage": "architecture",
+  "subject": "navier_stokes/pinn",
+  "passed": true,
+  "value": 13250,
+  "threshold": null,
+  "detail": "",
+  "severity": "warning"
+ },
+ {
+  "name": "forward shape and dtype",
+  "stage": "architecture",
+  "subject": "navier_stokes/fno",
+  "passed": true,
+  "value": "(4, 64, 64) -> (4, 64, 64) torch.float32",
+  "threshold": null,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "parameter count",
+  "stage": "architecture",
+  "subject": "navier_stokes/fno",
+  "passed": true,
+  "value": 1182169,
+  "threshold": null,
+  "detail": "",
+  "severity": "warning"
+ },
+ {
+  "name": "retained Fourier modes <= Nyquist",
+  "stage": "architecture",
+  "subject": "navier_stokes/fno",
+  "passed": true,
+  "value": 16,
+  "threshold": 32,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "overfits a tiny batch",
+  "stage": "architecture",
+  "subject": "navier_stokes/fno",
+  "passed": true,
+  "value": 0.09509,
+  "threshold": "< 0.1 (error at >= 0.5)",
+  "detail": "loss 1.08 -> 0.103 in 49 Adam steps (at most 1000, stops once below)",
+  "severity": "warning"
+ },
+ {
+  "name": "forward shape and dtype",
+  "stage": "architecture",
+  "subject": "navier_stokes/deeponet",
+  "passed": true,
+  "value": "(4, 64, 64) -> (4, 64, 64) torch.float32",
+  "threshold": null,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "parameter count",
+  "stage": "architecture",
+  "subject": "navier_stokes/deeponet",
+  "passed": true,
+  "value": 623873,
+  "threshold": null,
+  "detail": "",
+  "severity": "warning"
+ },
+ {
+  "name": "branch/trunk shapes",
+  "stage": "architecture",
+  "subject": "navier_stokes/deeponet",
+  "passed": true,
+  "value": "branch 4096->(3, 128), trunk 2->(4096, 128)",
+  "threshold": null,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "p >= rank of the training outputs (99 % energy)",
+  "stage": "architecture",
+  "subject": "navier_stokes/deeponet",
+  "passed": true,
+  "value": 128,
+  "threshold": 12,
+  "detail": "",
+  "severity": "warning"
+ },
+ {
+  "name": "overfits a tiny batch",
+  "stage": "architecture",
+  "subject": "navier_stokes/deeponet",
+  "passed": false,
+  "value": 0.21784,
+  "threshold": "< 0.1 (error at >= 0.5)",
+  "detail": "loss 1.08 -> 0.236 in 1000 Adam steps (at most 1000, stops once below)",
+  "severity": "warning"
+ },
+ {
+  "name": "PDE residual of an exact solution ~ 0",
+  "stage": "architecture",
+  "subject": "airfoil/pinn",
+  "passed": true,
+  "value": "0.0e+00 (sign-flipped: 1.6e+01)",
+  "threshold": "< 1e-12, flipped > 1e-3",
+  "detail": "psi = uniform flow + x^2 - y^2, the PINN's own residuals",
+  "severity": "error"
+ },
+ {
+  "name": "forward shapes",
+  "stage": "architecture",
+  "subject": "airfoil/mgn",
+  "passed": true,
+  "value": "fields (1, 2850, 4), coefficients (1, 3)",
+  "threshold": null,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "parameter count",
+  "stage": "architecture",
+  "subject": "airfoil/mgn",
+  "passed": true,
+  "value": 108551,
+  "threshold": null,
+  "detail": "",
+  "severity": "warning"
+ },
+ {
+  "name": "message passing honours the graph (node permutation equivariance)",
+  "stage": "architecture",
+  "subject": "airfoil/mgn",
+  "passed": true,
+  "value": "0.0e+00",
+  "threshold": 0.0001,
+  "detail": "fields of the permuted graph = permuted fields",
+  "severity": "error"
+ },
+ {
+  "name": "forward shape",
+  "stage": "architecture",
+  "subject": "airfoil/mlp",
+  "passed": true,
+  "value": [
+   5,
+   6,
+   3
+  ],
+  "threshold": null,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "parameter count",
+  "stage": "architecture",
+  "subject": "airfoil/mlp",
+  "passed": true,
+  "value": 172815,
+  "threshold": null,
+  "detail": "",
+  "severity": "warning"
+ },
+ {
+  "name": "overfits a tiny batch",
+  "stage": "architecture",
+  "subject": "airfoil/mlp",
+  "passed": true,
+  "value": 0.09814,
+  "threshold": "< 0.1 (error at >= 0.5)",
+  "detail": "loss 0.375 -> 0.0368 in 44 Adam steps (at most 1000, stops once below)",
+  "severity": "warning"
+ },
+ {
+  "name": "POD basis orthonormal",
+  "stage": "architecture",
+  "subject": "airfoil/mlp_fields",
+  "passed": true,
+  "value": "2.1e-15",
+  "threshold": 1e-08,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "POD reconstruction error = sqrt(1 - energy kept)",
+  "stage": "architecture",
+  "subject": "airfoil/mlp_fields",
+  "passed": true,
+  "value": "0.0091 vs 0.0091",
+  "threshold": null,
+  "detail": "16 modes of 40 training fields",
+  "severity": "error"
+ },
+ {
+  "name": "forward shape",
+  "stage": "architecture",
+  "subject": "airfoil/mlp_fields",
+  "passed": true,
+  "value": [
+   6,
+   16
+  ],
+  "threshold": null,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "parameter count",
+  "stage": "architecture",
+  "subject": "airfoil/mlp_fields",
+  "passed": true,
+  "value": 36240,
+  "threshold": null,
+  "detail": "",
+  "severity": "warning"
+ },
+ {
+  "name": "overfits a tiny batch",
+  "stage": "architecture",
+  "subject": "airfoil/mlp_fields",
+  "passed": true,
+  "value": 0.09833,
+  "threshold": "< 0.1 (error at >= 0.5)",
+  "detail": "loss 0.333 -> 0.0328 in 86 Adam steps (at most 1000, stops once below)",
+  "severity": "warning"
+ },
+ {
+  "name": "PDE residual of an exact solution ~ 0",
+  "stage": "architecture",
+  "subject": "airfoil/pinn_rans",
+  "passed": true,
+  "value": "2.4e-30 (sign-flipped: 2.2e+00)",
+  "threshold": "< 1e-12, flipped > 1e-3",
+  "detail": "Kovasznay flow, Re 40, nu + nut = 1/40 with nut = 0.25/40, the PINN's own residuals",
+  "severity": "error"
+ },
+ {
+  "name": "PDE residual of an exact solution ~ 0",
+  "stage": "architecture",
+  "subject": "inverse_heat/pinn",
+  "passed": null,
+  "value": null,
+  "threshold": null,
+  "detail": "the plate PDE with its device source has no closed-form solution; the forward model is verified by grid convergence instead (problem checks)",
+  "severity": "error"
+ },
+ {
+  "name": "forward shape",
+  "stage": "architecture",
+  "subject": "inverse_heat/deeponet",
+  "passed": true,
+  "value": [
+   3,
+   60,
+   100
+  ],
+  "threshold": null,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "parameter count",
+  "stage": "architecture",
+  "subject": "inverse_heat/deeponet",
+  "passed": true,
+  "value": 25345,
+  "threshold": null,
+  "detail": "",
+  "severity": "warning"
+ },
+ {
+  "name": "overfits a tiny batch",
+  "stage": "architecture",
+  "subject": "inverse_heat/deeponet",
+  "passed": true,
+  "value": 0.0844,
+  "threshold": "< 0.1 (error at >= 0.5)",
+  "detail": "loss 1.63 -> 0.138 in 28 Adam steps (at most 1000, stops once below)",
+  "severity": "warning"
+ },
+ {
+  "name": "forward shape",
+  "stage": "architecture",
+  "subject": "inverse_heat/mlp",
+  "passed": true,
+  "value": [
+   3,
+   60,
+   100
+  ],
+  "threshold": null,
+  "detail": "",
+  "severity": "error"
+ },
+ {
+  "name": "parameter count",
+  "stage": "architecture",
+  "subject": "inverse_heat/mlp",
+  "passed": true,
+  "value": 402672,
+  "threshold": null,
+  "detail": "",
+  "severity": "warning"
+ },
+ {
+  "name": "overfits a tiny batch",
+  "stage": "architecture",
+  "subject": "inverse_heat/mlp",
+  "passed": true,
+  "value": 0.0823,
+  "threshold": "< 0.1 (error at >= 0.5)",
+  "detail": "loss 1.71 -> 0.141 in 42 Adam steps (at most 1000, stops once below)",
+  "severity": "warning"
+ }
+]

@@ -1,0 +1,169 @@
+{
+ "problem": "airfoil",
+ "checks": [
+  {
+   "name": "campaign solver convergence (converged or steady-ish)",
+   "stage": "problem",
+   "subject": "airfoil",
+   "passed": true,
+   "value": "93 % of 436",
+   "threshold": ">= 85 %",
+   "detail": "status counts {'converged': 330, 'steady-ish': 74, 'unsteady': 32}; unsteady runs are averaged",
+   "severity": "error"
+  },
+  {
+   "name": "NACA 0012 at 0 deg: drag vs the NASA Turbulence Modeling Resource (SST, Re 6e6)",
+   "stage": "problem",
+   "subject": "airfoil",
+   "passed": true,
+   "value": "Cd 0.00871",
+   "threshold": "0.0081 +- 12 %",
+   "detail": "the app's own validation reference; Re 4e6 here, so drag is slightly higher",
+   "severity": "error"
+  },
+  {
+   "name": "NACA 0012 lift slope vs the inviscid panel method (viscous slope 85-100 %)",
+   "stage": "problem",
+   "subject": "airfoil",
+   "passed": true,
+   "value": "6.37 /rad vs 6.84 /rad",
+   "threshold": "0.85..1.0",
+   "detail": "pinneapple_design.aero.panel",
+   "severity": "error"
+  },
+  {
+   "name": "no shape shared between training and test",
+   "stage": "data",
+   "subject": "airfoil",
+   "passed": true,
+   "value": 0,
+   "threshold": 0,
+   "detail": "",
+   "severity": "error"
+  },
+  {
+   "name": "no run shared between splits",
+   "stage": "data",
+   "subject": "airfoil",
+   "passed": true,
+   "value": {
+    "test&train_all": 0,
+    "naca&train_all": 0,
+    "naca&test": 0,
+    "naca&ood": 0,
+    "ood&train_all": 0,
+    "ood&test": 0
+   },
+   "threshold": null,
+   "detail": "",
+   "severity": "error"
+  },
+  {
+   "name": "finite coefficients",
+   "stage": "data",
+   "subject": "airfoil",
+   "passed": true,
+   "value": null,
+   "threshold": null,
+   "detail": "",
+   "severity": "error"
+  },
+  {
+   "name": "OOD cases outside the training box (CST weights or angle)",
+   "stage": "data",
+   "subject": "airfoil",
+   "passed": true,
+   "value": "12/12",
+   "threshold": "all",
+   "detail": "",
+   "severity": "error"
+  },
+  {
+   "name": "normalisation from the training split only",
+   "stage": "data",
+   "subject": "airfoil",
+   "passed": true,
+   "value": null,
+   "threshold": null,
+   "detail": "every trainer computes its means and scales on its training runs only",
+   "severity": "error"
+  }
+ ],
+ "validation": [
+  {
+   "name": "simulation preflight (pinneapple_data.preflight)",
+   "stage": "validation",
+   "subject": "airfoil",
+   "passed": true,
+   "value": "WARNING",
+   "threshold": null,
+   "detail": "counts {'fail': 0, 'warn': 2, 'info': 0, 'pass': 9}; ",
+   "severity": "error"
+  },
+  {
+   "name": "mesh quality (pinneapple_data.cae.mesh_report)",
+   "stage": "validation",
+   "subject": "airfoil",
+   "passed": true,
+   "value": {
+    "fail": 0,
+    "warn": 0,
+    "checks": 5
+   },
+   "threshold": null,
+   "detail": "",
+   "severity": "error"
+  },
+  {
+   "name": "first cell y+ (mesh_intelligence estimate)",
+   "stage": "validation",
+   "subject": "airfoil",
+   "passed": true,
+   "value": 0.596,
+   "threshold": "<= 1.5",
+   "detail": "first cell 4.00e-06 vs 6.71e-06 needed for y+ = 1.0",
+   "severity": "warning"
+  },
+  {
+   "name": "applicability: test inputs inside the training envelope",
+   "stage": "validation",
+   "subject": "airfoil",
+   "passed": true,
+   "value": "56/60",
+   "threshold": ">= 90 %",
+   "detail": "physics_audit.Envelope over alpha, w0, w1, w2, w3, w4, w5",
+   "severity": "warning"
+  },
+  {
+   "name": "applicability: OOD inputs outside the training envelope",
+   "stage": "validation",
+   "subject": "airfoil",
+   "passed": true,
+   "value": "12/12",
+   "threshold": ">= 50 %",
+   "detail": "an 'OOD' set that sits inside the envelope tests interpolation, not extrapolation",
+   "severity": "warning"
+  },
+  {
+   "name": "physics audit: RANS k-omega SST, attached flow",
+   "stage": "validation",
+   "subject": "airfoil",
+   "passed": false,
+   "value": "VIOLATED",
+   "threshold": null,
+   "detail": "RANS k-omega SST, attached flow: VIOLATED (compatibility 0.17);   [VALID] fully_turbulent: Re >= 5e+05 (Re = 4e+06): VALID;   [VALID] incompressible: Ma <= 0.3 (Ma = 0): VALID;   [VIOLATED] attached_flow: -12 <= alpha_deg <= 12 (alpha_deg = 14): VIOLATED",
+   "severity": "warning"
+  },
+  {
+   "name": "grid convergence (GCI) of Cd (NACA 2412, 4 deg)",
+   "stage": "validation",
+   "subject": "airfoil",
+   "passed": true,
+   "value": "p = 2.79, GCI_fine = 1.23e-02",
+   "threshold": "GCI <= 0.05",
+   "detail": "fitmesh.gci; values (fine to coarse) ['0.009941089', '0.010142987', '0.010746264']; fine-mesh numerical uncertainty about 1.23% (observed order 2.79); in the asymptotic range",
+   "severity": "error"
+  }
+ ],
+ "status": "ok"
+}

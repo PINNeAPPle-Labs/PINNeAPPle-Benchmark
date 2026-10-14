@@ -1,0 +1,16 @@
+04:41:34 burgers train 1000 1065.8 core-s
+04:42:43 burgers val 100 104.6 core-s
+04:45:00 burgers test 200 210.2 core-s
+04:46:11 burgers ood 100 104.5 core-s
+04:47:05 darcy train 1000 62.9 core-s
+04:47:10 darcy val 100 6.3 core-s
+04:47:20 darcy test 200 12.6 core-s
+04:47:25 darcy ood 100 6.6 core-s
+04:47:40 inverse_heat data {'train': {'n': 200, 'solver_core_s': 11.335185380000002}, 'val': {'n': 40, 'solver_core_s': 2.2951057530000005}}
+05:22:56 navier_stokes train 1000 3494.5 core-s
+05:25:53 navier_stokes val 100 348.2 core-s
+05:31:26 navier_stokes test 200 659.0 core-s
+05:34:17 navier_stokes ood 100 339.3 core-s
+05:34:50 burgers {'rel_dt_halved': 6.838354185987141e-13, 'rel_grid_doubled': 2.41127956377324e-15, 'max_abs_u0': 1.0688641055103671, 'max_abs_u1_nu0.01': 0.33358188204538886, 'max_abs_u1_nu0.1': 0.014646699681441597}
+05:34:51 darcy {'rel_grid_doubled_same_coefficient_pooled': 0.005727409199761539, 'note': 'a on 256^2 thresholded, pooled to 128^2 for the coarse solve; both solutions pooled to 64^2', 'u_max': 0.013578935654454874}
+05:36:46 navier_stokes {'rel_grid_doubled': 3.652326571500433e-05, 'rel_dt_halved': 8.727976738069452e-14}

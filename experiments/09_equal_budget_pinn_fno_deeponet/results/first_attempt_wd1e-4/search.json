@@ -1,0 +1,767 @@
+{
+ "burgers/fno": {
+  "best_config": {
+   "width": 32,
+   "modes": 24,
+   "lr": 0.003
+  },
+  "best_score": 0.004201879810658604,
+  "n_trials": 4,
+  "seed": 0,
+  "trials": [
+   {
+    "config": {
+     "width": 32,
+     "modes": 24,
+     "lr": 0.001
+    },
+    "score": 0.0048655512891282,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 64,
+     "modes": 16,
+     "lr": 0.001
+    },
+    "score": 0.005307932539193617,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 32,
+     "modes": 24,
+     "lr": 0.003
+    },
+    "score": 0.004201879810658604,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 64,
+     "modes": 24,
+     "lr": 0.001
+    },
+    "score": 0.005061783312027052,
+    "info": {}
+   }
+  ]
+ },
+ "burgers/deeponet": {
+  "best_config": {
+   "hidden": 256,
+   "depth": 3,
+   "p": 128,
+   "lr": 0.001
+  },
+  "best_score": 0.0560372845490479,
+  "n_trials": 4,
+  "seed": 0,
+  "trials": [
+   {
+    "config": {
+     "hidden": 128,
+     "depth": 3,
+     "p": 128,
+     "lr": 0.001
+    },
+    "score": 0.059406787559757854,
+    "info": {}
+   },
+   {
+    "config": {
+     "hidden": 256,
+     "depth": 3,
+     "p": 128,
+     "lr": 0.003
+    },
+    "score": 0.059012184065298054,
+    "info": {}
+   },
+   {
+    "config": {
+     "hidden": 128,
+     "depth": 3,
+     "p": 128,
+     "lr": 0.003
+    },
+    "score": 0.05970803642877401,
+    "info": {}
+   },
+   {
+    "config": {
+     "hidden": 256,
+     "depth": 3,
+     "p": 128,
+     "lr": 0.001
+    },
+    "score": 0.0560372845490479,
+    "info": {}
+   }
+  ]
+ },
+ "burgers/pinn": {
+  "best_config": {
+   "width": 64,
+   "depth": 4,
+   "lr": 0.003,
+   "n_colloc": 2048
+  },
+  "best_score": 0.18574808817203614,
+  "n_trials": 4,
+  "seed": 0,
+  "trials": [
+   {
+    "config": {
+     "width": 64,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 2048
+    },
+    "score": 0.18574808817203614,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 128,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 8192
+    },
+    "score": 0.23495459254857542,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 64,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 8192
+    },
+    "score": 0.43630730791247513,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 128,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 2048
+    },
+    "score": 0.2306038445758685,
+    "info": {}
+   }
+  ]
+ },
+ "darcy/fno": {
+  "best_config": {
+   "width": 24,
+   "modes": 16,
+   "lr": 0.003
+  },
+  "best_score": 0.04542080318837571,
+  "n_trials": 4,
+  "seed": 0,
+  "trials": [
+   {
+    "config": {
+     "width": 24,
+     "modes": 16,
+     "lr": 0.001
+    },
+    "score": 0.11430696726351357,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 32,
+     "modes": 12,
+     "lr": 0.001
+    },
+    "score": 0.10354885997186852,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 24,
+     "modes": 16,
+     "lr": 0.003
+    },
+    "score": 0.04542080318837571,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 32,
+     "modes": 16,
+     "lr": 0.001
+    },
+    "score": 0.1200201168524401,
+    "info": {}
+   }
+  ]
+ },
+ "darcy/deeponet": {
+  "best_config": {
+   "hidden": 128,
+   "depth": 3,
+   "p": 128,
+   "lr": 0.001
+  },
+  "best_score": 0.05497300038825625,
+  "n_trials": 4,
+  "seed": 0,
+  "trials": [
+   {
+    "config": {
+     "hidden": 128,
+     "depth": 3,
+     "p": 128,
+     "lr": 0.001
+    },
+    "score": 0.05497300038825625,
+    "info": {}
+   },
+   {
+    "config": {
+     "hidden": 256,
+     "depth": 3,
+     "p": 128,
+     "lr": 0.003
+    },
+    "score": 0.06150749105830917,
+    "info": {}
+   },
+   {
+    "config": {
+     "hidden": 128,
+     "depth": 3,
+     "p": 128,
+     "lr": 0.003
+    },
+    "score": 0.05689143162030788,
+    "info": {}
+   },
+   {
+    "config": {
+     "hidden": 256,
+     "depth": 3,
+     "p": 128,
+     "lr": 0.001
+    },
+    "score": 0.06217193044547141,
+    "info": {}
+   }
+  ]
+ },
+ "darcy/pinn": {
+  "best_config": {
+   "width": 128,
+   "depth": 4,
+   "lr": 0.003,
+   "n_colloc": 2048
+  },
+  "best_score": 0.9068978425920807,
+  "n_trials": 4,
+  "seed": 0,
+  "trials": [
+   {
+    "config": {
+     "width": 64,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 2048
+    },
+    "score": 0.9117349440316154,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 128,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 8192
+    },
+    "score": 0.9196262400587453,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 64,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 8192
+    },
+    "score": 0.9122148024204276,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 128,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 2048
+    },
+    "score": 0.9068978425920807,
+    "info": {}
+   }
+  ]
+ },
+ "navier_stokes/fno": {
+  "best_config": {
+   "width": 32,
+   "modes": 12,
+   "lr": 0.001
+  },
+  "best_score": 0.18511782183446637,
+  "n_trials": 4,
+  "seed": 0,
+  "trials": [
+   {
+    "config": {
+     "width": 24,
+     "modes": 16,
+     "lr": 0.001
+    },
+    "score": 0.18515023164208785,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 32,
+     "modes": 12,
+     "lr": 0.001
+    },
+    "score": 0.18511782183446637,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 24,
+     "modes": 16,
+     "lr": 0.003
+    },
+    "score": 0.1851779466645544,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 32,
+     "modes": 16,
+     "lr": 0.001
+    },
+    "score": 0.185219259527165,
+    "info": {}
+   }
+  ]
+ },
+ "navier_stokes/deeponet": {
+  "best_config": {
+   "hidden": 128,
+   "depth": 3,
+   "p": 128,
+   "lr": 0.003
+  },
+  "best_score": 0.03552472751948981,
+  "n_trials": 4,
+  "seed": 0,
+  "trials": [
+   {
+    "config": {
+     "hidden": 128,
+     "depth": 3,
+     "p": 128,
+     "lr": 0.001
+    },
+    "score": 0.04220673658250603,
+    "info": {}
+   },
+   {
+    "config": {
+     "hidden": 256,
+     "depth": 3,
+     "p": 128,
+     "lr": 0.003
+    },
+    "score": 0.042025944608905054,
+    "info": {}
+   },
+   {
+    "config": {
+     "hidden": 128,
+     "depth": 3,
+     "p": 128,
+     "lr": 0.003
+    },
+    "score": 0.03552472751948981,
+    "info": {}
+   },
+   {
+    "config": {
+     "hidden": 256,
+     "depth": 3,
+     "p": 128,
+     "lr": 0.001
+    },
+    "score": 0.06223110233582016,
+    "info": {}
+   }
+  ]
+ },
+ "navier_stokes/pinn": {
+  "best_config": {
+   "width": 64,
+   "depth": 4,
+   "lr": 0.003,
+   "n_colloc": 2048
+  },
+  "best_score": 0.7312243564414552,
+  "n_trials": 4,
+  "seed": 0,
+  "trials": [
+   {
+    "config": {
+     "width": 64,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 2048
+    },
+    "score": 0.7312243564414552,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 128,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 8192
+    },
+    "score": 0.9768738622845773,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 64,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 8192
+    },
+    "score": 0.9752126949219398,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 128,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 2048
+    },
+    "score": 0.8459918656724636,
+    "info": {}
+   }
+  ]
+ },
+ "airfoil/mlp": {
+  "best_config": {
+   "width": 96,
+   "lr": 0.001,
+   "wd": 1e-06
+  },
+  "best_score": 0.007856937979477287,
+  "n_trials": 4,
+  "seed": 0,
+  "trials": [
+   {
+    "config": {
+     "width": 128,
+     "lr": 0.001,
+     "wd": 0.0001
+    },
+    "score": 0.011364227557538086,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 64,
+     "lr": 0.003,
+     "wd": 1e-06
+    },
+    "score": 0.008520258208127901,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 96,
+     "lr": 0.003,
+     "wd": 0.0001
+    },
+    "score": 0.011322739212958887,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 96,
+     "lr": 0.001,
+     "wd": 1e-06
+    },
+    "score": 0.007856937979477287,
+    "info": {}
+   }
+  ]
+ },
+ "airfoil/mgn": {
+  "best_config": {
+   "hidden": 32,
+   "mp": 8,
+   "lr": 0.001
+  },
+  "best_score": 0.09003316412877962,
+  "n_trials": 4,
+  "seed": 0,
+  "trials": [
+   {
+    "config": {
+     "hidden": 32,
+     "mp": 8,
+     "lr": 0.0005
+    },
+    "score": 0.09445029845304873,
+    "info": {}
+   },
+   {
+    "config": {
+     "hidden": 48,
+     "mp": 6,
+     "lr": 0.0005
+    },
+    "score": 0.13341174961206356,
+    "info": {}
+   },
+   {
+    "config": {
+     "hidden": 32,
+     "mp": 8,
+     "lr": 0.001
+    },
+    "score": 0.09003316412877962,
+    "info": {}
+   },
+   {
+    "config": {
+     "hidden": 48,
+     "mp": 8,
+     "lr": 0.0005
+    },
+    "score": 0.14050258820766806,
+    "info": {}
+   }
+  ]
+ },
+ "airfoil/pinn": {
+  "best_config": {
+   "width": 64,
+   "depth": 4,
+   "lr": 0.003,
+   "n_colloc": 4096
+  },
+  "best_score": 1.8265222557849372,
+  "n_trials": 4,
+  "seed": 0,
+  "trials": [
+   {
+    "config": {
+     "width": 64,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 2048
+    },
+    "score": 1.885567678166242,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 128,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 4096
+    },
+    "score": 1.8487239279813255,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 64,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 4096
+    },
+    "score": 1.8265222557849372,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 128,
+     "depth": 4,
+     "lr": 0.003,
+     "n_colloc": 2048
+    },
+    "score": 1.932254977819658,
+    "info": {}
+   }
+  ]
+ },
+ "inverse_heat/mlp": {
+  "best_config": {
+   "width": 64,
+   "depth": 4,
+   "lr": 0.003
+  },
+  "best_score": 0.005806653294712305,
+  "n_trials": 4,
+  "seed": 0,
+  "trials": [
+   {
+    "config": {
+     "width": 64,
+     "depth": 4,
+     "lr": 0.001
+    },
+    "score": 0.011858846060931683,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 128,
+     "depth": 3,
+     "lr": 0.001
+    },
+    "score": 0.008800762705504894,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 64,
+     "depth": 4,
+     "lr": 0.003
+    },
+    "score": 0.005806653294712305,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 128,
+     "depth": 4,
+     "lr": 0.001
+    },
+    "score": 0.007388846483081579,
+    "info": {}
+   }
+  ]
+ },
+ "inverse_heat/deeponet": {
+  "best_config": {
+   "hidden": 64,
+   "depth": 3,
+   "p": 64,
+   "lr": 0.003
+  },
+  "best_score": 0.02922624908387661,
+  "n_trials": 4,
+  "seed": 0,
+  "trials": [
+   {
+    "config": {
+     "hidden": 64,
+     "depth": 3,
+     "p": 64,
+     "lr": 0.001
+    },
+    "score": 0.05177954584360123,
+    "info": {}
+   },
+   {
+    "config": {
+     "hidden": 128,
+     "depth": 3,
+     "p": 64,
+     "lr": 0.003
+    },
+    "score": 0.03647146373987198,
+    "info": {}
+   },
+   {
+    "config": {
+     "hidden": 64,
+     "depth": 3,
+     "p": 64,
+     "lr": 0.003
+    },
+    "score": 0.02922624908387661,
+    "info": {}
+   },
+   {
+    "config": {
+     "hidden": 128,
+     "depth": 3,
+     "p": 64,
+     "lr": 0.001
+    },
+    "score": 0.06356644630432129,
+    "info": {}
+   }
+  ]
+ },
+ "inverse_heat/pinn": {
+  "best_config": {
+   "width": 32,
+   "depth": 3,
+   "n_colloc": 2500,
+   "lr": 0.001
+  },
+  "best_score": 0.005510139465332031,
+  "n_trials": 4,
+  "seed": 0,
+  "trials": [
+   {
+    "config": {
+     "width": 32,
+     "depth": 3,
+     "n_colloc": 2500,
+     "lr": 0.001
+    },
+    "score": 0.005510139465332031,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 48,
+     "depth": 3,
+     "n_colloc": 2500,
+     "lr": 0.002
+    },
+    "score": 0.09505643844604492,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 32,
+     "depth": 3,
+     "n_colloc": 2500,
+     "lr": 0.002
+    },
+    "score": 0.05120573043823242,
+    "info": {}
+   },
+   {
+    "config": {
+     "width": 48,
+     "depth": 3,
+     "n_colloc": 2500,
+     "lr": 0.001
+    },
+    "score": 0.16024770736694335,
+    "info": {}
+   }
+  ]
+ }
+}

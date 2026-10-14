@@ -1,0 +1,18 @@
+{
+ "burgers": {
+  "rel_dt_halved": 6.838354185987141e-13,
+  "rel_grid_doubled": 2.41127956377324e-15,
+  "max_abs_u0": 1.0688641055103671,
+  "max_abs_u1_nu0.01": 0.33358188204538886,
+  "max_abs_u1_nu0.1": 0.014646699681441597
+ },
+ "darcy": {
+  "rel_grid_doubled_same_coefficient_pooled": 0.005727409199761539,
+  "note": "a on 256^2 thresholded, pooled to 128^2 for the coarse solve; both solutions pooled to 64^2",
+  "u_max": 0.013578935654454874
+ },
+ "navier_stokes": {
+  "rel_grid_doubled": 3.652326571500433e-05,
+  "rel_dt_halved": 8.727976738069452e-14
+ }
+}

@@ -1,5 +1,11 @@
 # CURRENT_STATE — PINNeAPPle-Benchmark
 
+**Update 2026-10-14**: experiment `09_equal_budget_pinn_fno_deeponet` (PINNeAPPle issue #299) is finished on branch
+`exp/09-equal-budget`: every run is in `results/runs/`, the report in `results/table.md` and the README. It is the
+first experiment built on the library's benchmark harness (`pp.benchmark`, PINNeAPPle PR #662): `src/bench09.py` is
+its configuration and the only code here; the benchmark protocol layer the note below says was missing now exists in
+the library. See `.agent/FAILED_APPROACHES.md` items 1-4 for what went wrong on the way.
+
 **Update 2026-10-02**: all eight experiments are now here and finished. `main` is at `7a65884` ("Move the
 remaining finished experiments (02, 03 code+papers, 04, 06) here (#2)"), on top of `2fd39f4` ("readmes") and
 `ee7e5f7` (PR #1, the first move). No open PRs, no running jobs anywhere in this repo or in

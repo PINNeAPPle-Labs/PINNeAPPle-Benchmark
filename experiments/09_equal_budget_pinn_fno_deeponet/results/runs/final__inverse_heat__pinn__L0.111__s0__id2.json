@@ -1,0 +1,90 @@
+{
+ "spec": {
+  "problem": "inverse_heat",
+  "method": "pinn",
+  "cfg": {
+   "width": 32,
+   "depth": 3,
+   "n_colloc": 2500,
+   "lr": 0.001
+  },
+  "stage": "final",
+  "id": "final__inverse_heat__pinn__L0.111__s0__id2",
+  "seed": 0,
+  "budget": {
+   "wall_s": 13.333333333333332
+  },
+  "level": 0.1111111111111111,
+  "kind": "id",
+  "case": 2
+ },
+ "result": {
+  "train": {
+   "steps": 460,
+   "wall_s": 13.339469774991812,
+   "flops": 126812564480.0,
+   "flops_per_step": 275679488.0,
+   "stopped_by": "wall_s",
+   "budget": {
+    "wall_s": 13.333333333333332,
+    "flops": null,
+    "steps": null
+   },
+   "history": [
+    {
+     "step": 1,
+     "progress": 0.0,
+     "wall_s": 0.0,
+     "flops": 275679488.0,
+     "loss": 79.09980010986328
+    },
+    {
+     "step": 169,
+     "progress": 0.37528730497476775,
+     "wall_s": 5.003830732996903,
+     "flops": 46589833472.0,
+     "loss": 20.008390426635742
+    },
+    {
+     "step": 335,
+     "progress": 0.7502936251492657,
+     "wall_s": 10.003915001990208,
+     "flops": 92352628480.0,
+     "loss": 18.785367965698242
+    },
+    {
+     "step": 460,
+     "progress": 1.000460233124386,
+     "wall_s": 13.339469774991812,
+     "flops": 126812564480.0,
+     "loss": 18.670400619506836,
+     "final": true
+    }
+   ],
+   "eval_wall_s": 0.0
+  },
+  "kind": "id",
+  "case": 2,
+  "power": 15.0,
+  "h_true": 10.0,
+  "h_hat": 28.95572853088379,
+  "h_rel_err": 1.8955728530883789,
+  "max_field_err_C": 13.727765740331762,
+  "hot_spot_err_C": 2.4443249480596307,
+  "field_ref_max": 168.59
+ },
+ "ok": true,
+ "hardware": {
+  "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39",
+  "python": "3.13.16",
+  "logical_cpus": 4,
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "mem_gb": 15.7,
+  "torch": "2.14.1+cu130",
+  "torch_threads": 1,
+  "gpu": null,
+  "numpy": "2.5.3"
+ },
+ "job_wall_s": 15.9085533618927,
+ "finished": "2026-10-13 12:54:16"
+}

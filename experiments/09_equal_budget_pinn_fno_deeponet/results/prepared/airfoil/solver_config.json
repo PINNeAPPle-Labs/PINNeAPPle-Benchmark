@@ -1,0 +1,6 @@
+{
+ "n_shapes": 100,
+ "n_alphas": 4,
+ "ood": true,
+ "gci_study": true
+}

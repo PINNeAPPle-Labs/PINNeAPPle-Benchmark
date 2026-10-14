@@ -1,0 +1,125 @@
+{
+ "spec": {
+  "problem": "inverse_heat",
+  "method": "pinn",
+  "cfg": {
+   "width": 32,
+   "depth": 3,
+   "n_colloc": 2500,
+   "lr": 0.001
+  },
+  "stage": "final",
+  "id": "final__inverse_heat__pinn__L0.333__s0__id0",
+  "seed": 0,
+  "budget": {
+   "wall_s": 40.0
+  },
+  "level": 0.3333333333333333,
+  "kind": "id",
+  "case": 0
+ },
+ "result": {
+  "train": {
+   "steps": 1419,
+   "wall_s": 40.006125131011686,
+   "flops": 391189193472.0,
+   "flops_per_step": 275679488.0,
+   "stopped_by": "wall_s",
+   "budget": {
+    "wall_s": 40.0,
+    "flops": null,
+    "steps": null
+   },
+   "history": [
+    {
+     "step": 1,
+     "progress": 0.0,
+     "wall_s": 0.0,
+     "flops": 275679488.0,
+     "loss": 161.37088012695312
+    },
+    {
+     "step": 192,
+     "progress": 0.12514444772489242,
+     "wall_s": 5.005777908995697,
+     "flops": 52930461696.0,
+     "loss": 73.92700958251953
+    },
+    {
+     "step": 397,
+     "progress": 0.25022332227497374,
+     "wall_s": 10.008932890998949,
+     "flops": 109444756736.0,
+     "loss": 10.612675666809082
+    },
+    {
+     "step": 577,
+     "progress": 0.3759333238999716,
+     "wall_s": 15.037332955998863,
+     "flops": 159067064576.0,
+     "loss": 7.430445194244385
+    },
+    {
+     "step": 762,
+     "progress": 0.5009353400251257,
+     "wall_s": 20.037413601005028,
+     "flops": 210067769856.0,
+     "loss": 7.737007141113281
+    },
+    {
+     "step": 903,
+     "progress": 0.6262272297751679,
+     "wall_s": 25.049089191006715,
+     "flops": 248938577664.0,
+     "loss": 7.453104496002197
+    },
+    {
+     "step": 1080,
+     "progress": 0.7512962240004526,
+     "wall_s": 30.051848960018106,
+     "flops": 297733847040.0,
+     "loss": 6.987427234649658
+    },
+    {
+     "step": 1253,
+     "progress": 0.8768749301004164,
+     "wall_s": 35.074997204016654,
+     "flops": 345426398464.0,
+     "loss": 7.027486801147461
+    },
+    {
+     "step": 1419,
+     "progress": 1.0001531282752922,
+     "wall_s": 40.006125131011686,
+     "flops": 391189193472.0,
+     "loss": 6.772936820983887,
+     "final": true
+    }
+   ],
+   "eval_wall_s": 0.0
+  },
+  "kind": "id",
+  "case": 0,
+  "power": 10.0,
+  "h_true": 25.0,
+  "h_hat": 20.26833724975586,
+  "h_rel_err": 0.18926651000976563,
+  "max_field_err_C": 2.0597550156619207,
+  "hot_spot_err_C": 0.1487246373225446,
+  "field_ref_max": 69.96
+ },
+ "ok": true,
+ "hardware": {
+  "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39",
+  "python": "3.13.16",
+  "logical_cpus": 4,
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "mem_gb": 15.7,
+  "torch": "2.14.1+cu130",
+  "torch_threads": 1,
+  "gpu": null,
+  "numpy": "2.5.3"
+ },
+ "job_wall_s": 41.936455965042114,
+ "finished": "2026-10-13 12:43:01"
+}

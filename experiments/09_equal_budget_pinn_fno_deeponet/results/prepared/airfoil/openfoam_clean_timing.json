@@ -1,0 +1,42 @@
+{
+ "note": "OpenFOAM simpleFoam runs repeated one at a time on an otherwise idle machine (one core each), to time a new design without contention",
+ "runs": [
+  {
+   "id": "s003_a1",
+   "wall_s": 57.2241644859314,
+   "solver_seconds": 55.6,
+   "Cl": 0.8287797361870681,
+   "Cl_campaign": 0.8287797361870681,
+   "Cd": 0.01249561313355847,
+   "Cd_campaign": 0.01249561313355847
+  },
+  {
+   "id": "s040_a2",
+   "wall_s": 59.99307560920715,
+   "solver_seconds": 58.5,
+   "Cl": 0.9891979566413878,
+   "Cl_campaign": 0.9891979566413878,
+   "Cd": 0.01347322890947559,
+   "Cd_campaign": 0.01347322890947559
+  },
+  {
+   "id": "s071_a0",
+   "wall_s": 53.34596109390259,
+   "solver_seconds": 51.7,
+   "Cl": -0.014080833579401337,
+   "Cl_campaign": -0.014080833579401337,
+   "Cd": 0.009157275223290136,
+   "Cd_campaign": 0.009157275223290136
+  },
+  {
+   "id": "NACA2412_a+04",
+   "wall_s": 54.19570207595825,
+   "solver_seconds": 52.9,
+   "Cl": 0.6624698285949892,
+   "Cl_campaign": 0.6624698285949892,
+   "Cd": 0.010142986736577538,
+   "Cd_campaign": 0.010142986736577538
+  }
+ ],
+ "mean_wall_s": 56.18972581624985
+}
