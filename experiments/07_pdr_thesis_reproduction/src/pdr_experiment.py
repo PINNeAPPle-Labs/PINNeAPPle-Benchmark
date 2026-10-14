@@ -530,22 +530,16 @@ def _imu_only(seqs):
 
 
 def veriphysics(variants, te):
-    from pinneapple_analysis.uncertainty.calibration import CalibrationMetrics
-    from pinneapple_analysis.verification.physics_confidence_score import CalibrationSummary, compute_physics_confidence
-    from pinneapple_data.physics_case import PhysicsCase
-    from pinneapple_pdb.benchmarks import BenchmarkEntry, register_benchmark
-    xs, ys, idx = [], [], []
+    from pinneapple_analysis.verification.physics_confidence_score import (
+        CalibrationSummary,
+        score_against_reference,
+    )
+    xs, ys = [], []
     for j, s in enumerate(te):
         for e in range(HZ, len(s.t), 100):
             xs.append((j, e)); ys.append(s.vel[e - 1])
     xs, ys = np.array(xs, np.float32), np.array(ys, np.float32)
-
-    @register_benchmark("ridi_test_people_velocity")
-    def _b():
-        return BenchmarkEntry(name="ridi_test_people_velocity", description="Tango VIO velocity, RIDI test people",
-                              reference_source="RIDI (Yan, Shan, Furukawa, ECCV 2018)", x_vars=("seq", "idx"),
-                              y_vars=("vx", "vy", "vz"), reference_x=xs, reference_y=ys)
-    out = {}
+    preds, cal = {}, {}
     for name, p in variants.items():
         P, S = [], []
         for (j, e) in xs.astype(int):
@@ -553,18 +547,14 @@ def veriphysics(variants, te):
             v, sd = p(s.acc[e - HZ:e], s.gyr[e - HZ:e], s.R[e - HZ:e])
             P.append(v); S.append(sd)
         P, S = np.array(P), np.array(S)
-        case = PhysicsCase(name=name, results={"seq": xs[:, 0], "idx": xs[:, 1], "vx": P[:, 0], "vy": P[:, 1], "vz": P[:, 2]},
-                           reference_benchmark="ridi_test_people_velocity")
-        b = case.validate_against_benchmark()
-        ece = CalibrationMetrics.expected_calibration_error(torch.tensor(P.ravel()), torch.tensor(ys.ravel()), torch.tensor(S.ravel()))
-        cov = CalibrationMetrics.coverage_at_level(torch.tensor(P.ravel()), torch.tensor(ys.ravel()), torch.tensor(S.ravel()), alpha=0.1)
-        sc = compute_physics_confidence(benchmark_comparison=b,
-                                        calibration_metrics=CalibrationSummary(ece=ece, coverage=cov, target_coverage=0.9))
-        out[name] = {"overall_score": sc.overall_score, "coverage": sc.coverage, "components": [c.__dict__ for c in sc.components]}
-        log(sc.summary())
-    out["not_run"] = {"physics_guardrail": "no compiled PDE ProblemSpec for IMU kinematics",
-                      "numerical_convergence": "no discretisation parameter", "geometry_ood": "no geometry input"}
-    OUT["veriphysics"] = out
+        preds[name] = P
+        # calibration pooled over the three velocity components (coverage per component, not per 3-vector)
+        cal[name] = CalibrationSummary.from_predictions(P.ravel(), ys.ravel(), S.ravel(), level=0.9)
+    OUT["veriphysics"] = score_against_reference(
+        "ridi_test_people_velocity", xs, ys, preds, x_vars=("seq", "idx"), y_vars=("vx", "vy", "vz"), sigma=cal, log=log,
+        description="Tango VIO velocity, RIDI test people", reference_source="RIDI (Yan, Shan, Furukawa, ECCV 2018)",
+        not_run={"physics_guardrail": "no compiled PDE ProblemSpec for IMU kinematics",
+                 "numerical_convergence": "no discretisation parameter", "geometry_ood": "no geometry input"})
 
 
 if __name__ == "__main__":

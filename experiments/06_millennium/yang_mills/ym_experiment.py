@@ -21,6 +21,9 @@ import numpy as np
 import torch
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parents[3] / "PINNeAPPle"))
+from pinneapple_analysis.uncertainty.resampling import jackknife
+
 SMOKE = os.environ.get("SMOKE") == "1"
 DEV = torch.device("cpu")  # measured faster than MPS for this stencil workload
 torch.set_num_threads(3)
@@ -153,15 +156,6 @@ class Lattice:
         U = self.ape_spatial()
         O = sum(self.plaquette_field(i, j, U) for i in (1, 2, 3) for j in (1, 2, 3) if i < j)
         return O.reshape(self.T, -1).sum(1).cpu().double().numpy()   # zero-momentum projection per time slice
-
-
-def jackknife(samples, fn, n_blocks=20):
-    samples = np.asarray(samples)
-    blocks = np.array_split(np.arange(len(samples)), n_blocks)
-    full = fn(samples)
-    jk = np.array([fn(np.delete(samples, b, axis=0)) for b in blocks])
-    err = np.sqrt((n_blocks - 1) * ((jk - jk.mean(0)) ** 2).mean(0))
-    return full, err
 
 
 def run(beta, L, T, n_therm, n_meas, every):

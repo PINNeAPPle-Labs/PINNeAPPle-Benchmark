@@ -38,9 +38,11 @@ kept, so `paper/make_paper.py` reproduces the PDF from what is here.
 
 ## `paperkit/`
 
-The shared PDF-builder used by every paper here. It is also vendored (kept in sync manually) in
-`PINNeAPPle-Climate/experiments/paperkit/` for `01_sst_satellite_forecasting`, since that experiment stays
-in the other repo — duplicated rather than cross-repo-imported, so this repo has no dependency on Climate.
+The shared PDF-builder used by every paper here. It now lives in the PINNeAPPle library as
+`pinneapple_tools.reporting.paperkit`; `paperkit/paperkit.py` is a thin shim that re-exports it (from the
+installed library, or the sibling `PINNeAPPle` checkout the experiment scripts already use), so
+`from paperkit import ...` in the paper scripts is unchanged. The PDF part needs reportlab
+(`pip install "pinneapple[veriphysics]"`).
 
 ## Two bugs found and fixed across these experiments, worth knowing if extending any of them
 

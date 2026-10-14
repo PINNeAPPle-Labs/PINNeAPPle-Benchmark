@@ -1,0 +1,9 @@
+# The experiments import the PINNeAPPle library (pinneapple_* packages).
+# Either install it:
+#     pip install -r requirements.txt
+# or keep a checkout next to this repository (../PINNeAPPle): the scripts put that sibling checkout first on
+# sys.path, so it is used when present and the installed package otherwise.
+# Needs a library version with pinneapple_analysis.uncertainty.resampling, score_against_reference, rom.DMDc,
+# metrics.rollout_relative_l2 and openradioss.read_energy_error (branch feat/analysis-resampling-and-scoring).
+# Some scripts also import h5py, pandas or scikit-learn; install those as needed.
+pinneapple @ git+https://github.com/PINNeAPPle-Labs/PINNeAPPle@main
