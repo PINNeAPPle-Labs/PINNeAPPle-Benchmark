@@ -46,6 +46,7 @@ budget_study:
     - 14400.0
     pinn:
     - 3600.0
+    - 14400.0
 ablations:
   airfoil:
     pinn:
