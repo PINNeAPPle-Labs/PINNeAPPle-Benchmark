@@ -1,3 +1,3 @@
-691a2a4da952f769dc7defc55533f75933319564
-PINNeAPPle main after #662 (squash merge); the runs were made with the branch feat/benchmark-api, whose code this commit contains
+edaed19901f7f021816fbd7191e3066d2744a004
+PINNeAPPle main after #803; the main runs were made with feat/benchmark-api (squash-merged as #662, 691a2a4), the 4 h budget study with main at ffc830d, the report and figures regenerated with this commit
 Python 3.13.16
