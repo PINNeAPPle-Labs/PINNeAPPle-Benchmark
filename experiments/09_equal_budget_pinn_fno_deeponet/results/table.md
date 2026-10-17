@@ -6,11 +6,11 @@ Hardware: Intel(R) Xeon(R) Processor @ 2.10GHz (4 logical CPUs), GPU: None; torc
 
 ### Fields
 
-| Method | Rel. L2, test (n = 3) | Rel. L2, test, all (n = 200) | Rel. L2, OOD (n = 2) | Rel. L2, OOD, all (n = 100) | Checks |
-|---|---|---|---|---|---|
-| PINN | 0.246 ± 0.081 | - | 0.592 ± 0.051 | - | ✓ pass (warn) |
-| FNO | 0.00168 ± 0.00034 | 0.00328 ± 0.0003 | 0.0393 ± 0.0017 | 0.0199 ± 0.0015 | ✓ pass (warn) |
-| DeepONet | 0.0155 ± 0.002 | 0.0416 ± 0.0013 | 0.228 ± 0.033 | 0.142 ± 0.0018 | ✓ pass (warn) |
+| Method | Rel. L2, test (n = 3) | Rel. L2, test, all (n = 200) | Rel. L2, OOD (n = 2) | Rel. L2, OOD, all (n = 100) | HF energy bias, test (n = 3) | Checks |
+|---|---|---|---|---|---|---|
+| PINN | 0.246 ± 0.081 | - | 0.592 ± 0.051 | - | - | ✓ pass (warn) |
+| FNO | 0.00168 ± 0.00034 | 0.00328 ± 0.0003 | 0.0393 ± 0.0017 | 0.0199 ± 0.0015 | - | ✓ pass (warn) |
+| DeepONet | 0.0155 ± 0.002 | 0.0416 ± 0.0013 | 0.228 ± 0.033 | 0.142 ± 0.0018 | - | ✓ pass (warn) |
 
 ### Integral quantities
 
@@ -41,11 +41,11 @@ Hardware: Intel(R) Xeon(R) Processor @ 2.10GHz (4 logical CPUs), GPU: None; torc
 
 ### Fields
 
-| Method | Rel. L2, test (n = 3) | Rel. L2, test, all (n = 200) | Rel. L2, OOD (n = 2) | Rel. L2, OOD, all (n = 100) | Checks |
-|---|---|---|---|---|---|
-| PINN | 0.873 ± 0.0041 | - | 0.891 ± 0.003 | - | ✓ pass (warn) |
-| FNO | 0.0167 ± 0.00049 | 0.0153 ± 0.00041 | 0.0138 ± 0.0017 | 0.0172 ± 0.00053 | ✓ pass |
-| DeepONet | 0.057 ± 0.0032 | 0.0577 ± 0.00082 | 0.0602 ± 0.0032 | 0.0611 ± 0.00051 | ✓ pass (warn) |
+| Method | Rel. L2, test (n = 3) | Rel. L2, test, all (n = 200) | Rel. L2, OOD (n = 2) | Rel. L2, OOD, all (n = 100) | HF energy bias, test (n = 3) | Checks |
+|---|---|---|---|---|---|---|
+| PINN | 0.873 ± 0.0041 | - | 0.891 ± 0.003 | - | - | ✓ pass (warn) |
+| FNO | 0.0167 ± 0.00049 | 0.0153 ± 0.00041 | 0.0138 ± 0.0017 | 0.0172 ± 0.00053 | - | ✓ pass |
+| DeepONet | 0.057 ± 0.0032 | 0.0577 ± 0.00082 | 0.0602 ± 0.0032 | 0.0611 ± 0.00051 | - | ✓ pass (warn) |
 
 ### Integral quantities
 
@@ -76,11 +76,11 @@ Hardware: Intel(R) Xeon(R) Processor @ 2.10GHz (4 logical CPUs), GPU: None; torc
 
 ### Fields
 
-| Method | Rel. L2, test (n = 3) | Rel. L2, test, all (n = 200) | Rel. L2, OOD (n = 2) | Rel. L2, OOD, all (n = 100) | Checks |
-|---|---|---|---|---|---|
-| PINN | 0.16 ± 0.0056 | - | 0.507 ± 0.0053 | - | ✓ pass (warn) |
-| FNO | 0.0068 ± 0.00089 | 0.00844 ± 0.0012 | 0.0107 ± 0.0012 | 0.0137 ± 0.0013 | ✓ pass (warn) |
-| DeepONet | 0.0307 ± 0.0051 | 0.0315 ± 0.00054 | 0.0419 ± 0.0085 | 0.0417 ± 0.0019 | ✓ pass (warn) |
+| Method | Rel. L2, test (n = 3) | Rel. L2, test, all (n = 200) | Rel. L2, OOD (n = 2) | Rel. L2, OOD, all (n = 100) | HF energy bias, test (n = 3) | Checks |
+|---|---|---|---|---|---|---|
+| PINN | 0.16 ± 0.0056 | - | 0.507 ± 0.0053 | - | - | ✓ pass (warn) |
+| FNO | 0.0068 ± 0.00089 | 0.00844 ± 0.0012 | 0.0107 ± 0.0012 | 0.0137 ± 0.0013 | - | ✓ pass (warn) |
+| DeepONet | 0.0307 ± 0.0051 | 0.0315 ± 0.00054 | 0.0419 ± 0.0085 | 0.0417 ± 0.0019 | - | ✓ pass (warn) |
 
 ### Integral quantities
 
@@ -146,7 +146,7 @@ _Reading the airfoil tables: the MLP predicts the integrals only (Cl, Cd, Cm fro
 
 ### Airfoil 2-D (RANS, Re 4e6): the potential-flow PINN against the panel method (its own equations)
 
-Over 35 runs, |Cl(PINN) - Cl(panel)| = 0.784 ± 0.31 (both inviscid; OpenFOAM's Cl is the viscous truth).
+Over 37 runs, |Cl(PINN) - Cl(panel)| = 0.775 ± 0.3 (both inviscid; OpenFOAM's Cl is the viscous truth).
 
 | Run | Case | Budget | Cl PINN | Cl panel | Cl OpenFOAM |
 |---|---|---|---|---|---|
@@ -183,6 +183,8 @@ Over 35 runs, |Cl(PINN) - Cl(panel)| = 0.784 ± 0.31 (both inviscid; OpenFOAM's 
 | `search__airfoil__pinn__1` | s001_a1 | 300 s | 0.134 | 1.055 | 0.983 |
 | `search__airfoil__pinn__2` | s001_a1 | 300 s | 0.156 | 1.055 | 0.983 |
 | `search__airfoil__pinn__3` | s001_a1 | 300 s | 0.046 | 1.055 | 0.983 |
+| `study__airfoil__pinn__B14400__NACA2412_a+04` | NACA2412_a+04 | 4.0 h | 0.070 | 0.723 | 0.662 |
+| `study__airfoil__pinn__B14400__s003_a1` | s003_a1 | 4.0 h | 0.416 | 1.002 | 0.829 |
 | `study__airfoil__pinn__B3600__NACA2412_a+04` | NACA2412_a+04 | 3600 s | 0.043 | 0.723 | 0.662 |
 | `study__airfoil__pinn__B3600__s003_a1` | s003_a1 | 3600 s | -0.295 | 1.002 | 0.829 |
 
@@ -254,6 +256,7 @@ Instance `s003_a1`:
 | 300 s | 0.605 | 0.971 | 0.728 | 2.11 | `final__airfoil__pinn__L0.333__s0__s003_a1` |
 | 900 s | 0.564 | 1 | 0.891 | 2.23 | `final__airfoil__pinn__L1.000__s0__s003_a1` |
 | 3600 s | 1.12 | 1 | 0.904 | 2.23 | `study__airfoil__pinn__B3600__s003_a1` |
+| 4.0 h | 0.412 | 1 | 0.987 | 2.25 | `study__airfoil__pinn__B14400__s003_a1` |
 
 Instance `NACA2412_a+04`:
 
@@ -261,6 +264,7 @@ Instance `NACA2412_a+04`:
 |---|---|---|---|---|---|
 | 900 s | 0.442 | 0.995 | 0.809 | 2.68 | `final__airfoil__pinn__L1.000__s0__NACA2412_a+04` |
 | 3600 s | 0.619 | 0.995 | 0.849 | 2.71 | `study__airfoil__pinn__B3600__NACA2412_a+04` |
+| 4.0 h | 0.592 | 0.995 | 0.867 | 2.72 | `study__airfoil__pinn__B14400__NACA2412_a+04` |
 
 ### Setup audit: PINN (potential flow) on Airfoil 2-D (RANS, Re 4e6), instance `NACA2412_a+04` (seed 0, full budget)
 
@@ -567,20 +571,20 @@ Instance `NACA2412_a+04`:
 | architecture | airfoil/mgn | forward shapes | pass | fields (1, 2850, 4), coefficients (1, 3) |  |
 | architecture | airfoil/mgn | parameter count | pass | 108551 |  |
 | architecture | airfoil/mgn | message passing honours the graph (node permutation equivariance) | pass | 0.0e+00 | 0.0001 |
-| architecture | airfoil/mlp | forward shape | pass | (5, 6, 3) |  |
+| architecture | airfoil/mlp | forward shape | pass | [5, 6, 3] |  |
 | architecture | airfoil/mlp | parameter count | pass | 172815 |  |
 | architecture | airfoil/mlp | overfits a tiny batch | pass | 0.09814 | < 0.1 (error at >= 0.5) |
 | architecture | airfoil/mlp_fields | POD basis orthonormal | pass | 2.1e-15 | 1e-08 |
 | architecture | airfoil/mlp_fields | POD reconstruction error = sqrt(1 - energy kept) | pass | 0.0091 vs 0.0091 |  |
-| architecture | airfoil/mlp_fields | forward shape | pass | (6, 16) |  |
+| architecture | airfoil/mlp_fields | forward shape | pass | [6, 16] |  |
 | architecture | airfoil/mlp_fields | parameter count | pass | 36240 |  |
 | architecture | airfoil/mlp_fields | overfits a tiny batch | pass | 0.09833 | < 0.1 (error at >= 0.5) |
 | architecture | airfoil/pinn_rans | PDE residual of an exact solution ~ 0 | pass | 2.4e-30 (sign-flipped: 2.2e+00) | < 1e-12, flipped > 1e-3 |
 | architecture | inverse_heat/pinn | PDE residual of an exact solution ~ 0 | n/a |  |  |
-| architecture | inverse_heat/deeponet | forward shape | pass | (3, 60, 100) |  |
+| architecture | inverse_heat/deeponet | forward shape | pass | [3, 60, 100] |  |
 | architecture | inverse_heat/deeponet | parameter count | pass | 25345 |  |
 | architecture | inverse_heat/deeponet | overfits a tiny batch | pass | 0.0844 | < 0.1 (error at >= 0.5) |
-| architecture | inverse_heat/mlp | forward shape | pass | (3, 60, 100) |  |
+| architecture | inverse_heat/mlp | forward shape | pass | [3, 60, 100] |  |
 | architecture | inverse_heat/mlp | parameter count | pass | 402672 |  |
 | architecture | inverse_heat/mlp | overfits a tiny batch | pass | 0.0823 | < 0.1 (error at >= 0.5) |
 | training | airfoil/mgn | loss finite | pass | 13/13 jobs |  |

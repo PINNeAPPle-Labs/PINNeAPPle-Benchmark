@@ -35,7 +35,7 @@ CONFIG = pp.benchmark.BenchmarkConfig(
     problem_options={"airfoil": {"gci_study": True}},
     # the airfoil PINNs: are they budget-limited (1 h, 4 h), and is their setup the problem (learning rate, loss weights,
     # Adam -> L-BFGS for the last 30 % of the budget)?
-    budget_study={"airfoil": {"pinn_rans": [3600.0, 14400.0], "pinn": [3600.0]}},
+    budget_study={"airfoil": {"pinn_rans": [3600.0, 14400.0], "pinn": [3600.0, 14400.0]}},
     ablations={"airfoil": {
         "pinn": {"lr1e-3": {"lr": 1e-3}, "lbfgs": {"lbfgs": 0.3},
                  "weights_wall100_kutta100": {"wall_w": 100.0, "kutta_w": 100.0},

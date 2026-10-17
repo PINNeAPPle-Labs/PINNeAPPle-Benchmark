@@ -214,9 +214,12 @@ against the PINN (900 s each), and OpenFOAM itself takes 56 s per design.
   every term (a harmonic stream function; Kovasznay flow with an eddy viscosity) and on sign-flipped copies: residuals
   0 and 2e-30, flipped 16 and 2.2. The potential-flow PINN's lift misses the panel method's (the exact solution of the
   same inviscid equations) by 0.78 ± 0.31 over 35 runs, so it did not solve its own equations either.
-- *Not the budget.* PINN-only budget study (seed 0, `figures/fig3_airfoil_pinn_budget_study.png`): the RANS PINN's
-  velocity error is 0.96–0.99 at 100 s, 900 s, 1 h and 4 h; the potential PINN's gets worse from 100 s (0.59) to 1 h
-  (0.90) while its circulation drifts (Cl error 0.63 → 1.12).
+- *Not the budget.* PINN-only budget study (seed 0, 100 s to 4 h, `figures/fig3_airfoil_pinn_budget_study.png`): the
+  RANS PINN's velocity error stays at 0.96–0.99 on the held-out shape and 0.97–1.07 on NACA 2412 at 4°; the potential
+  PINN's gets worse with training, from 0.59 at 100 s to 0.89 at 900 s, 0.90 at 1 h and 0.99 at 4 h on the held-out
+  shape (0.81 → 0.85 → 0.87 on NACA 2412 from 900 s to 4 h), while its lift wanders (Cl error 0.63, 0.56, 1.12, 0.41
+  on the held-out shape). The 4 h runs were resumed from checkpoints after container restarts, and part of them ran on
+  a slower host (2.1 GHz instead of 2.8 GHz): 96,644 steps, 82 % of four times the 1 h run's 29,475.
 - *Partly the setup* (900 s on NACA 2412 at 4°, seed 0): for the potential PINN, wall and Kutta weights of 1 instead of
   10 lower the velocity error from 0.81 to 0.51 and a learning rate of 1e-3 the Cl error from 0.44 to 0.24, so a wider
   search would have helped it; Adam → L-BFGS for the last 30 % changes little. For the RANS PINN nothing moved the
