@@ -1,5 +1,11 @@
 # CURRENT_STATE — PINNeAPPle-Benchmark
 
+**Update 2026-10-17**: experiment 09 follow-ups on branch `exp/09-followup`: `reproduce.sh --smoke` verified from
+scratch; the airfoil PINN budget study now reaches 4 h for both PINNs (potential-flow PINN: velocity error 0.59 at
+100 s → 0.99 at 4 h on the held-out shape; it gets worse with training). The 4 h runs were resumed from checkpoints
+after three container restarts (logs `results/bench09_run_4h*.log`). The budget-study figure needs PINNeAPPle PR #803
+(it plotted Cd instead of each method's own metric).
+
 **Update 2026-10-14**: experiment `09_equal_budget_pinn_fno_deeponet` (PINNeAPPle issue #299) is finished on branch
 `exp/09-equal-budget`: every run is in `results/runs/`, the report in `results/table.md` and the README. It is the
 first experiment built on the library's benchmark harness (`pp.benchmark`, PINNeAPPle PR #662): `src/bench09.py` is
