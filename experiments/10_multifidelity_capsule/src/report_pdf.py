@@ -422,6 +422,10 @@ def dataset_section() -> list:
           "<i>i</i> is the same point of the heat shield on every capsule and at both fidelities</b>. The coordinates "
           "differ per capsule, because they are metres at real size, but the correspondence does not. No other "
           "public CFD corpus we read has that property."),
+        P("<b>A note on what is being measured.</b> The errors below belong to the corpus's own engineering model, the "
+          "modified-Newtonian panel method, and correcting them is the subject of this study. The corpus is the "
+          "instrument: it is what makes a node-for-node comparison, and therefore a measurable correction, possible "
+          "at all. The Navier\u2013Stokes runs are its published reference, not an independent implementation."),
         figure("fig1_two_fidelities.png",
                "One capsule's heat shield, coloured by each fidelity. The same 2 361 nodes; the peak "
                "moves by about 5 % between the two, and the rim ring is where they disagree."),
@@ -633,6 +637,8 @@ def licence_section() -> list:
             *heading("7", "Licence and citation"),
             P("The data and its figures are CC BY 4.0; the reader is Apache-2.0; this case is Apache-2.0 like the "
               "repository."),
+            P("This study was produced independently. Bijective Systems published the corpus and has not reviewed or "
+              "endorsed these results."),
             Spacer(1, 4), code_block(bibtex),
         ]),
         *provenance(),

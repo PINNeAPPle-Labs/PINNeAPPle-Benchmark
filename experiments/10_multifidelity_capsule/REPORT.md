@@ -35,6 +35,11 @@ heat shield on every capsule and at both fidelities**. The coordinates differ pe
 size — but the correspondence does not, so the difference between the fidelities is a subtraction at each node with no
 interpolation between meshes. No other public CFD corpus we read has it.
 
+A note on what is being measured. The errors below belong to the corpus's own engineering model, the
+modified-Newtonian panel method, and correcting them is the subject of this study. The corpus is the instrument: it
+is what makes a node-for-node comparison, and therefore a measurable correction, possible at all. The Navier–Stokes
+runs are its published reference, not an independent implementation.
+
 ![One wall, two fidelities](figures/fig1_two_fidelities.png)
 
 *Figure 1 — one capsule's heat shield, coloured by each fidelity. The same 2.361 nodes; the peak moves by 5 % between
@@ -200,6 +205,9 @@ hand, so a figure and a table cannot drift apart.
 ## 7. Licence and citation
 
 The data and its figures are **CC BY 4.0**; the reader is Apache-2.0; this case is Apache-2.0 like the repository.
+
+This study was produced independently. Bijective Systems published the corpus and has not reviewed or endorsed these
+results.
 
 ```bibtex
 @misc{bijective_capsule_aeroheating_2026_v4,
