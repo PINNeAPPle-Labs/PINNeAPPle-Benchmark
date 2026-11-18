@@ -510,9 +510,10 @@ def results_section() -> list:
             "eight runs take it to 5.04 %: there is less left to correct.",
             "<b>Where it is structurally wrong, they buy a lot.</b> The shoulder goes from 27.4 % to 16.4 % with "
             "eight runs and to 7.0 % with sixty-four, a factor of four.",
-            "<b>The design alone never gets close</b>, at 25 % to 55 %. Knowing the diameter, the nose radius and the "
-            "Mach number does not tell you the heating. That is the measurement behind an engineering model existing "
-            "at all.",
+            "<b>The design alone never gets close</b>, at 25 % to 55 % from the CFD. Knowing the diameter, the nose "
+            "radius and the Mach number does not tell you the heating. At the shoulder it is even marginally better "
+            "than the cheap model, 25.6 % against 27.4 %, and still nowhere near usable. That is the measurement "
+            "behind an engineering model existing at all.",
         ]),
         Spacer(1, 8),
         figure("fig4_error_shape.png",

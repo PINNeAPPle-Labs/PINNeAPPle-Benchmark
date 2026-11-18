@@ -114,8 +114,10 @@ Three readings:
   to 5.04 %: there is less left to correct. A single "multi-fidelity gain" number would hide exactly this.
 * **Where it is structurally wrong, they buy a lot.** The shoulder goes 27.4 % → 16.4 % with eight runs, and 7.0 % with
   sixty-four: a factor of four.
-* **The design alone never gets close** (25 % to 55 %). Knowing the diameter, the nose radius and the Mach number does
-  not tell you the heating — which is the measurement behind an engineering model existing at all.
+* **The design alone never gets close** (25 % to 55 % from the CFD). Knowing the diameter, the nose radius and the
+  Mach number does not tell you the heating. At the shoulder it is even marginally better than the cheap model, 25.6 %
+  against 27.4 %, and still nowhere near usable — which is the measurement behind an engineering model existing at
+  all.
 
 ### 3.3 The error is a shape, not a table
 

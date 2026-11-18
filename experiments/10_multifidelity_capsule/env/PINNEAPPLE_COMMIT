@@ -1,4 +1,4 @@
-7d84547e1
-PINNeAPPle branch feat/capsule-aeroheating (PR #1855), which adds pinneapple_data.datasets.capsule_aeroheating
-and pinneapple_data.multifidelity; update to the merge commit on main once #1855 lands.
-Python 3.11.14 on macOS (arm64), CPU only.
+819347130562d3e878c6dd5bf27a34b236abd7b5
+PINNeAPPle main: pinneapple_data.datasets.capsule_aeroheating, capsule_aeroheating_physics and
+pinneapple_data.multifidelity, merged as PR #1855 on 2026-11-18.
+Python 3.11.16 on macOS (arm64), CPU only.
