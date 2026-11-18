@@ -12,6 +12,12 @@ What makes this corpus a multi-fidelity benchmark rather than two datasets: ever
 difference between the fidelities is therefore a subtraction at each node, with no interpolation between meshes — a
 property no other public CFD corpus we read has.
 
+**The full report, with the figures and the code references, is [`REPORT.md`](REPORT.md).** The figures are drawn by
+[`src/figures.py`](src/figures.py) from the corpus and from `results/curve.json`, so a figure and a table cannot
+disagree.
+
+![One wall, two fidelities](figures/fig1_two_fidelities.png)
+
 ## Protocol
 
 **Data.** One file, `vehicle_capsule_multifidelity.gamut` (77 MB). The 64 high-fidelity runs are a subset of the
@@ -116,7 +122,7 @@ bash reproduce.sh smoke      # 16 expensive runs, 2 draws: a pipeline check in s
 ```
 
 Writes `results/curve.json` (every median and spread, plus the protocol: seed, draws, budgets, channel scaling,
-residual energy shares). The case needs the PINNeAPPle checkout named in `env/PINNEAPPLE_COMMIT` next to this
+residual energy shares); `python src/figures.py` then draws the six figures of the report from the same data. The case needs the PINNeAPPle checkout named in `env/PINNEAPPLE_COMMIT` next to this
 repository (or `$PINNEAPPLE_REPO`), and `pip install bijective-gamut` for the `.gamut` reader.
 
 The same two curves, with the same numbers and one seed, are also an example in the library
