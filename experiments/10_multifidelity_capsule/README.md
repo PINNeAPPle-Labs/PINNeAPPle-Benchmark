@@ -12,9 +12,10 @@ What makes this corpus a multi-fidelity benchmark rather than two datasets: ever
 difference between the fidelities is therefore a subtraction at each node, with no interpolation between meshes — a
 property no other public CFD corpus we read has.
 
-**The full report, with the figures and the code references, is [`REPORT.md`](REPORT.md).** The figures are drawn by
-[`src/figures.py`](src/figures.py) from the corpus and from `results/curve.json`, so a figure and a table cannot
-disagree.
+**The full report, with the figures and the code references, is [`REPORT.md`](REPORT.md)**, and the same report ships
+as a document to send on: [`report.pdf`](report.pdf), built by [`src/report_pdf.py`](src/report_pdf.py). The figures are
+drawn by [`src/figures.py`](src/figures.py) from the corpus and from `results/curve.json`, so a figure and a table
+cannot disagree.
 
 ![One wall, two fidelities](figures/fig1_two_fidelities.png)
 

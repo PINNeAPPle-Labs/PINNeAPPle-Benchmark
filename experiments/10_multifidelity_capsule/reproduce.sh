@@ -8,6 +8,8 @@
 #
 # Needs: the PINNeAPPle checkout at the commit in env/PINNEAPPLE_COMMIT, next to this repository (or in
 # $PINNEAPPLE_REPO), and `pip install bijective-gamut` for the .gamut reader. The 77 MB file is fetched once into data/.
+# The figures and the PDF are separate steps, from the same data: `python src/figures.py`, `python src/report_pdf.py`
+# (the last one needs reportlab).
 set -euo pipefail
 cd "$(dirname "$0")"
 export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 MPLBACKEND=Agg

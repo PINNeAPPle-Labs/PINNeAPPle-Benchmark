@@ -3,6 +3,9 @@
 **Case 10, `experiments/10_multifidelity_capsule`.** One question, asked of an aerothermodynamics corpus that has two
 fidelities of the same wall: *how many expensive runs does a cheap model make unnecessary, and where?*
 
+This page is also a document: [`report.pdf`](report.pdf) is the same report set for a reader who is not in the
+repository, and `python src/report_pdf.py` builds it from the figures below.
+
 The short answer, in the two numbers that matter: on the heat shield's **shoulder**, where the panel method is
 structurally blind, eight Navier–Stokes runs take its error from **27.4 % to 16.4 %** and sixty-four take it to
 **7.0 %**. On a well-behaved scalar such as the heat load, the same eight runs buy almost nothing (**5.85 % → 5.04 %**),
