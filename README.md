@@ -16,6 +16,7 @@ holds the protocols, reference data (or pointers to it) and published results.
 | 01 | Heat equation | FDM/FEM | PINN, FNO, DeepONet, MLP |
 | 02 | Navier–Stokes | OpenFOAM | FNO, DeepONet, PINN, GNN |
 | 03 | Geometry-conditioned surrogate | CFD/FEA | neural operators, GNN |
+| 10 | Multi-fidelity aerothermodynamics ([`experiments/10_multifidelity_capsule`](experiments/10_multifidelity_capsule)) | panel method + Eilmer Navier–Stokes | kernel ridge, POD + regression |
 
 ## Metrics reported for every case
 
@@ -23,7 +24,7 @@ L2 and relative error, training and inference time, memory, number of
 simulations and training samples, extrapolation error, and physical
 consistency (VeriPhysics).
 
-Status: repository created; no case is published yet.
+Status: cases 02 to 10 are published under `experiments/`, each with its protocol, its source and its results.
 
 ## License
 
